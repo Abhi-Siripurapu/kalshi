@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: terminal
+      POSTGRES_USER: terminal
+      POSTGRES_PASSWORD: terminal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./deploy/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://terminal:terminal@postgres:5432/terminal
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - .:/app
+      - ./data:/app/data
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: ../deploy/Dockerfile.ui
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
+
+  kalshi-adapter:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.adapter
+    environment:
+      - ADAPTER_TYPE=kalshi
+      - REDIS_URL=redis://redis:6379
+      - KALSHI_API_KEY=${KALSHI_API_KEY}
+      - KALSHI_API_SECRET=${KALSHI_API_SECRET}
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+
+  polymarket-adapter:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.adapter
+    environment:
+      - ADAPTER_TYPE=polymarket  
+      - REDIS_URL=redis://redis:6379
+      - POLYMARKET_API_KEY=${POLYMARKET_API_KEY}
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+
+volumes:
+  redis_data:
+  postgres_data:
