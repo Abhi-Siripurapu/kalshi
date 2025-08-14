@@ -68,7 +68,8 @@ class KalshiClient:
         url = f"{self.base_url}/trade-api/v2/markets"
         
         try:
-            async with self.session.get(url, params=params) as response:
+            headers = self.auth.create_headers("GET", "/trade-api/v2/markets")
+            async with self.session.get(url, params=params, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
         except Exception as e:
@@ -118,7 +119,8 @@ class KalshiClient:
         url = f"{self.base_url}/trade-api/v2/markets/{market_ticker}/orderbook"
         
         try:
-            async with self.session.get(url, params=params) as response:
+            headers = self.auth.create_headers("GET", f"/trade-api/v2/markets/{market_ticker}/orderbook")
+            async with self.session.get(url, params=params, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
         except Exception as e:
@@ -157,26 +159,30 @@ class KalshiClient:
         if not self.websocket:
             raise RuntimeError("WebSocket not connected")
 
-        subscription = {
-            "id": self.message_id,
-            "cmd": "subscribe",
-            "params": {
-                "channels": channels,
-                "market_tickers": market_tickers
-            }
-        }
-        
-        logger.info(f"Subscribing to {channels} for markets: {market_tickers}")
-        await self.websocket.send(json.dumps(subscription))
-        self.message_id += 1
-        
-        # Track subscriptions for reconnection
+        # Subscribe to each market individually as per Kalshi docs
         for market_ticker in market_tickers:
+            subscription = {
+                "id": self.message_id,
+                "cmd": "subscribe",
+                "params": {
+                    "channels": channels,
+                    "market_ticker": market_ticker  # Singular as per docs
+                }
+            }
+            
+            logger.info(f"Subscribing to {channels} for market: {market_ticker}")
+            await self.websocket.send(json.dumps(subscription))
+            self.message_id += 1
+            
+            # Track subscriptions for reconnection
             if market_ticker not in self.subscribed_markets:
                 self.subscribed_markets[market_ticker] = []
             for channel in channels:
                 if channel not in self.subscribed_markets[market_ticker]:
                     self.subscribed_markets[market_ticker].append(channel)
+                    
+            # Rate limiting between subscriptions
+            await asyncio.sleep(0.1)
 
     async def subscribe_to_orderbooks(self, market_tickers: List[str]):
         """Subscribe to orderbook updates for specific markets"""

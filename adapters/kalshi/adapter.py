@@ -134,17 +134,17 @@ class KalshiAdapter:
         logger.info("Discovering target markets")
         
         try:
-            # If no specific targets, get some popular markets
+            # Get first page of markets
+            response = await self.client.get_markets(limit=100, status="open")
+            market_list = response.get("markets", [])
+            
+            # If no specific targets, auto-discover from first few markets
             if not self.target_markets:
-                markets = await self.client.get_all_markets(status="open")
-                # Take first 10 active markets
-                self.target_markets = [m["ticker"] for m in markets[:10]]
-                logger.info(f"Auto-discovered markets: {self.target_markets}")
+                # Take only 5 active markets to avoid rate limits
+                self.target_markets = [m["ticker"] for m in market_list[:5]]
+                logger.info(f"Auto-discovered 5 markets: {self.target_markets}")
             
-            # Get detailed info for target markets
-            all_markets = await self.client.get_all_markets(status="open")
-            
-            for market in all_markets:
+            for market in market_list:
                 ticker = market["ticker"]
                 if ticker in self.target_markets:
                     self.discovered_markets[ticker] = market

@@ -1,0 +1,12 @@
+2025-08-14 13:27:28,565 - __main__ - INFO - ==================================================
+2025-08-14 13:27:28,565 - __main__ - INFO - Kalshi Terminal Starting
+2025-08-14 13:27:28,565 - __main__ - INFO - ==================================================
+2025-08-14 13:27:28,565 - __main__ - INFO - Starting Kalshi Terminal Orchestrator
+2025-08-14 13:27:28,565 - __main__ - INFO - Initializing infrastructure
+2025-08-14 13:27:28,567 - core.state.redis_store - ERROR - Failed to connect to Redis: Error Multiple exceptions: [Errno 111] Connect call failed ('::1', 6379, 0, 0), [Errno 111] Connect call failed ('::1', 6379, 0, 0), [Errno 111] Connect call failed ('127.0.0.1', 6379), [Errno 111] Connect call failed ('127.0.0.1', 6379) connecting to localhost:6379.
+2025-08-14 13:27:28,567 - __main__ - ERROR - Error in orchestrator: Error Multiple exceptions: [Errno 111] Connect call failed ('::1', 6379, 0, 0), [Errno 111] Connect call failed ('::1', 6379, 0, 0), [Errno 111] Connect call failed ('127.0.0.1', 6379), [Errno 111] Connect call failed ('127.0.0.1', 6379) connecting to localhost:6379.
+2025-08-14 13:27:28,567 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 13:27:28,567 - __main__ - INFO - Shutdown complete
+2025-08-14 13:27:28,567 - __main__ - ERROR - Fatal error: Error Multiple exceptions: [Errno 111] Connect call failed ('::1', 6379, 0, 0), [Errno 111] Connect call failed ('::1', 6379, 0, 0), [Errno 111] Connect call failed ('127.0.0.1', 6379), [Errno 111] Connect call failed ('127.0.0.1', 6379) connecting to localhost:6379.
+2025-08-14 13:27:28,567 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 13:27:28,567 - __main__ - INFO - Shutdown complete

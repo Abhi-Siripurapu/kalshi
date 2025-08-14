@@ -43,8 +43,8 @@ class KalshiAuth:
         }
     
     def create_ws_headers(self) -> dict:
-        # WebSocket uses milliseconds timestamp (per official docs)
-        timestamp = str(int(time.time() * 1000))
+        # WebSocket uses SECONDS timestamp (unlike REST API which uses milliseconds)
+        timestamp = str(int(time.time()))
         message = f"{timestamp}GET/trade-api/ws/v2"
         signature = self._sign_message(message)
         
