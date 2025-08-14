@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Activity, TrendingUp, TrendingDown, Wifi, WifiOff, AlertTriangle, Clock, DollarSign } from 'lucide-react'
+// import { Activity, TrendingUp, TrendingDown, Wifi, WifiOff, AlertTriangle, Clock, DollarSign } from 'lucide-react'
 
 interface VenueHealth {
   status: string
@@ -195,13 +195,26 @@ function App() {
     : Object.entries(books)
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 font-mono">
+    <div 
+      className="min-h-screen bg-gray-950 text-gray-100 font-mono" 
+      style={{
+        minHeight: '100vh', 
+        backgroundColor: '#030712', 
+        color: '#f9fafb', 
+        fontFamily: 'monospace',
+        margin: 0,
+        padding: 0
+      }}
+    >
       {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-800 px-6 py-4">
-        <div className="flex justify-between items-center">
+      <header 
+        className="bg-gray-900 border-b border-gray-800 px-6 py-4"
+        style={{backgroundColor: '#111827', borderBottom: '1px solid #374151', padding: '16px 24px'}}
+      >
+        <div className="flex justify-between items-center" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <TrendingUp className="w-6 h-6 text-green-400" />
+              <span className="text-green-400 text-xl">📈</span>
               <h1 className="text-xl font-bold text-white">KALSHI TERMINAL</h1>
             </div>
             <div className="text-sm text-gray-400">
@@ -213,12 +226,12 @@ function App() {
             <div className="flex items-center space-x-2">
               {connected ? (
                 <>
-                  <Wifi className="w-4 h-4 text-green-400" />
+                  <span className="text-green-400 text-sm">📶</span>
                   <span className="text-green-400 text-sm">LIVE</span>
                 </>
               ) : (
                 <>
-                  <WifiOff className="w-4 h-4 text-red-400" />
+                  <span className="text-red-400 text-sm">📶</span>
                   <span className="text-red-400 text-sm">DISCONNECTED</span>
                 </>
               )}
@@ -264,7 +277,7 @@ function App() {
                         {markets[marketId]?.ticker || marketId}
                       </div>
                     </div>
-                    {isStale && <AlertTriangle className="w-4 h-4 text-yellow-500 ml-2" />}
+                    {isStale && <span className="text-yellow-500 ml-2">⚠️</span>}
                   </div>
                   
                   <div className="grid grid-cols-2 gap-2 text-xs">
@@ -308,7 +321,7 @@ function App() {
                         <span className="text-sm">Kalshi: {status.venues.kalshi.status}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Clock className="w-3 h-3 text-gray-400" />
+                        <span className="text-gray-400 text-xs">🕒</span>
                         <span className="text-sm">
                           {status.venues.kalshi.latency_p95_ms ? `${Math.round(status.venues.kalshi.latency_p95_ms)}ms` : 'N/A'}
                         </span>
@@ -338,7 +351,7 @@ function App() {
                 <div className="p-4 space-y-4 max-h-96 overflow-y-auto">
                   {selectedBooks.length === 0 ? (
                     <div className="text-center text-gray-400 py-8">
-                      <Activity className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <div className="text-4xl mb-2 opacity-50">📊</div>
                       <div>Waiting for market data...</div>
                       <div className="text-xs mt-1">Check adapter connection</div>
                     </div>
@@ -400,7 +413,7 @@ function App() {
                           
                           {isStale && (
                             <div className="text-red-400 text-xs mt-2 flex items-center space-x-1">
-                              <AlertTriangle className="w-3 h-3" />
+                              <span>⚠️</span>
                               <span>Stale data ({Math.round((Date.now() - book.stored_at) / 1000)}s ago)</span>
                             </div>
                           )}
