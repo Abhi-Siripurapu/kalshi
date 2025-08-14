@@ -54,12 +54,8 @@ class TerminalOrchestrator:
         if markets_env:
             return [m.strip() for m in markets_env.split(",")]
         
-        # Default target markets for demo
-        return [
-            "KXHIGHNY-25JAN15-T70",  # NYC temp markets (if they exist)
-            "KXHIGHNY-25JAN15-T75", 
-            "KXHIGHNY-25JAN15-T80"
-        ]
+        # Return empty list to trigger auto-discovery of first 10 active markets
+        return []
     
     async def start(self):
         """Start all services"""
