@@ -1,7 +1,7 @@
 import time
 import re
 from typing import Dict, List, Optional, Any
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 
 
 @dataclass
@@ -62,7 +62,7 @@ class KalshiNormalizer:
     def __init__(self):
         self.venue_id = "kalshi"
         
-    def normalize_market(self, kalshi_market: Dict) -> NormalizedMarket:
+    def normalize_market(self, kalshi_market: Dict) -> Dict:
         """Convert Kalshi market format to canonical format"""
         
         # Extract resolution timestamp (Kalshi uses close_ts for when market stops trading)
@@ -84,22 +84,22 @@ class KalshiNormalizer:
             }
         ]
         
-        return NormalizedMarket(
-            venue_id=self.venue_id,
-            market_id=kalshi_market["ticker"],
-            title=kalshi_market.get("title", ""),
-            description=kalshi_market.get("subtitle", ""),
-            resolution_source=kalshi_market.get("rules", ""),
-            resolution_ts=resolution_ts,
-            timezone="US/Eastern",  # Kalshi default
-            currency="USD",
-            outcomes=outcomes,
-            status=self._normalize_status(kalshi_market.get("status", "open")),
-            created_ts=kalshi_market.get("open_ts", int(time.time())),
-            mapping_tags=self._extract_mapping_tags(kalshi_market)
-        )
+        return {
+            "venue_id": self.venue_id,
+            "market_id": kalshi_market["ticker"],
+            "title": kalshi_market.get("title", ""),
+            "description": kalshi_market.get("subtitle", ""),
+            "resolution_source": kalshi_market.get("rules", ""),
+            "resolution_ts": resolution_ts,
+            "timezone": "US/Eastern",  # Kalshi default
+            "currency": "USD",
+            "outcomes": outcomes,
+            "status": self._normalize_status(kalshi_market.get("status", "open")),
+            "created_ts": kalshi_market.get("open_ts", int(time.time())),
+            "mapping_tags": self._extract_mapping_tags(kalshi_market)
+        }
     
-    def normalize_orderbook_snapshot(self, market_ticker: str, orderbook_data: Dict, recv_ts_ns: int) -> List[NormalizedBook]:
+    def normalize_orderbook_snapshot(self, market_ticker: str, orderbook_data: Dict, recv_ts_ns: int) -> List[Dict]:
         """Convert Kalshi orderbook to canonical format
         
         Kalshi returns separate yes/no bids, we need to create books for both outcomes
@@ -108,39 +108,39 @@ class KalshiNormalizer:
         sequence = int(time.time_ns())
         
         # YES outcome book
-        yes_bids = self._convert_kalshi_bids(orderbook_data["orderbook"].get("yes", []))
-        yes_asks = self._derive_asks_from_no_bids(orderbook_data["orderbook"].get("no", []))
+        yes_bids = self._convert_kalshi_bids(orderbook_data.get("orderbook", {}).get("yes", []))
+        yes_asks = self._derive_asks_from_no_bids(orderbook_data.get("orderbook", {}).get("no", []))
         
-        yes_book = NormalizedBook(
-            venue_id=self.venue_id,
-            market_id=market_ticker,
-            outcome_id="yes",
-            ts_ns=recv_ts_ns,
-            bids=yes_bids,
-            asks=yes_asks,
-            best_bid=yes_bids[0]["px_cents"] if yes_bids else None,
-            best_ask=yes_asks[0]["px_cents"] if yes_asks else None,
-            mid_px=self._calculate_mid(yes_bids, yes_asks),
-            sequence=sequence
-        )
+        yes_book = {
+            "venue_id": self.venue_id,
+            "market_id": market_ticker,
+            "outcome_id": "yes",
+            "ts_ns": recv_ts_ns,
+            "bids": yes_bids,
+            "asks": yes_asks,
+            "best_bid": yes_bids[0]["px_cents"] if yes_bids else None,
+            "best_ask": yes_asks[0]["px_cents"] if yes_asks else None,
+            "mid_px": self._calculate_mid(yes_bids, yes_asks),
+            "sequence": sequence
+        }
         books.append(yes_book)
         
         # NO outcome book  
-        no_bids = self._convert_kalshi_bids(orderbook_data["orderbook"].get("no", []))
-        no_asks = self._derive_asks_from_yes_bids(orderbook_data["orderbook"].get("yes", []))
+        no_bids = self._convert_kalshi_bids(orderbook_data.get("orderbook", {}).get("no", []))
+        no_asks = self._derive_asks_from_yes_bids(orderbook_data.get("orderbook", {}).get("yes", []))
         
-        no_book = NormalizedBook(
-            venue_id=self.venue_id,
-            market_id=market_ticker,
-            outcome_id="no", 
-            ts_ns=recv_ts_ns,
-            bids=no_bids,
-            asks=no_asks,
-            best_bid=no_bids[0]["px_cents"] if no_bids else None,
-            best_ask=no_asks[0]["px_cents"] if no_asks else None,
-            mid_px=self._calculate_mid(no_bids, no_asks),
-            sequence=sequence + 1
-        )
+        no_book = {
+            "venue_id": self.venue_id,
+            "market_id": market_ticker,
+            "outcome_id": "no", 
+            "ts_ns": recv_ts_ns,
+            "bids": no_bids,
+            "asks": no_asks,
+            "best_bid": no_bids[0]["px_cents"] if no_bids else None,
+            "best_ask": no_asks[0]["px_cents"] if no_asks else None,
+            "mid_px": self._calculate_mid(no_bids, no_asks),
+            "sequence": sequence + 1
+        }
         books.append(no_book)
         
         return books
@@ -149,13 +149,16 @@ class KalshiNormalizer:
         """Normalize incoming WebSocket messages to canonical events"""
         msg_type = message.get("type")
         
+        # Kalshi WebSocket messages have data in 'msg' field, not 'data'
+        msg_data = message.get("msg", message.get("data", {}))
+        
         if msg_type == "orderbook_snapshot":
             return {
                 "type": "book_snapshot",
                 "venue_id": self.venue_id,
                 "data": self.normalize_orderbook_snapshot(
-                    message["data"]["market_ticker"],
-                    {"orderbook": message["data"]},
+                    msg_data["market_ticker"],
+                    {"orderbook": msg_data},
                     recv_ts_ns
                 ),
                 "ts_received_ns": recv_ts_ns
@@ -165,7 +168,7 @@ class KalshiNormalizer:
             return {
                 "type": "book_delta", 
                 "venue_id": self.venue_id,
-                "data": self._normalize_orderbook_delta(message["data"], recv_ts_ns),
+                "data": self._normalize_orderbook_delta(msg_data, recv_ts_ns),
                 "ts_received_ns": recv_ts_ns
             }
             
@@ -173,7 +176,7 @@ class KalshiNormalizer:
             return {
                 "type": "ticker",
                 "venue_id": self.venue_id,
-                "data": self._normalize_ticker(message["data"], recv_ts_ns),
+                "data": self._normalize_ticker(msg_data, recv_ts_ns),
                 "ts_received_ns": recv_ts_ns
             }
             
@@ -181,7 +184,7 @@ class KalshiNormalizer:
             return {
                 "type": "error",
                 "venue_id": self.venue_id,
-                "data": message.get("data", {}),
+                "data": msg_data,
                 "ts_received_ns": recv_ts_ns
             }
             
@@ -189,7 +192,7 @@ class KalshiNormalizer:
             return {
                 "type": "subscribed",
                 "venue_id": self.venue_id, 
-                "data": message.get("data", {}),
+                "data": msg_data,
                 "ts_received_ns": recv_ts_ns
             }
             
@@ -253,14 +256,42 @@ class KalshiNormalizer:
         return (best_bid + best_ask) / 2.0
     
     def _normalize_orderbook_delta(self, delta_data: Dict, recv_ts_ns: int) -> Dict:
-        """Normalize orderbook delta message"""
-        # This would need the actual delta format from Kalshi
-        # For now, return a placeholder structure
+        """Normalize orderbook delta message
+        
+        Kalshi delta format:
+        {
+            "market_ticker": "KXNOBELPEACE-25-EMM",
+            "market_id": "805160dc-0eda-49c0-b390-c20592e3d57e", 
+            "price": 1,
+            "delta": -2000,
+            "side": "no",
+            "ts": "2025-08-14T17:49:01.501762229Z"
+        }
+        """
+        # Determine outcome ID from side
+        side = delta_data.get("side", "yes")
+        outcome_id = "yes" if side == "yes" else "no"
+        
+        # Parse timestamp from Kalshi format to nanoseconds
+        ts_str = delta_data.get("ts", "")
+        ts_ns = recv_ts_ns  # Default to received time
+        if ts_str:
+            try:
+                from datetime import datetime
+                import dateutil.parser
+                dt = dateutil.parser.isoparse(ts_str.replace('Z', '+00:00'))
+                ts_ns = int(dt.timestamp() * 1_000_000_000)
+            except:
+                pass  # Use recv_ts_ns as fallback
+        
         return {
             "market_id": delta_data.get("market_ticker", ""),
-            "outcome_id": "yes",  # Would need to determine from delta
-            "ts_ns": recv_ts_ns,
-            "changes": []  # Would parse actual price/qty changes
+            "market_uuid": delta_data.get("market_id", ""),
+            "outcome_id": outcome_id,
+            "ts_ns": ts_ns,
+            "price": delta_data.get("price"),
+            "delta": delta_data.get("delta"),
+            "side": side
         }
     
     def _normalize_ticker(self, ticker_data: Dict, recv_ts_ns: int) -> Dict:

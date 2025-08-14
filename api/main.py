@@ -121,6 +121,25 @@ async def get_markets(venue_id: Optional[str] = Query(None, description="Filter 
         logging.error(f"Error getting markets: {e}")
         raise HTTPException(status_code=500, detail="Error retrieving markets")
 
+@app.get("/market/{ticker}")
+async def get_market_info(ticker: str):
+    """Get detailed market information by ticker"""
+    try:
+        # Return mock market info - in real implementation this would fetch from Kalshi API
+        return {
+            "ticker": ticker,
+            "title": f"Market for {ticker}",
+            "subtitle": "Prediction market",
+            "status": "open",
+            "open_time": "2025-08-01T00:00:00Z",
+            "close_time": "2025-12-31T23:59:59Z",
+            "volume_24h": 1000,
+            "liquidity": 5000
+        }
+    except Exception as e:
+        logging.error(f"Error getting market info for {ticker}: {e}")
+        raise HTTPException(status_code=500, detail="Error retrieving market info")
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     """WebSocket endpoint for real-time data"""

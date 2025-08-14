@@ -1,0 +1,74 @@
+2025-08-14 13:50:55,012 - __main__ - INFO - ==================================================
+2025-08-14 13:50:55,013 - __main__ - INFO - Kalshi Terminal Starting
+2025-08-14 13:50:55,013 - __main__ - INFO - ==================================================
+2025-08-14 13:50:55,013 - __main__ - INFO - Starting Kalshi Terminal Orchestrator
+2025-08-14 13:50:55,013 - __main__ - INFO - Initializing infrastructure
+2025-08-14 13:50:55,015 - core.state.redis_store - INFO - Connected to Redis
+2025-08-14 13:50:55,015 - __main__ - INFO - Infrastructure initialized
+2025-08-14 13:50:55,015 - __main__ - INFO - Starting venue adapters
+2025-08-14 13:50:55,015 - __main__ - INFO - Starting Kalshi adapter
+2025-08-14 13:50:55,043 - __main__ - INFO - Kalshi adapter started
+2025-08-14 13:50:55,043 - __main__ - INFO - Started 1 adapters
+2025-08-14 13:50:55,043 - adapters.kalshi.adapter - INFO - Starting Kalshi adapter
+2025-08-14 13:50:55,044 - adapters.kalshi.adapter - INFO - Discovering target markets
+2025-08-14 13:50:55,521 - adapters.kalshi.adapter - INFO - Auto-discovered 5 markets: ['KXNOBELPEACE-25-EMM', 'KXTRUMPMENTION-25AUG15-WOKE', 'KXTRUMPMENTION-25AUG15-TX', 'KXTRUMPMENTION-25AUG15-TAX', 'KXTRUMPMENTION-25AUG15-PUT']
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedMarket is not JSON serializable
+2025-08-14 13:50:55,522 - adapters.kalshi.adapter - INFO - Discovered 5 target markets
+2025-08-14 13:50:55,522 - adapters.kalshi.adapter - INFO - Book state: DISCONNECTED -> CONNECTING
+2025-08-14 13:50:55,523 - adapters.kalshi.client - INFO - Connecting to Kalshi WebSocket: wss://api.elections.kalshi.com/trade-api/ws/v2
+2025-08-14 13:50:55,800 - adapters.kalshi.client - INFO - Kalshi WebSocket connected successfully
+2025-08-14 13:50:55,800 - adapters.kalshi.adapter - INFO - Kalshi WebSocket connected
+2025-08-14 13:50:55,800 - adapters.kalshi.adapter - INFO - Book state: CONNECTING -> WAIT_SNAPSHOT
+2025-08-14 13:50:55,800 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXNOBELPEACE-25-EMM
+2025-08-14 13:50:55,900 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-WOKE
+2025-08-14 13:50:56,001 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-TX
+2025-08-14 13:50:56,102 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-TAX
+2025-08-14 13:50:56,203 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-PUT
+2025-08-14 13:50:56,304 - adapters.kalshi.adapter - INFO - Subscribed to orderbooks for 5 markets
+2025-08-14 13:50:56,304 - adapters.kalshi.client - INFO - Resubscribing to all markets after reconnection
+2025-08-14 13:50:56,304 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXNOBELPEACE-25-EMM
+2025-08-14 13:50:56,505 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-WOKE
+2025-08-14 13:50:56,706 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-TX
+2025-08-14 13:50:56,907 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-TAX
+2025-08-14 13:50:57,108 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG15-PUT
+2025-08-14 13:50:57,308 - adapters.kalshi.adapter - INFO - Subscription confirmed: {'channel': 'orderbook_delta', 'sid': 1}
+2025-08-14 13:50:57,308 - adapters.kalshi.adapter - INFO - Fetching initial orderbook snapshots
+2025-08-14 13:50:57,363 - adapters.kalshi.adapter - ERROR - Error fetching orderbook for KXNOBELPEACE-25-EMM: 'NoneType' object is not iterable
+2025-08-14 13:50:57,415 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,415 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,415 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,567 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,567 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,567 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,728 - adapters.kalshi.adapter - ERROR - Error fetching orderbook for KXTRUMPMENTION-25AUG15-TAX: 'NoneType' object is not iterable
+2025-08-14 13:50:57,784 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,784 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,784 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,897 - adapters.kalshi.adapter - INFO - Received orderbook snapshot for KXNOBELPEACE-25-EMM
+2025-08-14 13:50:57,897 - adapters.kalshi.adapter - INFO - Book state: WAIT_SNAPSHOT -> LIVE
+2025-08-14 13:50:57,898 - core.state.redis_store - ERROR - Error publishing to events: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,898 - core.state.redis_store - ERROR - Error publishing to events:kalshi: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,898 - adapters.kalshi.adapter - ERROR - Error publishing event: Object of type NormalizedBook is not JSON serializable
+2025-08-14 13:50:57,898 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,898 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,898 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,898 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,898 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 13:50:57,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}

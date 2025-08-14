@@ -187,6 +187,56 @@ class KalshiClient:
     async def subscribe_to_orderbooks(self, market_tickers: List[str]):
         """Subscribe to orderbook updates for specific markets"""
         await self.subscribe_to_markets(["orderbook_delta"], market_tickers)
+    
+    async def subscribe_to_tickers(self, market_tickers: Optional[List[str]] = None):
+        """Subscribe to ticker updates for markets (all markets if None)"""
+        if market_tickers:
+            await self.subscribe_to_markets(["ticker"], market_tickers)
+        else:
+            # Subscribe to all market tickers
+            subscription = {
+                "id": self.message_id,
+                "cmd": "subscribe",
+                "params": {
+                    "channels": ["ticker"]
+                }
+            }
+            await self.websocket.send(json.dumps(subscription))
+            self.message_id += 1
+    
+    async def subscribe_to_trades(self, market_tickers: Optional[List[str]] = None):
+        """Subscribe to trade updates for markets (all trades if None)"""
+        if market_tickers:
+            await self.subscribe_to_markets(["trade"], market_tickers)
+        else:
+            # Subscribe to all trades
+            subscription = {
+                "id": self.message_id,
+                "cmd": "subscribe",
+                "params": {
+                    "channels": ["trade"]
+                }
+            }
+            await self.websocket.send(json.dumps(subscription))
+            self.message_id += 1
+    
+    async def get_market_by_ticker(self, ticker: str) -> Optional[Dict]:
+        """Get detailed market information by ticker"""
+        if not self.session:
+            raise RuntimeError("Client not initialized. Use async with.")
+
+        url = f"{self.base_url}/trade-api/v2/markets/{ticker}"
+        
+        try:
+            headers = self.auth.create_headers("GET", f"/trade-api/v2/markets/{ticker}")
+            async with self.session.get(url, headers=headers) as response:
+                if response.status == 200:
+                    return await response.json()
+                else:
+                    return None
+        except Exception as e:
+            logger.error(f"Error fetching market {ticker}: {e}")
+            return None
 
     async def resubscribe_all(self):
         """Resubscribe to all previously subscribed markets"""

@@ -74,3 +74,17 @@
 2025-08-14 13:28:07,942 - adapters.kalshi.adapter - ERROR - Received error: {}
 2025-08-14 13:28:07,942 - adapters.kalshi.adapter - ERROR - Received error: {}
 2025-08-14 13:28:07,942 - adapters.kalshi.adapter - ERROR - Received error: {}
+2025-08-14 13:49:32,177 - adapters.kalshi.adapter - ERROR - Error handling message: 'data', message: {'type': 'orderbook_delta', 'sid': 1, 'seq': 2, 'msg': {'market_ticker': 'KXNOBELPEACE-25-EMM', 'market_id': '805160dc-0eda-49c0-b390-c20592e3d57e', 'price': 1, 'delta': -2000, 'side': 'no', 'ts': '2025-08-14T17:49:01.501762229Z'}}
+2025-08-14 13:49:32,358 - adapters.kalshi.adapter - ERROR - Error handling message: 'data', message: {'type': 'orderbook_delta', 'sid': 1, 'seq': 3, 'msg': {'market_ticker': 'KXNOBELPEACE-25-EMM', 'market_id': '805160dc-0eda-49c0-b390-c20592e3d57e', 'price': 1, 'delta': 2000, 'side': 'no', 'ts': '2025-08-14T17:49:01.674749Z'}}
+2025-08-14 13:50:31,458 - __main__ - INFO - Received shutdown signal
+2025-08-14 13:50:32,278 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 13:50:32,278 - __main__ - INFO - Stopping kalshi adapter
+2025-08-14 13:50:32,278 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 13:50:32,278 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 13:50:32,335 - core.recorder.parquet_recorder - INFO - Parquet recorder closed
+2025-08-14 13:50:32,335 - __main__ - INFO - Shutdown complete
+2025-08-14 13:50:32,335 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 13:50:32,335 - __main__ - INFO - Stopping kalshi adapter
+2025-08-14 13:50:32,335 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 13:50:32,335 - core.recorder.parquet_recorder - INFO - Parquet recorder closed
+2025-08-14 13:50:32,336 - __main__ - INFO - Shutdown complete
