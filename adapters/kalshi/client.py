@@ -15,8 +15,8 @@ class KalshiClient:
         self, 
         api_key_id: str, 
         private_key_path: str,
-        base_url: str = "https://demo-api.kalshi.co",
-        ws_url: str = "wss://demo-api.kalshi.co/trade-api/ws/v2"
+        base_url: str = "https://api.elections.kalshi.com",
+        ws_url: str = "wss://api.elections.kalshi.com/trade-api/ws/v2"
     ):
         self.auth = KalshiAuth(api_key_id, private_key_path)
         self.base_url = base_url

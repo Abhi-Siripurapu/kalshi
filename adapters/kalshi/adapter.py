@@ -67,13 +67,9 @@ class KalshiAdapter:
         self.target_markets = target_markets
         self.publisher = publisher  # Function to publish normalized events
         
-        # Environment URLs
-        if environment == "demo":
-            base_url = "https://demo-api.kalshi.co"
-            ws_url = "wss://demo-api.kalshi.co/trade-api/ws/v2"
-        else:
-            base_url = "https://api.elections.kalshi.com"
-            ws_url = "wss://api.elections.kalshi.com/trade-api/ws/v2"
+        # Environment URLs - Always use production
+        base_url = "https://api.elections.kalshi.com"
+        ws_url = "wss://api.elections.kalshi.com/trade-api/ws/v2"
             
         self.client = KalshiClient(api_key_id, private_key_path, base_url, ws_url)
         self.normalizer = KalshiNormalizer()
@@ -134,15 +130,15 @@ class KalshiAdapter:
         logger.info("Discovering target markets")
         
         try:
-            # Get first page of markets
-            response = await self.client.get_markets(limit=100, status="open")
-            market_list = response.get("markets", [])
+            # Get all open markets to discover more options
+            market_list = await self.client.get_all_markets(status="open")
+            logger.info(f"Discovered {len(market_list)} total open markets")
             
-            # If no specific targets, auto-discover from first few markets
+            # If no specific targets, auto-discover from available markets
             if not self.target_markets:
-                # Take only 5 active markets to avoid rate limits
-                self.target_markets = [m["ticker"] for m in market_list[:5]]
-                logger.info(f"Auto-discovered 5 markets: {self.target_markets}")
+                # Take up to 50 active markets to show many more markets
+                self.target_markets = [m["ticker"] for m in market_list[:50]]
+                logger.info(f"Auto-discovered {len(self.target_markets)} markets: {self.target_markets[:10]}...")
             
             for market in market_list:
                 ticker = market["ticker"]
@@ -235,7 +231,12 @@ class KalshiAdapter:
         books = event["data"]
         
         if books:
-            market_id = books[0].market_id
+            # Handle both dict and object formats
+            if isinstance(books[0], dict):
+                market_id = books[0].get("market_id", "")
+            else:
+                market_id = books[0].market_id
+                
             logger.info(f"Received orderbook snapshot for {market_id}")
             
             self.book_state.update_timestamp(market_id)

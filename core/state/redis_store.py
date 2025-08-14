@@ -207,23 +207,43 @@ class EventPublisher:
         books = event["data"]
         
         for book in books:
-            # Store in Redis
-            book_data = {
-                "ts_ns": book.ts_ns,
-                "bids": book.bids,
-                "asks": book.asks,
-                "best_bid": book.best_bid,
-                "best_ask": book.best_ask,
-                "mid_px": book.mid_px,
-                "sequence": book.sequence
-            }
-            
-            await self.redis_store.set_book(
-                book.venue_id,
-                book.market_id, 
-                book.outcome_id,
-                book_data
-            )
+            # Handle both dict and object formats
+            if isinstance(book, dict):
+                # Store in Redis
+                book_data = {
+                    "ts_ns": book.get("ts_ns"),
+                    "bids": book.get("bids"),
+                    "asks": book.get("asks"),
+                    "best_bid": book.get("best_bid"),
+                    "best_ask": book.get("best_ask"),
+                    "mid_px": book.get("mid_px"),
+                    "sequence": book.get("sequence")
+                }
+                
+                await self.redis_store.set_book(
+                    book.get("venue_id"),
+                    book.get("market_id"), 
+                    book.get("outcome_id"),
+                    book_data
+                )
+            else:
+                # Handle object format (fallback)
+                book_data = {
+                    "ts_ns": book.ts_ns,
+                    "bids": book.bids,
+                    "asks": book.asks,
+                    "best_bid": book.best_bid,
+                    "best_ask": book.best_ask,
+                    "mid_px": book.mid_px,
+                    "sequence": book.sequence
+                }
+                
+                await self.redis_store.set_book(
+                    book.venue_id,
+                    book.market_id, 
+                    book.outcome_id,
+                    book_data
+                )
     
     async def _handle_book_delta(self, event: Dict):
         """Handle book delta events"""
@@ -235,24 +255,46 @@ class EventPublisher:
         """Handle market info events"""
         market = event["data"]
         
-        market_data = {
-            "title": market.title,
-            "description": market.description,
-            "resolution_source": market.resolution_source,
-            "resolution_ts": market.resolution_ts,
-            "timezone": market.timezone,
-            "currency": market.currency,
-            "outcomes": market.outcomes,
-            "status": market.status,
-            "created_ts": market.created_ts,
-            "mapping_tags": market.mapping_tags
-        }
-        
-        await self.redis_store.set_market_info(
-            market.venue_id,
-            market.market_id,
-            market_data
-        )
+        # Handle both dict and object formats
+        if isinstance(market, dict):
+            market_data = {
+                "title": market.get("title"),
+                "description": market.get("description"),
+                "resolution_source": market.get("resolution_source"),
+                "resolution_ts": market.get("resolution_ts"),
+                "timezone": market.get("timezone"),
+                "currency": market.get("currency"),
+                "outcomes": market.get("outcomes"),
+                "status": market.get("status"),
+                "created_ts": market.get("created_ts"),
+                "mapping_tags": market.get("mapping_tags")
+            }
+            
+            await self.redis_store.set_market_info(
+                market.get("venue_id"),
+                market.get("market_id"),
+                market_data
+            )
+        else:
+            # Handle object format (fallback)
+            market_data = {
+                "title": market.title,
+                "description": market.description,
+                "resolution_source": market.resolution_source,
+                "resolution_ts": market.resolution_ts,
+                "timezone": market.timezone,
+                "currency": market.currency,
+                "outcomes": market.outcomes,
+                "status": market.status,
+                "created_ts": market.created_ts,
+                "mapping_tags": market.mapping_tags
+            }
+            
+            await self.redis_store.set_market_info(
+                market.venue_id,
+                market.market_id,
+                market_data
+            )
     
     async def _handle_health(self, event: Dict):
         """Handle health events"""

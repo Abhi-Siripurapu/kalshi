@@ -72,3 +72,15 @@
 2025-08-14 13:50:57,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
 2025-08-14 13:50:57,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
 2025-08-14 13:50:57,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:25:11,833 - __main__ - INFO - Received shutdown signal
+2025-08-14 17:25:12,746 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 17:25:12,746 - __main__ - INFO - Stopping kalshi adapter
+2025-08-14 17:25:12,746 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 17:25:12,747 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 17:25:12,789 - core.recorder.parquet_recorder - INFO - Parquet recorder closed
+2025-08-14 17:25:12,790 - __main__ - INFO - Shutdown complete
+2025-08-14 17:25:12,790 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 17:25:12,790 - __main__ - INFO - Stopping kalshi adapter
+2025-08-14 17:25:12,790 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 17:25:12,790 - core.recorder.parquet_recorder - INFO - Parquet recorder closed
+2025-08-14 17:25:12,790 - __main__ - INFO - Shutdown complete

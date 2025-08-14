@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar, ComposedChart } from 'recharts'
 
 interface VenueHealth {
   status: string
@@ -56,6 +56,16 @@ interface MarketInfo {
   status: string
   volume_24h?: number
   liquidity?: number
+}
+
+interface CandlestickData {
+  ts: number
+  open: number
+  high: number
+  low: number
+  close: number
+  volume: number
+  time?: string
 }
 
 const styles = {
@@ -214,6 +224,9 @@ function EnhancedTerminal() {
   const [searchTicker, setSearchTicker] = useState('')
   const [marketInfo, setMarketInfo] = useState<MarketInfo | null>(null)
   const [priceHistory, setPriceHistory] = useState<Array<{time: string, price: number}>>([])
+  const [candlestickData, setCandlestickData] = useState<CandlestickData[]>([])
+  const [chartPeriod, setChartPeriod] = useState<number>(60)
+  const [chartDays, setChartDays] = useState<number>(7)
   const wsRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
@@ -329,9 +342,27 @@ function EnhancedTerminal() {
         setMarketInfo(marketData)
         setSelectedMarket(searchTicker)
         setPriceHistory([]) // Reset price history for new market
+        // Fetch candlestick data for the new market
+        fetchCandlestickData(searchTicker)
       }
     } catch (error) {
       console.error('Error searching market:', error)
+    }
+  }
+
+  const fetchCandlestickData = async (ticker: string) => {
+    try {
+      const response = await fetch(`http://localhost:8000/market/${ticker}/candlesticks?start_days_ago=${chartDays}&period_interval=${chartPeriod}`)
+      if (response.ok) {
+        const data = await response.json()
+        const formattedData = data.candlesticks.map((candle: CandlestickData) => ({
+          ...candle,
+          time: new Date(candle.ts * 1000).toLocaleTimeString()
+        }))
+        setCandlestickData(formattedData)
+      }
+    } catch (error) {
+      console.error('Error fetching candlestick data:', error)
     }
   }
 
@@ -352,6 +383,13 @@ function EnhancedTerminal() {
     const parts = key.split(':')
     return parts.length > 2 ? parts[2] : key.split('_')[0]
   }))).slice(0, 20) // Limit to 20 for performance
+
+  // Fetch candlestick data when market or chart settings change
+  useEffect(() => {
+    if (selectedMarket) {
+      fetchCandlestickData(selectedMarket)
+    }
+  }, [selectedMarket, chartPeriod, chartDays])
 
   // Get selected market data
   const selectedBooks = Object.entries(books).filter(([key]) => 
@@ -549,16 +587,75 @@ function EnhancedTerminal() {
                 </div>
               )}
 
-              {/* Price Chart */}
+              {/* Candlestick Chart */}
+              <div style={styles.card}>
+                <div style={{...styles.cardHeader, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <span>CANDLESTICK CHART - {selectedMarket}</span>
+                  <div style={{display: 'flex', gap: '8px'}}>
+                    <select 
+                      value={chartPeriod} 
+                      onChange={(e) => setChartPeriod(Number(e.target.value))}
+                      style={{backgroundColor: '#334155', color: '#f1f5f9', padding: '4px 8px', borderRadius: '4px', border: 'none'}}
+                    >
+                      <option value={1}>1m</option>
+                      <option value={60}>1h</option>
+                      <option value={1440}>1d</option>
+                    </select>
+                    <select 
+                      value={chartDays} 
+                      onChange={(e) => setChartDays(Number(e.target.value))}
+                      style={{backgroundColor: '#334155', color: '#f1f5f9', padding: '4px 8px', borderRadius: '4px', border: 'none'}}
+                    >
+                      <option value={1}>1D</option>
+                      <option value={7}>7D</option>
+                      <option value={30}>30D</option>
+                    </select>
+                  </div>
+                </div>
+                <div style={styles.cardContent}>
+                  <div style={styles.chartContainer}>
+                    {candlestickData.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <ComposedChart data={candlestickData}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                          <XAxis dataKey="time" stroke="#94a3b8" fontSize={10} />
+                          <YAxis stroke="#94a3b8" domain={['dataMin - 2', 'dataMax + 2']} />
+                          <Tooltip 
+                            contentStyle={{backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px'}}
+                            labelStyle={{color: '#f1f5f9'}}
+                            formatter={(value: any, name: string) => [
+                              name === 'volume' ? value : `${value}¢`, 
+                              name === 'volume' ? 'Volume' : name.charAt(0).toUpperCase() + name.slice(1)
+                            ]}
+                          />
+                          <Bar dataKey="volume" fill="#3b82f6" opacity={0.3} />
+                          <Line type="monotone" dataKey="high" stroke="#10b981" strokeWidth={1} dot={false} />
+                          <Line type="monotone" dataKey="low" stroke="#ef4444" strokeWidth={1} dot={false} />
+                          <Line type="monotone" dataKey="close" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                          <Line type="monotone" dataKey="open" stroke="#8b5cf6" strokeWidth={1} dot={false} strokeDasharray="2 2" />
+                        </ComposedChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div style={{textAlign: 'center', color: '#94a3b8', padding: '40px'}}>
+                        <div style={{fontSize: '32px', marginBottom: '12px'}}>📊</div>
+                        <div>Loading candlestick data...</div>
+                        <div style={{fontSize: '12px', marginTop: '4px'}}>Historical price and volume analysis</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Price History Chart */}
               {priceHistory.length > 0 && (
                 <div style={styles.card}>
-                  <div style={styles.cardHeader}>PRICE CHART - {selectedMarket}</div>
+                  <div style={styles.cardHeader}>LIVE PRICE UPDATES - {selectedMarket}</div>
                   <div style={styles.cardContent}>
-                    <div style={styles.chartContainer}>
+                    <div style={{...styles.chartContainer, height: '200px'}}>
                       <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={priceHistory}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                          <XAxis dataKey="time" stroke="#94a3b8" />
+                          <XAxis dataKey="time" stroke="#94a3b8" fontSize={10} />
                           <YAxis stroke="#94a3b8" />
                           <Tooltip 
                             contentStyle={{backgroundColor: '#1e293b', border: '1px solid #334155'}}
