@@ -78,7 +78,12 @@ class ParquetRecorder:
         data = event.get("data", {})
         
         if event_type == "book_snapshot" and isinstance(data, list):
-            return data[0].market_id if data else ""
+            if data:
+                if isinstance(data[0], dict):
+                    return data[0].get("market_id", "")
+                else:
+                    return getattr(data[0], 'market_id', '')
+            return ""
         elif event_type == "book_delta":
             return data.get("market_id", "")
         elif event_type == "market_info":

@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 # Add current directory to path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from adapters.kalshi import KalshiAdapter
+from adapters.kalshi.adapter import KalshiAdapter
 from core.state.redis_store import create_publisher
 from core.recorder.parquet_recorder import create_recorder
 from api.main import publish_to_api

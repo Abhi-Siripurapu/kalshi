@@ -1,0 +1,422 @@
+2025-08-14 17:42:41,506 - __main__ - INFO - ==================================================
+2025-08-14 17:42:41,506 - __main__ - INFO - Kalshi Terminal Starting
+2025-08-14 17:42:41,506 - __main__ - INFO - ==================================================
+2025-08-14 17:42:41,506 - __main__ - INFO - Starting Kalshi Terminal Orchestrator
+2025-08-14 17:42:41,506 - __main__ - INFO - Initializing infrastructure
+2025-08-14 17:42:41,508 - core.state.redis_store - INFO - Connected to Redis
+2025-08-14 17:42:41,508 - __main__ - INFO - Infrastructure initialized
+2025-08-14 17:42:41,508 - __main__ - INFO - Starting venue adapters
+2025-08-14 17:42:41,508 - __main__ - INFO - Starting Kalshi adapter
+2025-08-14 17:42:41,537 - __main__ - INFO - Kalshi adapter started
+2025-08-14 17:42:41,537 - __main__ - INFO - Started 1 adapters
+2025-08-14 17:42:41,537 - adapters.kalshi.adapter - INFO - Starting Kalshi adapter
+2025-08-14 17:42:41,537 - adapters.kalshi.adapter - INFO - Discovering target markets
+2025-08-14 17:42:42,014 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 100
+2025-08-14 17:42:42,418 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 200
+2025-08-14 17:42:42,817 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 300
+2025-08-14 17:42:43,216 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 400
+2025-08-14 17:42:43,633 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 500
+2025-08-14 17:42:44,026 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 600
+2025-08-14 17:42:44,185 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 700
+2025-08-14 17:42:44,345 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 800
+2025-08-14 17:42:44,735 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 900
+2025-08-14 17:42:45,131 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1000
+2025-08-14 17:42:45,513 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1100
+2025-08-14 17:42:45,668 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1200
+2025-08-14 17:42:46,045 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1300
+2025-08-14 17:42:46,212 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1400
+2025-08-14 17:42:46,371 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1500
+2025-08-14 17:42:46,530 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1600
+2025-08-14 17:42:46,703 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1700
+2025-08-14 17:42:46,864 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1800
+2025-08-14 17:42:47,022 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1900
+2025-08-14 17:42:47,407 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2000
+2025-08-14 17:42:47,780 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2100
+2025-08-14 17:42:48,167 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2200
+2025-08-14 17:42:48,545 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2300
+2025-08-14 17:42:48,929 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2400
+2025-08-14 17:42:49,090 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2500
+2025-08-14 17:42:49,254 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2600
+2025-08-14 17:42:49,423 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2700
+2025-08-14 17:42:49,617 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2800
+2025-08-14 17:42:49,983 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2900
+2025-08-14 17:42:50,146 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3000
+2025-08-14 17:42:50,527 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3100
+2025-08-14 17:42:50,697 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3200
+2025-08-14 17:42:51,079 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3300
+2025-08-14 17:42:51,251 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3400
+2025-08-14 17:42:51,639 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3500
+2025-08-14 17:42:52,016 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3600
+2025-08-14 17:42:52,377 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3700
+2025-08-14 17:42:52,749 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3800
+2025-08-14 17:42:53,136 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3900
+2025-08-14 17:42:53,312 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4000
+2025-08-14 17:42:53,683 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4100
+2025-08-14 17:42:54,046 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4200
+2025-08-14 17:42:54,399 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4300
+2025-08-14 17:42:54,754 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4400
+2025-08-14 17:42:55,117 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4500
+2025-08-14 17:42:55,290 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4600
+2025-08-14 17:42:55,476 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4700
+2025-08-14 17:42:55,661 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4800
+2025-08-14 17:42:55,854 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4900
+2025-08-14 17:42:56,229 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5000
+2025-08-14 17:42:56,574 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5100
+2025-08-14 17:42:56,734 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5200
+2025-08-14 17:42:56,900 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5300
+2025-08-14 17:42:57,073 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5400
+2025-08-14 17:42:57,277 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5500
+2025-08-14 17:42:57,450 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5600
+2025-08-14 17:42:57,635 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5700
+2025-08-14 17:42:57,844 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5800
+2025-08-14 17:42:58,004 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5900
+2025-08-14 17:42:58,190 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6000
+2025-08-14 17:42:58,346 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6100
+2025-08-14 17:42:58,696 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6200
+2025-08-14 17:42:58,854 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6300
+2025-08-14 17:42:59,204 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6400
+2025-08-14 17:42:59,373 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6500
+2025-08-14 17:42:59,713 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6600
+2025-08-14 17:43:00,106 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6700
+2025-08-14 17:43:00,285 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6800
+2025-08-14 17:43:00,626 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6900
+2025-08-14 17:43:00,806 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7000
+2025-08-14 17:43:00,960 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7100
+2025-08-14 17:43:01,295 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7200
+2025-08-14 17:43:01,457 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7300
+2025-08-14 17:43:01,630 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7400
+2025-08-14 17:43:01,972 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7500
+2025-08-14 17:43:02,192 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7600
+2025-08-14 17:43:02,529 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7700
+2025-08-14 17:43:02,713 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7800
+2025-08-14 17:43:02,879 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7900
+2025-08-14 17:43:03,208 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8000
+2025-08-14 17:43:03,411 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8100
+2025-08-14 17:43:03,758 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8200
+2025-08-14 17:43:04,116 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8300
+2025-08-14 17:43:04,448 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8400
+2025-08-14 17:43:04,632 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8500
+2025-08-14 17:43:04,962 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8600
+2025-08-14 17:43:05,293 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8700
+2025-08-14 17:43:05,622 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8800
+2025-08-14 17:43:05,948 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8900
+2025-08-14 17:43:06,269 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9000
+2025-08-14 17:43:06,461 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9100
+2025-08-14 17:43:06,793 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9200
+2025-08-14 17:43:06,969 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9300
+2025-08-14 17:43:07,290 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9400
+2025-08-14 17:43:07,449 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9500
+2025-08-14 17:43:07,765 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9600
+2025-08-14 17:43:07,954 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9700
+2025-08-14 17:43:08,154 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9800
+2025-08-14 17:43:08,476 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9900
+2025-08-14 17:43:08,811 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10000
+2025-08-14 17:43:09,136 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10100
+2025-08-14 17:43:09,450 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10200
+2025-08-14 17:43:09,605 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10300
+2025-08-14 17:43:09,936 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10400
+2025-08-14 17:43:10,100 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10500
+2025-08-14 17:43:10,278 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10600
+2025-08-14 17:43:10,466 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10700
+2025-08-14 17:43:10,789 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10800
+2025-08-14 17:43:10,975 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10900
+2025-08-14 17:43:11,133 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11000
+2025-08-14 17:43:11,295 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11100
+2025-08-14 17:43:11,601 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11200
+2025-08-14 17:43:11,786 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11300
+2025-08-14 17:43:12,102 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11400
+2025-08-14 17:43:12,324 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11500
+2025-08-14 17:43:12,524 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11600
+2025-08-14 17:43:12,842 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11700
+2025-08-14 17:43:13,148 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11800
+2025-08-14 17:43:13,463 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11900
+2025-08-14 17:43:13,637 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12000
+2025-08-14 17:43:13,937 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12100
+2025-08-14 17:43:14,106 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12200
+2025-08-14 17:43:14,264 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12300
+2025-08-14 17:43:14,450 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12400
+2025-08-14 17:43:14,755 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12500
+2025-08-14 17:43:15,067 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12600
+2025-08-14 17:43:15,372 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12700
+2025-08-14 17:43:15,601 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12800
+2025-08-14 17:43:15,840 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12900
+2025-08-14 17:43:16,040 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13000
+2025-08-14 17:43:16,291 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13100
+2025-08-14 17:43:16,490 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13200
+2025-08-14 17:43:16,701 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13300
+2025-08-14 17:43:16,948 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13400
+2025-08-14 17:43:17,314 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13500
+2025-08-14 17:43:17,604 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13600
+2025-08-14 17:43:17,894 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13700
+2025-08-14 17:43:18,084 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13800
+2025-08-14 17:43:18,253 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13900
+2025-08-14 17:43:18,533 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14000
+2025-08-14 17:43:18,738 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14100
+2025-08-14 17:43:18,916 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14200
+2025-08-14 17:43:19,074 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14300
+2025-08-14 17:43:19,357 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14400
+2025-08-14 17:43:19,639 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14500
+2025-08-14 17:43:19,936 - adapters.kalshi.adapter - INFO - Discovered 14544 total open markets
+2025-08-14 17:43:19,936 - adapters.kalshi.adapter - INFO - Auto-discovered 50 markets: ['KXTRUMPMENTIONDURATION-AUG1625-6', 'KXTRUMPMENTIONDURATION-AUG1625-5', 'KXTRUMPMENTIONDURATION-AUG1625-4', 'KXTRUMPMENTIONDURATION-AUG1625-3', 'KXTRUMPMENTIONDURATION-AUG1625-2', 'KXTRUMPMENTIONDURATION-AUG1625-1', 'KXNEWOUTBREAKPHEICCHIK-25', 'KXNEWOUTBREAKPCHIK-25', 'KXFDAAPPROVAL-25-TNX', 'KXTRUMPMENTION-25AUG16-CANCEL']...
+2025-08-14 17:43:19,961 - adapters.kalshi.adapter - INFO - Discovered 50 target markets
+2025-08-14 17:43:19,976 - adapters.kalshi.adapter - INFO - Book state: DISCONNECTED -> CONNECTING
+2025-08-14 17:43:19,976 - adapters.kalshi.client - INFO - Connecting to Kalshi WebSocket: wss://api.elections.kalshi.com/trade-api/ws/v2
+2025-08-14 17:43:20,238 - adapters.kalshi.client - INFO - Kalshi WebSocket connected successfully
+2025-08-14 17:43:20,239 - adapters.kalshi.adapter - INFO - Kalshi WebSocket connected
+2025-08-14 17:43:20,239 - adapters.kalshi.adapter - INFO - Book state: CONNECTING -> WAIT_SNAPSHOT
+2025-08-14 17:43:20,239 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-6
+2025-08-14 17:43:20,340 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-5
+2025-08-14 17:43:20,441 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-4
+2025-08-14 17:43:20,543 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-3
+2025-08-14 17:43:20,643 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-2
+2025-08-14 17:43:20,745 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-1
+2025-08-14 17:43:20,846 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXNEWOUTBREAKPHEICCHIK-25
+2025-08-14 17:43:20,947 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXNEWOUTBREAKPCHIK-25
+2025-08-14 17:43:21,048 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXFDAAPPROVAL-25-TNX
+2025-08-14 17:43:21,149 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CANCEL
+2025-08-14 17:43:21,250 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-WW
+2025-08-14 17:43:21,351 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-WD
+2025-08-14 17:43:21,452 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-TR
+2025-08-14 17:43:21,552 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-TA
+2025-08-14 17:43:21,654 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-RE
+2025-08-14 17:43:21,755 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-PX
+2025-08-14 17:43:21,856 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-OI
+2025-08-14 17:43:21,958 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NU
+2025-08-14 17:43:22,058 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NO
+2025-08-14 17:43:22,159 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-JA
+2025-08-14 17:43:22,260 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-IR
+2025-08-14 17:43:22,362 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-IN
+2025-08-14 17:43:22,463 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-DC
+2025-08-14 17:43:22,564 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-DB
+2025-08-14 17:43:22,664 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-ZEL
+2025-08-14 17:43:22,765 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-SA
+2025-08-14 17:43:22,866 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NA
+2025-08-14 17:43:22,967 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-MI
+2025-08-14 17:43:23,068 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-KI
+2025-08-14 17:43:23,170 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-HE
+2025-08-14 17:43:23,271 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-GA
+2025-08-14 17:43:23,372 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EUR
+2025-08-14 17:43:23,473 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EL
+2025-08-14 17:43:23,573 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CR
+2025-08-14 17:43:23,675 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-BID
+2025-08-14 17:43:23,776 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-AUT
+2025-08-14 17:43:23,878 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EN
+2025-08-14 17:43:23,980 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CEA
+2025-08-14 17:43:24,080 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-BO
+2025-08-14 17:43:24,181 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXWNBA7FIGS-25
+2025-08-14 17:43:24,282 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXRTNOBODY2-82
+2025-08-14 17:43:24,383 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXRTNOBODY2-78
+2025-08-14 17:43:24,484 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T75000
+2025-08-14 17:43:24,585 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T50000
+2025-08-14 17:43:24,687 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T25000
+2025-08-14 17:43:24,788 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXFOMCVOTE-DISSENT-25OCT31
+2025-08-14 17:43:24,888 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXODINVCTFINALS-25
+2025-08-14 17:43:24,991 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-40
+2025-08-14 17:43:25,092 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-35
+2025-08-14 17:43:25,193 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-30
+2025-08-14 17:43:25,294 - adapters.kalshi.adapter - INFO - Subscribed to orderbooks for 50 markets
+2025-08-14 17:43:25,294 - adapters.kalshi.client - INFO - Resubscribing to all markets after reconnection
+2025-08-14 17:43:25,294 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-6
+2025-08-14 17:43:25,495 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-5
+2025-08-14 17:43:25,697 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-4
+2025-08-14 17:43:25,899 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-3
+2025-08-14 17:43:26,099 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-2
+2025-08-14 17:43:26,301 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTIONDURATION-AUG1625-1
+2025-08-14 17:43:26,502 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXNEWOUTBREAKPHEICCHIK-25
+2025-08-14 17:43:26,702 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXNEWOUTBREAKPCHIK-25
+2025-08-14 17:43:26,903 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXFDAAPPROVAL-25-TNX
+2025-08-14 17:43:27,105 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CANCEL
+2025-08-14 17:43:27,305 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-WW
+2025-08-14 17:43:27,507 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-WD
+2025-08-14 17:43:27,708 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-TR
+2025-08-14 17:43:27,909 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-TA
+2025-08-14 17:43:28,111 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-RE
+2025-08-14 17:43:28,312 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-PX
+2025-08-14 17:43:28,514 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-OI
+2025-08-14 17:43:28,714 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NU
+2025-08-14 17:43:28,916 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NO
+2025-08-14 17:43:29,117 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-JA
+2025-08-14 17:43:29,320 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-IR
+2025-08-14 17:43:29,521 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-IN
+2025-08-14 17:43:29,722 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-DC
+2025-08-14 17:43:29,922 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-DB
+2025-08-14 17:43:30,123 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-ZEL
+2025-08-14 17:43:30,324 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-SA
+2025-08-14 17:43:30,525 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NA
+2025-08-14 17:43:30,727 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-MI
+2025-08-14 17:43:30,928 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-KI
+2025-08-14 17:43:31,129 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-HE
+2025-08-14 17:43:31,330 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-GA
+2025-08-14 17:43:31,531 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EUR
+2025-08-14 17:43:31,732 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EL
+2025-08-14 17:43:31,933 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CR
+2025-08-14 17:43:32,134 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-BID
+2025-08-14 17:43:32,335 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-AUT
+2025-08-14 17:43:32,535 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EN
+2025-08-14 17:43:32,736 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CEA
+2025-08-14 17:43:32,937 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-BO
+2025-08-14 17:43:33,138 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXWNBA7FIGS-25
+2025-08-14 17:43:33,340 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXRTNOBODY2-82
+2025-08-14 17:43:33,540 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXRTNOBODY2-78
+2025-08-14 17:43:33,741 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T75000
+2025-08-14 17:43:33,942 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T50000
+2025-08-14 17:43:34,143 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T25000
+2025-08-14 17:43:34,344 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXFOMCVOTE-DISSENT-25OCT31
+2025-08-14 17:43:34,546 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXODINVCTFINALS-25
+2025-08-14 17:43:34,747 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-40
+2025-08-14 17:43:34,948 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-35
+2025-08-14 17:43:35,149 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-30
+2025-08-14 17:43:35,350 - adapters.kalshi.adapter - INFO - Subscription confirmed: {'channel': 'orderbook_delta', 'sid': 1}
+2025-08-14 17:43:35,350 - adapters.kalshi.adapter - INFO - Fetching initial orderbook snapshots
+2025-08-14 17:43:35,545 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:35,697 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:35,851 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:36,005 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:36,156 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:36,305 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:36,455 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:36,612 - adapters.kalshi.adapter - ERROR - Error fetching orderbook for KXNEWOUTBREAKPCHIK-25: 'NoneType' object is not iterable
+2025-08-14 17:43:36,669 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:36,839 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:36,997 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:37,146 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:37,297 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:37,453 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:37,642 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:37,847 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:38,052 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:38,230 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:38,462 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:38,666 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:38,818 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:38,973 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:39,183 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:39,384 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:39,532 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:39,684 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:39,842 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:40,000 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:40,149 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:40,298 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:40,458 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:40,624 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:40,775 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:40,923 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:41,069 - adapters.kalshi.adapter - ERROR - Error fetching orderbook for KXTRUMPMENTION-25AUG16-BID: 'NoneType' object is not iterable
+2025-08-14 17:43:41,123 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:41,271 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:41,419 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:41,568 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:41,726 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:41,874 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:42,023 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:42,177 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:42,331 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:42,485 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:42,636 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:42,799 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:42,949 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:43,100 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:43,249 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:43,350 - adapters.kalshi.adapter - INFO - Received orderbook snapshot for KXTRUMPMENTIONDURATION-AUG1625-6
+2025-08-14 17:43:43,350 - adapters.kalshi.adapter - INFO - Book state: WAIT_SNAPSHOT -> LIVE
+2025-08-14 17:43:43,350 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:43:43,350 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,350 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,350 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,351 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,351 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,351 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,351 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,351 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,351 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,351 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,352 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,352 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,352 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,352 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,353 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,353 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,353 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,353 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,353 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,353 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,353 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,354 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,354 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,354 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,354 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,354 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,354 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,354 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,355 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,356 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,356 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,356 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,356 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,356 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,356 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,356 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,357 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,357 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,357 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,362 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,362 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,362 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,362 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,363 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,363 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,363 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,363 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,363 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,363 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,364 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,364 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,364 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,364 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,364 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,364 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,364 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,365 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,365 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,365 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,365 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,365 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,365 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,365 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,366 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,367 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,367 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,367 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,367 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,367 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,367 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,367 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,368 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,368 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,368 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,368 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,368 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,368 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,369 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,369 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,369 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,369 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,369 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,369 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,369 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:43:43,370 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}

@@ -1,13 +1,354 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kalshi Terminal - Live Prediction Markets</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ Kalshi Terminal - Simple</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #0f172a;
+            color: #f1f5f9;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid #334155;
+        }
+        
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .section {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .market-item {
+            background-color: #334155;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .market-item:hover {
+            background-color: #475569;
+        }
+        
+        .market-item.selected {
+            background-color: #4f46e5;
+        }
+        
+        .market-ticker {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+        
+        .market-title {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .market-prices {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+        
+        .price-yes {
+            color: #10b981;
+        }
+        
+        .price-no {
+            color: #ef4444;
+        }
+        
+        .orderbook {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .orderbook-side {
+            background-color: #0f172a;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        
+        .orderbook-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .yes-header {
+            color: #10b981;
+        }
+        
+        .no-header {
+            color: #ef4444;
+        }
+        
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 0.8rem;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        .error {
+            color: #ef4444;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .refresh-btn {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-left: 10px;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #4338ca;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">🏛️ Kalshi Terminal</div>
+            <div class="status" id="status">
+                Loading... 
+                <button class="refresh-btn" onclick="loadData()">Refresh</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="section">
+                <div class="section-title">Markets <span id="market-count">(0)</span></div>
+                <div id="markets-list" class="loading">
+                    Loading markets...
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">Market Detail</div>
+                <div id="market-detail">
+                    <div class="loading">Select a market to view details</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let markets = [];
+        let selectedMarket = null;
+        
+        // Load API status
+        async function loadStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/`);
+                const data = await response.json();
+                
+                const statusEl = document.getElementById('status');
+                const statusText = data.kalshi_connected ? '🔗 Live Data' : '📋 Mock Mode';
+                statusEl.innerHTML = `${statusText} | v${data.version} <button class="refresh-btn" onclick="loadData()">Refresh</button>`;
+            } catch (err) {
+                const statusEl = document.getElementById('status');
+                statusEl.innerHTML = '❌ API Disconnected <button class="refresh-btn" onclick="loadData()">Refresh</button>';
+            }
+        }
+        
+        // Load markets
+        async function loadMarkets() {
+            try {
+                const response = await fetch(`${API_BASE}/markets?limit=20`);
+                const data = await response.json();
+                markets = data.markets || [];
+                
+                const countEl = document.getElementById('market-count');
+                countEl.textContent = `(${markets.length})`;
+                
+                const listEl = document.getElementById('markets-list');
+                
+                if (markets.length === 0) {
+                    listEl.innerHTML = '<div class="error">No markets found</div>';
+                    return;
+                }
+                
+                listEl.innerHTML = markets.map(market => `
+                    <div class="market-item" onclick="selectMarket('${market.ticker}')">
+                        <div class="market-ticker">${market.ticker}</div>
+                        <div class="market-title">${market.title}</div>
+                        <div class="market-prices">
+                            <span class="price-yes">YES: ${formatPrice(market.yes_bid || 0)} / ${formatPrice(market.yes_ask || 0)}</span>
+                            <span class="price-no">NO: ${formatPrice(market.no_bid || 0)} / ${formatPrice(market.no_ask || 0)}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Auto-select first market
+                if (!selectedMarket && markets.length > 0) {
+                    selectMarket(markets[0].ticker);
+                }
+                
+            } catch (err) {
+                const listEl = document.getElementById('markets-list');
+                listEl.innerHTML = '<div class="error">Failed to load markets</div>';
+                console.error('Error loading markets:', err);
+            }
+        }
+        
+        // Select a market
+        async function selectMarket(ticker) {
+            selectedMarket = ticker;
+            
+            // Update visual selection
+            document.querySelectorAll('.market-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            const selectedItem = Array.from(document.querySelectorAll('.market-item')).find(item => 
+                item.querySelector('.market-ticker').textContent === ticker
+            );
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+            }
+            
+            // Load market detail
+            await loadMarketDetail(ticker);
+        }
+        
+        // Load market detail and orderbook
+        async function loadMarketDetail(ticker) {
+            const detailEl = document.getElementById('market-detail');
+            detailEl.innerHTML = '<div class="loading">Loading market detail...</div>';
+            
+            try {
+                // Load orderbook
+                const orderbookResponse = await fetch(`${API_BASE}/market/${ticker}/orderbook`);
+                const orderbookData = await orderbookResponse.json();
+                const orderbook = orderbookData.orderbook;
+                
+                const market = markets.find(m => m.ticker === ticker);
+                
+                detailEl.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">${ticker}</div>
+                        <div style="font-weight: bold;">${market ? market.title : 'Market Details'}</div>
+                    </div>
+                    
+                    <div class="section-title">Order Book</div>
+                    <div class="orderbook">
+                        <div class="orderbook-side">
+                            <div class="orderbook-header yes-header">YES</div>
+                            ${formatOrderbookSide(orderbook.yes)}
+                        </div>
+                        <div class="orderbook-side">
+                            <div class="orderbook-header no-header">NO</div>
+                            ${formatOrderbookSide(orderbook.no)}
+                        </div>
+                    </div>
+                `;
+                
+            } catch (err) {
+                detailEl.innerHTML = '<div class="error">Failed to load market detail</div>';
+                console.error('Error loading market detail:', err);
+            }
+        }
+        
+        // Format orderbook side
+        function formatOrderbookSide(orders) {
+            if (!orders || orders.length === 0) {
+                return '<div style="text-align: center; color: #64748b; font-style: italic;">No orders</div>';
+            }
+            
+            return `
+                <div class="order-row" style="font-weight: bold; color: #94a3b8; border-bottom: 1px solid #334155; margin-bottom: 5px;">
+                    <span>Price</span>
+                    <span>Qty</span>
+                </div>
+                ${orders.slice(0, 5).map(order => `
+                    <div class="order-row">
+                        <span>${formatPrice(order[0])}</span>
+                        <span>${order[1]}</span>
+                    </div>
+                `).join('')}
+            `;
+        }
+        
+        // Format price in cents to dollars
+        function formatPrice(cents) {
+            return `$${(cents / 100).toFixed(2)}`;
+        }
+        
+        // Load all data
+        async function loadData() {
+            await loadStatus();
+            await loadMarkets();
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', loadData);
+        
+        // Auto-refresh every 10 seconds
+        setInterval(loadData, 10000);
+    </script>
+</body>
 </html>

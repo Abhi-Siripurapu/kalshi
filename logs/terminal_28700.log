@@ -1,0 +1,69 @@
+2025-08-14 20:08:58,292 - __main__ - INFO - ==================================================
+2025-08-14 20:08:58,293 - __main__ - INFO - Kalshi Terminal Starting
+2025-08-14 20:08:58,293 - __main__ - INFO - ==================================================
+2025-08-14 20:08:58,293 - __main__ - INFO - Starting Kalshi Terminal Orchestrator
+2025-08-14 20:08:58,293 - __main__ - INFO - Initializing infrastructure
+2025-08-14 20:08:58,294 - core.state.redis_store - INFO - Connected to Redis
+2025-08-14 20:08:58,294 - __main__ - INFO - Infrastructure initialized
+2025-08-14 20:08:58,295 - __main__ - INFO - Starting venue adapters
+2025-08-14 20:08:58,295 - __main__ - INFO - Starting Kalshi adapter
+2025-08-14 20:08:58,322 - __main__ - INFO - Kalshi adapter started
+2025-08-14 20:08:58,322 - __main__ - INFO - Started 1 adapters
+2025-08-14 20:08:58,322 - adapters.kalshi.adapter - INFO - Starting Kalshi adapter
+2025-08-14 20:08:58,322 - adapters.kalshi.adapter - INFO - Discovering target markets
+2025-08-14 20:08:59,178 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 100
+2025-08-14 20:08:59,542 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 200
+2025-08-14 20:08:59,717 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 300
+2025-08-14 20:09:00,052 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 400
+2025-08-14 20:09:00,217 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 500
+2025-08-14 20:09:00,217 - adapters.kalshi.client - INFO - Reached target of 500 markets, stopping discovery
+2025-08-14 20:09:00,217 - adapters.kalshi.adapter - INFO - Discovered 500 total open markets
+2025-08-14 20:09:00,217 - adapters.kalshi.adapter - INFO - Auto-discovered 10 markets: ['KXLIGUE1GAME-25AUG22PSGANG-TIE', 'KXLIGUE1GAME-25AUG22PSGANG-PSG', 'KXLIGUE1GAME-25AUG22PSGANG-ANG', 'KXLALIGAGAME-25AUG22RBBALA-TIE', 'KXLALIGAGAME-25AUG22RBBALA-RBB', 'KXLALIGAGAME-25AUG22RBBALA-ALA', 'KXFDAAPPROVAL-25-UX111', 'KXFDAAPPROVAL-25-FIL', 'KXUSAINTEL-25', 'KXSENATESCR-26-PDANS']
+2025-08-14 20:09:00,234 - adapters.kalshi.adapter - INFO - Discovered 10 target markets
+2025-08-14 20:09:00,234 - adapters.kalshi.adapter - INFO - Book state: DISCONNECTED -> CONNECTING
+2025-08-14 20:09:00,234 - adapters.kalshi.client - INFO - Connecting to Kalshi WebSocket: wss://api.elections.kalshi.com/trade-api/ws/v2
+2025-08-14 20:09:00,448 - adapters.kalshi.client - INFO - Kalshi WebSocket connected successfully
+2025-08-14 20:09:00,448 - adapters.kalshi.adapter - INFO - Kalshi WebSocket connected
+2025-08-14 20:09:00,448 - adapters.kalshi.adapter - INFO - Book state: CONNECTING -> WAIT_SNAPSHOT
+2025-08-14 20:09:00,448 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-TIE
+2025-08-14 20:09:00,548 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-PSG
+2025-08-14 20:09:00,650 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-ANG
+2025-08-14 20:09:00,752 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-TIE
+2025-08-14 20:09:00,853 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-RBB
+2025-08-14 20:09:00,955 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-ALA
+2025-08-14 20:09:01,057 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-UX111
+2025-08-14 20:09:01,158 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-FIL
+2025-08-14 20:09:01,260 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXUSAINTEL-25
+2025-08-14 20:09:01,360 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXSENATESCR-26-PDANS
+2025-08-14 20:09:01,462 - adapters.kalshi.adapter - INFO - Subscribed to orderbooks for 10 markets
+2025-08-14 20:09:01,462 - adapters.kalshi.client - INFO - Resubscribing to all markets after reconnection
+2025-08-14 20:09:01,462 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-TIE
+2025-08-14 20:09:01,664 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-PSG
+2025-08-14 20:09:01,865 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-ANG
+2025-08-14 20:09:02,067 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-TIE
+2025-08-14 20:09:02,270 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-RBB
+2025-08-14 20:09:02,471 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-ALA
+2025-08-14 20:09:02,672 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-UX111
+2025-08-14 20:09:02,873 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-FIL
+2025-08-14 20:09:03,074 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXUSAINTEL-25
+2025-08-14 20:09:03,275 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXSENATESCR-26-PDANS
+2025-08-14 20:09:03,476 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,477 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,477 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,477 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,477 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,478 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,478 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,478 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,478 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,478 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,478 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,478 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:09:03,479 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}

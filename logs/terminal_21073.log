@@ -1,0 +1,53 @@
+2025-08-14 18:01:50,961 - __main__ - INFO - ==================================================
+2025-08-14 18:01:50,961 - __main__ - INFO - Kalshi Terminal Starting
+2025-08-14 18:01:50,961 - __main__ - INFO - ==================================================
+2025-08-14 18:01:50,961 - __main__ - INFO - Starting Kalshi Terminal Orchestrator
+2025-08-14 18:01:50,961 - __main__ - INFO - Initializing infrastructure
+2025-08-14 18:01:50,963 - core.state.redis_store - INFO - Connected to Redis
+2025-08-14 18:01:50,963 - __main__ - INFO - Infrastructure initialized
+2025-08-14 18:01:50,963 - __main__ - INFO - Starting venue adapters
+2025-08-14 18:01:50,963 - __main__ - INFO - Starting Kalshi adapter
+2025-08-14 18:01:50,992 - __main__ - INFO - Kalshi adapter started
+2025-08-14 18:01:50,992 - __main__ - INFO - Started 1 adapters
+2025-08-14 18:01:50,992 - adapters.kalshi.adapter - INFO - Starting Kalshi adapter
+2025-08-14 18:01:50,992 - adapters.kalshi.adapter - INFO - Discovering target markets
+2025-08-14 18:01:51,630 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 100
+2025-08-14 18:01:51,829 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 200
+2025-08-14 18:01:52,009 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 300
+2025-08-14 18:01:52,198 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 400
+2025-08-14 18:01:52,364 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 500
+2025-08-14 18:01:52,529 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 600
+2025-08-14 18:01:52,697 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 700
+2025-08-14 18:01:53,059 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 800
+2025-08-14 18:01:53,217 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 900
+2025-08-14 18:01:53,574 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1000
+2025-08-14 18:01:53,744 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1100
+2025-08-14 18:01:53,946 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1200
+2025-08-14 18:01:54,327 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1300
+2025-08-14 18:01:54,491 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1400
+2025-08-14 18:01:54,658 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1500
+2025-08-14 18:01:54,821 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1600
+2025-08-14 18:01:54,988 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1700
+2025-08-14 18:01:55,149 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1800
+2025-08-14 18:01:55,309 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1900
+2025-08-14 18:01:55,476 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2000
+2025-08-14 18:01:55,825 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2100
+2025-08-14 18:01:56,173 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2200
+2025-08-14 18:01:56,514 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2300
+2025-08-14 18:01:56,680 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2400
+2025-08-14 18:01:57,023 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2500
+2025-08-14 18:01:57,359 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2600
+2025-08-14 18:01:57,701 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2700
+2025-08-14 18:01:57,861 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2800
+2025-08-14 18:01:58,017 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2900
+2025-08-14 18:01:58,179 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3000
+2025-08-14 18:01:58,507 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3100
+2025-08-14 18:01:58,664 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3200
+2025-08-14 18:01:59,006 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3300
+2025-08-14 18:01:59,329 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3400
+2025-08-14 18:01:59,486 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3500
+2025-08-14 18:01:59,817 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3600
+2025-08-14 18:01:59,992 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3700
+2025-08-14 18:02:00,316 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3800
+2025-08-14 18:02:00,643 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3900
+2025-08-14 18:02:00,816 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4000

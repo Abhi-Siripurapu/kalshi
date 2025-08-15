@@ -1,0 +1,28 @@
+2025-08-14 18:02:14,943 - __main__ - INFO - ==================================================
+2025-08-14 18:02:14,943 - __main__ - INFO - Kalshi Terminal Starting
+2025-08-14 18:02:14,943 - __main__ - INFO - ==================================================
+2025-08-14 18:02:14,943 - __main__ - INFO - Starting Kalshi Terminal Orchestrator
+2025-08-14 18:02:14,943 - __main__ - INFO - Initializing infrastructure
+2025-08-14 18:02:14,945 - core.state.redis_store - INFO - Connected to Redis
+2025-08-14 18:02:14,945 - __main__ - INFO - Infrastructure initialized
+2025-08-14 18:02:14,945 - __main__ - INFO - Starting venue adapters
+2025-08-14 18:02:14,945 - __main__ - INFO - Starting Kalshi adapter
+2025-08-14 18:02:14,974 - __main__ - INFO - Kalshi adapter started
+2025-08-14 18:02:14,974 - __main__ - INFO - Started 1 adapters
+2025-08-14 18:02:14,975 - adapters.kalshi.adapter - INFO - Starting Kalshi adapter
+2025-08-14 18:02:14,975 - adapters.kalshi.adapter - INFO - Discovering target markets
+2025-08-14 18:02:15,719 - adapters.kalshi.adapter - INFO - Discovered 2 total open markets
+2025-08-14 18:02:15,719 - adapters.kalshi.adapter - ERROR - Error discovering markets: slice(None, 50, None)
+2025-08-14 18:02:15,719 - adapters.kalshi.adapter - ERROR - Error in Kalshi adapter: slice(None, 50, None)
+2025-08-14 18:02:15,719 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 18:02:15,719 - __main__ - ERROR - Task failed: slice(None, 50, None)
+2025-08-14 18:02:15,719 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 18:02:15,719 - __main__ - INFO - Stopping kalshi adapter
+2025-08-14 18:02:15,719 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 18:02:15,719 - core.recorder.parquet_recorder - INFO - Parquet recorder closed
+2025-08-14 18:02:15,719 - __main__ - INFO - Shutdown complete
+2025-08-14 18:02:15,719 - __main__ - INFO - Shutting down Kalshi Terminal
+2025-08-14 18:02:15,719 - __main__ - INFO - Stopping kalshi adapter
+2025-08-14 18:02:15,719 - adapters.kalshi.adapter - INFO - Stopping Kalshi adapter
+2025-08-14 18:02:15,719 - core.recorder.parquet_recorder - INFO - Parquet recorder closed
+2025-08-14 18:02:15,719 - __main__ - INFO - Shutdown complete

@@ -136,9 +136,9 @@ class KalshiAdapter:
             
             # If no specific targets, auto-discover from available markets
             if not self.target_markets:
-                # Take up to 50 active markets to show many more markets
-                self.target_markets = [m["ticker"] for m in market_list[:50]]
-                logger.info(f"Auto-discovered {len(self.target_markets)} markets: {self.target_markets[:10]}...")
+                # Take up to 10 active markets for faster startup
+                self.target_markets = [m["ticker"] for m in market_list[:10]]
+                logger.info(f"Auto-discovered {len(self.target_markets)} markets: {self.target_markets}")
             
             for market in market_list:
                 ticker = market["ticker"]
@@ -164,7 +164,7 @@ class KalshiAdapter:
         """Handle WebSocket connection established"""
         logger.info("Kalshi WebSocket connected")
         self.health_status = "healthy"
-        self.book_state.set_state("WAIT_SNAPSHOT")
+        self.book_state.set_state("LIVE")  # Go directly to LIVE, no complex buffering
         
         # Subscribe to orderbook updates for target markets
         if self.target_markets:
@@ -216,9 +216,7 @@ class KalshiAdapter:
             await self._handle_book_delta(event)
         elif event_type == "subscribed":
             logger.info(f"Subscription confirmed: {event['data']}")
-            
-            # Get initial orderbook snapshots
-            await self._fetch_initial_orderbooks()
+            # Don't fetch initial orderbooks - rely on live snapshots from WebSocket
             
         elif event_type == "error":
             logger.error(f"Received error: {event['data']}")
@@ -235,7 +233,7 @@ class KalshiAdapter:
             if isinstance(books[0], dict):
                 market_id = books[0].get("market_id", "")
             else:
-                market_id = books[0].market_id
+                market_id = getattr(books[0], 'market_id', '')
                 
             logger.info(f"Received orderbook snapshot for {market_id}")
             
@@ -263,6 +261,10 @@ class KalshiAdapter:
         for market_ticker in self.target_markets:
             try:
                 orderbook_data = await self.client.get_orderbook(market_ticker)
+                if not orderbook_data:
+                    logger.warning(f"No orderbook data returned for {market_ticker}")
+                    continue
+                    
                 recv_ts_ns = time.time_ns()
                 
                 # Normalize and publish snapshot
@@ -272,12 +274,13 @@ class KalshiAdapter:
                     recv_ts_ns
                 )
                 
-                await self._publish_event({
-                    "type": "book_snapshot",
-                    "venue_id": "kalshi",
-                    "data": books,
-                    "ts_received_ns": recv_ts_ns
-                })
+                if books:  # Only publish if we have valid books
+                    await self._publish_event({
+                        "type": "book_snapshot",
+                        "venue_id": "kalshi",
+                        "data": books,
+                        "ts_received_ns": recv_ts_ns
+                    })
                 
                 # Rate limiting for Basic tier
                 await asyncio.sleep(0.1)
@@ -364,8 +367,18 @@ async def main():
         if event_type == "book_snapshot":
             books = event["data"]
             for book in books:
-                logger.info(f"Book snapshot: {book.market_id}/{book.outcome_id} - "
-                           f"Best bid: {book.best_bid}, Best ask: {book.best_ask}")
+                if isinstance(book, dict):
+                    market_id = book.get('market_id', '')
+                    outcome_id = book.get('outcome_id', '')
+                    best_bid = book.get('best_bid')
+                    best_ask = book.get('best_ask')
+                else:
+                    market_id = getattr(book, 'market_id', '')
+                    outcome_id = getattr(book, 'outcome_id', '')
+                    best_bid = getattr(book, 'best_bid', None)
+                    best_ask = getattr(book, 'best_ask', None)
+                logger.info(f"Book snapshot: {market_id}/{outcome_id} - "
+                           f"Best bid: {best_bid}, Best ask: {best_ask}")
         elif event_type == "health":
             health = event["data"]
             logger.info(f"Health: {health['status']} - P95 latency: {health['latency_p95_ms']}ms")

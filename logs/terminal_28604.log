@@ -1,0 +1,368 @@
+2025-08-14 20:07:22,566 - __main__ - INFO - ==================================================
+2025-08-14 20:07:22,566 - __main__ - INFO - Kalshi Terminal Starting
+2025-08-14 20:07:22,566 - __main__ - INFO - ==================================================
+2025-08-14 20:07:22,566 - __main__ - INFO - Starting Kalshi Terminal Orchestrator
+2025-08-14 20:07:22,566 - __main__ - INFO - Initializing infrastructure
+2025-08-14 20:07:22,568 - core.state.redis_store - INFO - Connected to Redis
+2025-08-14 20:07:22,568 - __main__ - INFO - Infrastructure initialized
+2025-08-14 20:07:22,568 - __main__ - INFO - Starting venue adapters
+2025-08-14 20:07:22,568 - __main__ - INFO - Starting Kalshi adapter
+2025-08-14 20:07:22,594 - __main__ - INFO - Kalshi adapter started
+2025-08-14 20:07:22,594 - __main__ - INFO - Started 1 adapters
+2025-08-14 20:07:22,594 - adapters.kalshi.adapter - INFO - Starting Kalshi adapter
+2025-08-14 20:07:22,594 - adapters.kalshi.adapter - INFO - Discovering target markets
+2025-08-14 20:07:23,093 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 100
+2025-08-14 20:07:23,484 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 200
+2025-08-14 20:07:23,993 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 300
+2025-08-14 20:07:24,156 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 400
+2025-08-14 20:07:25,065 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 500
+2025-08-14 20:07:25,447 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 600
+2025-08-14 20:07:25,855 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 700
+2025-08-14 20:07:26,102 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 800
+2025-08-14 20:07:26,472 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 900
+2025-08-14 20:07:26,738 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1000
+2025-08-14 20:07:27,112 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1100
+2025-08-14 20:07:27,265 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1200
+2025-08-14 20:07:27,773 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1300
+2025-08-14 20:07:28,141 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1400
+2025-08-14 20:07:28,299 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1500
+2025-08-14 20:07:28,809 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1600
+2025-08-14 20:07:28,966 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1700
+2025-08-14 20:07:29,201 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1800
+2025-08-14 20:07:29,564 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 1900
+2025-08-14 20:07:29,846 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2000
+2025-08-14 20:07:29,999 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2100
+2025-08-14 20:07:30,229 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2200
+2025-08-14 20:07:30,526 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2300
+2025-08-14 20:07:30,899 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2400
+2025-08-14 20:07:31,257 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2500
+2025-08-14 20:07:31,614 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2600
+2025-08-14 20:07:31,972 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2700
+2025-08-14 20:07:32,283 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2800
+2025-08-14 20:07:32,448 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 2900
+2025-08-14 20:07:32,702 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3000
+2025-08-14 20:07:32,878 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3100
+2025-08-14 20:07:33,226 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3200
+2025-08-14 20:07:33,381 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3300
+2025-08-14 20:07:33,739 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3400
+2025-08-14 20:07:33,896 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3500
+2025-08-14 20:07:34,071 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3600
+2025-08-14 20:07:34,253 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3700
+2025-08-14 20:07:34,406 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3800
+2025-08-14 20:07:34,573 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 3900
+2025-08-14 20:07:34,745 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4000
+2025-08-14 20:07:34,913 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4100
+2025-08-14 20:07:35,067 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4200
+2025-08-14 20:07:35,219 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4300
+2025-08-14 20:07:35,392 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4400
+2025-08-14 20:07:35,745 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4500
+2025-08-14 20:07:36,098 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4600
+2025-08-14 20:07:36,277 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4700
+2025-08-14 20:07:36,480 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4800
+2025-08-14 20:07:36,814 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 4900
+2025-08-14 20:07:37,150 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5000
+2025-08-14 20:07:37,483 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5100
+2025-08-14 20:07:37,641 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5200
+2025-08-14 20:07:37,977 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5300
+2025-08-14 20:07:38,308 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5400
+2025-08-14 20:07:38,508 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5500
+2025-08-14 20:07:38,683 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5600
+2025-08-14 20:07:38,855 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5700
+2025-08-14 20:07:39,183 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5800
+2025-08-14 20:07:39,337 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 5900
+2025-08-14 20:07:39,664 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6000
+2025-08-14 20:07:39,822 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6100
+2025-08-14 20:07:40,145 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6200
+2025-08-14 20:07:40,303 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6300
+2025-08-14 20:07:40,458 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6400
+2025-08-14 20:07:40,630 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6500
+2025-08-14 20:07:40,788 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6600
+2025-08-14 20:07:41,105 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6700
+2025-08-14 20:07:41,417 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6800
+2025-08-14 20:07:41,573 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 6900
+2025-08-14 20:07:41,897 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7000
+2025-08-14 20:07:42,059 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7100
+2025-08-14 20:07:42,249 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7200
+2025-08-14 20:07:42,407 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7300
+2025-08-14 20:07:42,563 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7400
+2025-08-14 20:07:42,750 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7500
+2025-08-14 20:07:42,971 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7600
+2025-08-14 20:07:43,145 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7700
+2025-08-14 20:07:43,311 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7800
+2025-08-14 20:07:43,628 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 7900
+2025-08-14 20:07:43,800 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8000
+2025-08-14 20:07:44,023 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8100
+2025-08-14 20:07:44,323 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8200
+2025-08-14 20:07:44,479 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8300
+2025-08-14 20:07:44,643 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8400
+2025-08-14 20:07:44,814 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8500
+2025-08-14 20:07:44,976 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8600
+2025-08-14 20:07:45,196 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8700
+2025-08-14 20:07:45,364 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8800
+2025-08-14 20:07:45,664 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 8900
+2025-08-14 20:07:45,852 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9000
+2025-08-14 20:07:46,037 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9100
+2025-08-14 20:07:46,331 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9200
+2025-08-14 20:07:46,632 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9300
+2025-08-14 20:07:46,802 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9400
+2025-08-14 20:07:46,963 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9500
+2025-08-14 20:07:47,117 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9600
+2025-08-14 20:07:47,305 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9700
+2025-08-14 20:07:47,497 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9800
+2025-08-14 20:07:47,698 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 9900
+2025-08-14 20:07:47,918 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10000
+2025-08-14 20:07:48,205 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10100
+2025-08-14 20:07:48,373 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10200
+2025-08-14 20:07:48,531 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10300
+2025-08-14 20:07:48,830 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10400
+2025-08-14 20:07:48,998 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10500
+2025-08-14 20:07:49,282 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10600
+2025-08-14 20:07:49,586 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10700
+2025-08-14 20:07:49,753 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10800
+2025-08-14 20:07:49,922 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 10900
+2025-08-14 20:07:50,082 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11000
+2025-08-14 20:07:50,374 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11100
+2025-08-14 20:07:50,541 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11200
+2025-08-14 20:07:50,714 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11300
+2025-08-14 20:07:50,884 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11400
+2025-08-14 20:07:51,094 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11500
+2025-08-14 20:07:51,398 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11600
+2025-08-14 20:07:51,737 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11700
+2025-08-14 20:07:51,905 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11800
+2025-08-14 20:07:52,264 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 11900
+2025-08-14 20:07:52,429 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12000
+2025-08-14 20:07:52,606 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12100
+2025-08-14 20:07:52,774 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12200
+2025-08-14 20:07:52,933 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12300
+2025-08-14 20:07:53,219 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12400
+2025-08-14 20:07:53,456 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12500
+2025-08-14 20:07:53,630 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12600
+2025-08-14 20:07:53,983 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12700
+2025-08-14 20:07:54,256 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12800
+2025-08-14 20:07:54,486 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 12900
+2025-08-14 20:07:54,656 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13000
+2025-08-14 20:07:54,918 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13100
+2025-08-14 20:07:55,186 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13200
+2025-08-14 20:07:55,387 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13300
+2025-08-14 20:07:55,653 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13400
+2025-08-14 20:07:55,916 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13500
+2025-08-14 20:07:56,090 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13600
+2025-08-14 20:07:56,353 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13700
+2025-08-14 20:07:56,550 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13800
+2025-08-14 20:07:56,717 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 13900
+2025-08-14 20:07:56,884 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14000
+2025-08-14 20:07:57,081 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14100
+2025-08-14 20:07:57,375 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14200
+2025-08-14 20:07:57,537 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14300
+2025-08-14 20:07:57,803 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14400
+2025-08-14 20:07:58,283 - adapters.kalshi.client - INFO - Fetched 100 markets, total: 14500
+2025-08-14 20:07:58,558 - adapters.kalshi.adapter - INFO - Discovered 14548 total open markets
+2025-08-14 20:07:58,558 - adapters.kalshi.adapter - INFO - Auto-discovered 50 markets: ['KXLIGUE1GAME-25AUG22PSGANG-TIE', 'KXLIGUE1GAME-25AUG22PSGANG-PSG', 'KXLIGUE1GAME-25AUG22PSGANG-ANG', 'KXLALIGAGAME-25AUG22RBBALA-TIE', 'KXLALIGAGAME-25AUG22RBBALA-RBB', 'KXLALIGAGAME-25AUG22RBBALA-ALA', 'KXFDAAPPROVAL-25-UX111', 'KXFDAAPPROVAL-25-FIL', 'KXUSAINTEL-25', 'KXSENATESCR-26-PDANS']...
+2025-08-14 20:07:58,583 - adapters.kalshi.adapter - INFO - Discovered 50 target markets
+2025-08-14 20:07:58,599 - adapters.kalshi.adapter - INFO - Book state: DISCONNECTED -> CONNECTING
+2025-08-14 20:07:58,600 - adapters.kalshi.client - INFO - Connecting to Kalshi WebSocket: wss://api.elections.kalshi.com/trade-api/ws/v2
+2025-08-14 20:07:58,786 - adapters.kalshi.client - INFO - Kalshi WebSocket connected successfully
+2025-08-14 20:07:58,786 - adapters.kalshi.adapter - INFO - Kalshi WebSocket connected
+2025-08-14 20:07:58,786 - adapters.kalshi.adapter - INFO - Book state: CONNECTING -> WAIT_SNAPSHOT
+2025-08-14 20:07:58,786 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-TIE
+2025-08-14 20:07:58,886 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-PSG
+2025-08-14 20:07:58,988 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-ANG
+2025-08-14 20:07:59,089 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-TIE
+2025-08-14 20:07:59,190 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-RBB
+2025-08-14 20:07:59,290 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-ALA
+2025-08-14 20:07:59,392 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-UX111
+2025-08-14 20:07:59,492 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-FIL
+2025-08-14 20:07:59,594 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXUSAINTEL-25
+2025-08-14 20:07:59,695 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXSENATESCR-26-PDANS
+2025-08-14 20:07:59,796 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-6
+2025-08-14 20:07:59,897 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-5
+2025-08-14 20:07:59,998 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-4
+2025-08-14 20:08:00,099 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-3
+2025-08-14 20:08:00,200 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-2
+2025-08-14 20:08:00,300 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-1
+2025-08-14 20:08:00,402 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXNEWOUTBREAKPHEICCHIK-25
+2025-08-14 20:08:00,503 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXNEWOUTBREAKPCHIK-25
+2025-08-14 20:08:00,604 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-TNX
+2025-08-14 20:08:00,705 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-CANCEL
+2025-08-14 20:08:00,806 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-WW
+2025-08-14 20:08:00,907 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-WD
+2025-08-14 20:08:01,008 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-TR
+2025-08-14 20:08:01,108 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-TA
+2025-08-14 20:08:01,210 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-RE
+2025-08-14 20:08:01,311 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-PX
+2025-08-14 20:08:01,413 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-OI
+2025-08-14 20:08:01,513 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-NU
+2025-08-14 20:08:01,614 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-NO
+2025-08-14 20:08:01,715 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-JA
+2025-08-14 20:08:01,816 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-IR
+2025-08-14 20:08:01,917 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-IN
+2025-08-14 20:08:02,017 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-DC
+2025-08-14 20:08:02,118 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-DB
+2025-08-14 20:08:02,219 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-ZEL
+2025-08-14 20:08:02,319 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-SA
+2025-08-14 20:08:02,420 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-NA
+2025-08-14 20:08:02,521 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-MI
+2025-08-14 20:08:02,622 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-KI
+2025-08-14 20:08:02,723 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-HE
+2025-08-14 20:08:02,824 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-GA
+2025-08-14 20:08:02,925 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-EUR
+2025-08-14 20:08:03,026 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-EL
+2025-08-14 20:08:03,126 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-CR
+2025-08-14 20:08:03,227 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-BID
+2025-08-14 20:08:03,328 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-AUT
+2025-08-14 20:08:03,430 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-EN
+2025-08-14 20:08:03,530 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-CEA
+2025-08-14 20:08:03,631 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-BO
+2025-08-14 20:08:03,732 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXWNBA7FIGS-25
+2025-08-14 20:08:03,832 - adapters.kalshi.adapter - INFO - Subscribed to orderbooks for 50 markets
+2025-08-14 20:08:03,832 - adapters.kalshi.client - INFO - Resubscribing to all markets after reconnection
+2025-08-14 20:08:03,833 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-TIE
+2025-08-14 20:08:04,034 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-PSG
+2025-08-14 20:08:04,234 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLIGUE1GAME-25AUG22PSGANG-ANG
+2025-08-14 20:08:04,435 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-TIE
+2025-08-14 20:08:04,636 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-RBB
+2025-08-14 20:08:04,837 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXLALIGAGAME-25AUG22RBBALA-ALA
+2025-08-14 20:08:05,039 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-UX111
+2025-08-14 20:08:05,240 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-FIL
+2025-08-14 20:08:05,441 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXUSAINTEL-25
+2025-08-14 20:08:05,642 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXSENATESCR-26-PDANS
+2025-08-14 20:08:05,843 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-6
+2025-08-14 20:08:06,044 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-5
+2025-08-14 20:08:06,245 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-4
+2025-08-14 20:08:06,446 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-3
+2025-08-14 20:08:06,647 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-2
+2025-08-14 20:08:06,849 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTIONDURATION-AUG1625-1
+2025-08-14 20:08:07,050 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXNEWOUTBREAKPHEICCHIK-25
+2025-08-14 20:08:07,251 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXNEWOUTBREAKPCHIK-25
+2025-08-14 20:08:07,452 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXFDAAPPROVAL-25-TNX
+2025-08-14 20:08:07,653 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-CANCEL
+2025-08-14 20:08:07,854 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-WW
+2025-08-14 20:08:08,057 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-WD
+2025-08-14 20:08:08,258 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-TR
+2025-08-14 20:08:08,460 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-TA
+2025-08-14 20:08:08,662 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-RE
+2025-08-14 20:08:08,862 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-PX
+2025-08-14 20:08:09,063 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-OI
+2025-08-14 20:08:09,265 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-NU
+2025-08-14 20:08:09,466 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-NO
+2025-08-14 20:08:09,667 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-JA
+2025-08-14 20:08:09,868 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-IR
+2025-08-14 20:08:10,070 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-IN
+2025-08-14 20:08:10,271 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-DC
+2025-08-14 20:08:10,472 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-DB
+2025-08-14 20:08:10,673 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-ZEL
+2025-08-14 20:08:10,874 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-SA
+2025-08-14 20:08:11,074 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-NA
+2025-08-14 20:08:11,275 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-MI
+2025-08-14 20:08:11,476 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-KI
+2025-08-14 20:08:11,678 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-HE
+2025-08-14 20:08:11,879 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-GA
+2025-08-14 20:08:12,080 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-EUR
+2025-08-14 20:08:12,281 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-EL
+2025-08-14 20:08:12,482 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-CR
+2025-08-14 20:08:12,682 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-BID
+2025-08-14 20:08:12,884 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-AUT
+2025-08-14 20:08:13,085 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-EN
+2025-08-14 20:08:13,285 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-CEA
+2025-08-14 20:08:13,487 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXTRUMPMENTION-25AUG16-BO
+2025-08-14 20:08:13,687 - adapters.kalshi.client - INFO - Subscribing to ['orderbook'] for market: KXWNBA7FIGS-25
+2025-08-14 20:08:13,889 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,889 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,889 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,890 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,891 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,891 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,891 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,891 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,891 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,891 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,892 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,893 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,894 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,895 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,895 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,895 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,898 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,898 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,899 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,900 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,901 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,902 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,903 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,904 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,904 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,904 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,904 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,904 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}
+2025-08-14 20:08:13,904 - adapters.kalshi.adapter - ERROR - Received error: {'code': 8, 'msg': 'Unknown channel name'}

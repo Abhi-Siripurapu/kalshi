@@ -229,3 +229,194 @@
 2025-08-14 17:36:39,630 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-WW
 2025-08-14 17:36:39,831 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-WD
 2025-08-14 17:36:40,033 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-TR
+2025-08-14 17:36:40,234 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-TA
+2025-08-14 17:36:40,435 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-RE
+2025-08-14 17:36:40,635 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-PX
+2025-08-14 17:36:40,837 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-OI
+2025-08-14 17:36:41,038 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NU
+2025-08-14 17:36:41,239 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NO
+2025-08-14 17:36:41,440 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-JA
+2025-08-14 17:36:41,641 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-IR
+2025-08-14 17:36:41,844 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-IN
+2025-08-14 17:36:42,045 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-DC
+2025-08-14 17:36:42,246 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-DB
+2025-08-14 17:36:42,446 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-ZEL
+2025-08-14 17:36:42,648 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-SA
+2025-08-14 17:36:42,849 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-NA
+2025-08-14 17:36:43,050 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-MI
+2025-08-14 17:36:43,251 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-KI
+2025-08-14 17:36:43,452 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-HE
+2025-08-14 17:36:43,653 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-GA
+2025-08-14 17:36:43,854 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EUR
+2025-08-14 17:36:44,055 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EL
+2025-08-14 17:36:44,257 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CR
+2025-08-14 17:36:44,458 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-BID
+2025-08-14 17:36:44,659 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-AUT
+2025-08-14 17:36:44,859 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-EN
+2025-08-14 17:36:45,060 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-CEA
+2025-08-14 17:36:45,261 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXTRUMPMENTION-25AUG16-BO
+2025-08-14 17:36:45,462 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXWNBA7FIGS-25
+2025-08-14 17:36:45,664 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXRTNOBODY2-82
+2025-08-14 17:36:45,864 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXRTNOBODY2-78
+2025-08-14 17:36:46,065 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T75000
+2025-08-14 17:36:46,266 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T50000
+2025-08-14 17:36:46,467 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXPAYROLLS-25AUG-T25000
+2025-08-14 17:36:46,669 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXFOMCVOTE-DISSENT-25OCT31
+2025-08-14 17:36:46,869 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXODINVCTFINALS-25
+2025-08-14 17:36:47,070 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-40
+2025-08-14 17:36:47,272 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-35
+2025-08-14 17:36:47,473 - adapters.kalshi.client - INFO - Subscribing to ['orderbook_delta'] for market: KXQUANTUM-30
+2025-08-14 17:36:47,674 - adapters.kalshi.adapter - INFO - Subscription confirmed: {'channel': 'orderbook_delta', 'sid': 1}
+2025-08-14 17:36:47,674 - adapters.kalshi.adapter - INFO - Fetching initial orderbook snapshots
+2025-08-14 17:36:47,903 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:48,145 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:48,349 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:48,547 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:48,759 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:48,966 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:49,167 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:49,373 - adapters.kalshi.adapter - ERROR - Error fetching orderbook for KXNEWOUTBREAKPCHIK-25: 'NoneType' object is not iterable
+2025-08-14 17:36:49,467 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:49,623 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:49,778 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:49,931 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:50,079 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:50,226 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:50,373 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:50,523 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:50,673 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:50,824 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:50,978 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:51,123 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:51,272 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:51,421 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:51,626 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:51,788 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:52,036 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:52,240 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:52,447 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:52,650 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:52,855 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:53,060 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:53,264 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:53,469 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:53,674 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:53,881 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:54,083 - adapters.kalshi.adapter - ERROR - Error fetching orderbook for KXTRUMPMENTION-25AUG16-BID: 'NoneType' object is not iterable
+2025-08-14 17:36:54,186 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:54,391 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:54,595 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:54,749 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:54,902 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:55,108 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:55,313 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:55,484 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:55,643 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:55,798 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:55,949 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:56,099 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:56,250 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:56,398 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:56,547 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:56,647 - adapters.kalshi.adapter - INFO - Received orderbook snapshot for KXTRUMPMENTIONDURATION-AUG1625-6
+2025-08-14 17:36:56,647 - adapters.kalshi.adapter - INFO - Book state: WAIT_SNAPSHOT -> LIVE
+2025-08-14 17:36:56,648 - adapters.kalshi.adapter - ERROR - Error publishing event: 'dict' object has no attribute 'market_id'
+2025-08-14 17:36:56,648 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,648 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,648 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,648 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,649 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,649 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,649 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,649 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,649 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,649 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,650 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,650 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,650 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,650 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,650 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,651 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,652 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,652 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,652 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,652 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,652 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,652 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,652 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,653 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,653 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,653 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,653 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,653 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,653 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,653 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,654 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,654 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,654 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,654 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,654 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,654 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,655 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,655 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,659 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,659 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,660 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,660 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,660 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,660 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,660 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,660 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,660 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,661 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,662 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,663 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,664 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,665 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}
+2025-08-14 17:36:56,666 - adapters.kalshi.adapter - ERROR - Received error: {'code': 6, 'msg': 'Already subscribed'}

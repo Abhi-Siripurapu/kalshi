@@ -173,12 +173,15 @@ async def websocket_endpoint(websocket: WebSocket):
     websocket_connections.append(websocket)
     
     try:
-        # Send initial status
-        status = await get_status()
-        await websocket.send_text(json.dumps({
-            "type": "status",
-            "data": status
-        }))
+        # Send initial status safely
+        try:
+            status = await get_status()
+            await websocket.send_text(json.dumps({
+                "type": "status",
+                "data": status
+            }))
+        except Exception as e:
+            logging.warning(f"Failed to send initial status: {e}")
         
         # Keep connection alive and handle messages
         while True:
@@ -190,13 +193,18 @@ async def websocket_endpoint(websocket: WebSocket):
                 # Handle subscription requests
                 if message.get("type") == "subscribe":
                     channels = message.get("channels", [])
-                    # For now, just acknowledge
-                    await websocket.send_text(json.dumps({
-                        "type": "subscribed",
-                        "channels": channels
-                    }))
+                    # Acknowledge subscription
+                    try:
+                        await websocket.send_text(json.dumps({
+                            "type": "subscribed",
+                            "channels": channels
+                        }))
+                    except Exception as e:
+                        logging.warning(f"Failed to send subscription ack: {e}")
+                        break
                     
             except WebSocketDisconnect:
+                logging.info("WebSocket client disconnected")
                 break
             except Exception as e:
                 logging.error(f"WebSocket error: {e}")
@@ -215,15 +223,17 @@ async def broadcast_to_websockets(message: Dict):
     
     # Remove disconnected clients
     disconnected = []
-    for websocket in websocket_connections:
+    for websocket in websocket_connections[:]:  # Copy list to avoid modification during iteration
         try:
             await websocket.send_text(message_text)
-        except Exception:
+        except Exception as e:
+            logging.debug(f"Removing disconnected WebSocket client: {e}")
             disconnected.append(websocket)
     
     # Clean up disconnected clients
     for websocket in disconnected:
-        websocket_connections.remove(websocket)
+        if websocket in websocket_connections:
+            websocket_connections.remove(websocket)
 
 # Function that adapters can use to publish events
 async def publish_to_api(event: Dict):
@@ -238,6 +248,29 @@ async def publish_to_api(event: Dict):
             "type": "event",
             "data": event
         })
+        
+        # Also store book snapshots in Redis for API endpoints
+        if event.get("type") == "book_snapshot" and redis_store:
+            books = event.get("data", [])
+            for book in books:
+                if isinstance(book, dict):
+                    book_data = {
+                        "ts_ns": book.get("ts_ns"),
+                        "bids": book.get("bids", []),
+                        "asks": book.get("asks", []),
+                        "best_bid": book.get("best_bid"),
+                        "best_ask": book.get("best_ask"),
+                        "mid_px": book.get("mid_px"),
+                        "sequence": book.get("sequence", 0),
+                        "market_id": book.get("market_id"),
+                        "outcome_id": book.get("outcome_id")
+                    }
+                    await redis_store.set_book(
+                        book.get("venue_id", "kalshi"),
+                        book.get("market_id", ""),
+                        book.get("outcome_id", ""),
+                        book_data
+                    )
         
     except Exception as e:
         logging.error(f"Error publishing to API: {e}")

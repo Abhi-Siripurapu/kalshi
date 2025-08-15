@@ -227,23 +227,26 @@ class EventPublisher:
                     book_data
                 )
             else:
-                # Handle object format (fallback)
-                book_data = {
-                    "ts_ns": book.ts_ns,
-                    "bids": book.bids,
-                    "asks": book.asks,
-                    "best_bid": book.best_bid,
-                    "best_ask": book.best_ask,
-                    "mid_px": book.mid_px,
-                    "sequence": book.sequence
-                }
-                
-                await self.redis_store.set_book(
-                    book.venue_id,
-                    book.market_id, 
-                    book.outcome_id,
-                    book_data
-                )
+                # Handle object format (fallback) - but should not be needed since we normalize to dict
+                try:
+                    book_data = {
+                        "ts_ns": getattr(book, 'ts_ns', 0),
+                        "bids": getattr(book, 'bids', []),
+                        "asks": getattr(book, 'asks', []),
+                        "best_bid": getattr(book, 'best_bid', None),
+                        "best_ask": getattr(book, 'best_ask', None),
+                        "mid_px": getattr(book, 'mid_px', None),
+                        "sequence": getattr(book, 'sequence', 0)
+                    }
+                    
+                    await self.redis_store.set_book(
+                        getattr(book, 'venue_id', ''),
+                        getattr(book, 'market_id', ''), 
+                        getattr(book, 'outcome_id', ''),
+                        book_data
+                    )
+                except Exception as e:
+                    logger.error(f"Error handling book object format: {e}, book: {book}")
     
     async def _handle_book_delta(self, event: Dict):
         """Handle book delta events"""
@@ -276,25 +279,28 @@ class EventPublisher:
                 market_data
             )
         else:
-            # Handle object format (fallback)
-            market_data = {
-                "title": market.title,
-                "description": market.description,
-                "resolution_source": market.resolution_source,
-                "resolution_ts": market.resolution_ts,
-                "timezone": market.timezone,
-                "currency": market.currency,
-                "outcomes": market.outcomes,
-                "status": market.status,
-                "created_ts": market.created_ts,
-                "mapping_tags": market.mapping_tags
-            }
-            
-            await self.redis_store.set_market_info(
-                market.venue_id,
-                market.market_id,
-                market_data
-            )
+            # Handle object format (fallback) - but should not be needed since we normalize to dict
+            try:
+                market_data = {
+                    "title": getattr(market, 'title', ''),
+                    "description": getattr(market, 'description', ''),
+                    "resolution_source": getattr(market, 'resolution_source', ''),
+                    "resolution_ts": getattr(market, 'resolution_ts', 0),
+                    "timezone": getattr(market, 'timezone', ''),
+                    "currency": getattr(market, 'currency', ''),
+                    "outcomes": getattr(market, 'outcomes', []),
+                    "status": getattr(market, 'status', ''),
+                    "created_ts": getattr(market, 'created_ts', 0),
+                    "mapping_tags": getattr(market, 'mapping_tags', {})
+                }
+                
+                await self.redis_store.set_market_info(
+                    getattr(market, 'venue_id', ''),
+                    getattr(market, 'market_id', ''),
+                    market_data
+                )
+            except Exception as e:
+                logger.error(f"Error handling market object format: {e}, market: {market}")
     
     async def _handle_health(self, event: Dict):
         """Handle health events"""

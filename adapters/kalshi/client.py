@@ -76,12 +76,12 @@ class KalshiClient:
             logger.error(f"Error fetching markets: {e}")
             raise
 
-    async def get_all_markets(self, series_ticker: Optional[str] = None, status: str = "open") -> List[Dict]:
-        """Get all markets for a series, handling pagination"""
+    async def get_all_markets(self, series_ticker: Optional[str] = None, status: str = "open", max_markets: int = 500) -> List[Dict]:
+        """Get markets for a series, handling pagination with limit"""
         all_markets = []
         cursor = None
         
-        while True:
+        while len(all_markets) < max_markets:
             try:
                 data = await self.get_markets(
                     limit=100, 
@@ -97,6 +97,12 @@ class KalshiClient:
                     break
                     
                 logger.info(f"Fetched {len(markets)} markets, total: {len(all_markets)}")
+                
+                # Stop if we have enough markets
+                if len(all_markets) >= max_markets:
+                    all_markets = all_markets[:max_markets]
+                    logger.info(f"Reached target of {max_markets} markets, stopping discovery")
+                    break
                 
                 # Rate limiting for Basic tier (10 requests/second)
                 await asyncio.sleep(0.1)
