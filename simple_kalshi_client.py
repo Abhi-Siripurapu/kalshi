@@ -110,6 +110,50 @@ class SimpleKalshiClient:
             print(f"Error fetching market {ticker}: {e}")
             return None
     
+    async def get_candlesticks(self, ticker: str, period_interval: int = 60, 
+                              start_ts: int = None, end_ts: int = None) -> Optional[Dict]:
+        """Get candlestick data for a market
+        
+        Args:
+            ticker: Market ticker
+            period_interval: Time period in minutes (1, 60, or 1440)
+            start_ts: Start timestamp (Unix)
+            end_ts: End timestamp (Unix)
+        """
+        if not self.session:
+            raise RuntimeError("Client not initialized. Use async with.")
+        
+        # Extract series ticker from market ticker (everything before the last dash)
+        parts = ticker.split('-')
+        if len(parts) < 2:
+            return None
+        series_ticker = '-'.join(parts[:-1])
+        
+        path = f"/trade-api/v2/series/{series_ticker}/markets/{ticker}/candlesticks"
+        url = f"{self.base_url}{path}"
+        
+        params = {
+            "period_interval": period_interval,
+        }
+        
+        if start_ts:
+            params["start_ts"] = start_ts
+        if end_ts:
+            params["end_ts"] = end_ts
+        
+        headers = self.auth.create_headers("GET", path)
+        
+        try:
+            async with self.session.get(url, params=params, headers=headers) as response:
+                if response.status == 200:
+                    return await response.json()
+                else:
+                    print(f"Candlesticks API error {response.status}: {await response.text()}")
+                    return None
+        except Exception as e:
+            print(f"Error getting candlesticks for {ticker}: {e}")
+            return None
+    
     async def get_orderbook(self, ticker: str, depth: int = 10) -> Optional[Dict]:
         """Get orderbook for a market"""
         if not self.session:

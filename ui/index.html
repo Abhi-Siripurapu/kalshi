@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏛️ Kalshi Terminal - Simple</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -44,8 +45,8 @@
         
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            grid-template-columns: 400px 1fr 400px;
+            gap: 20px;
         }
         
         .section {
@@ -166,6 +167,27 @@
         .refresh-btn:hover {
             background-color: #4338ca;
         }
+        
+        .filter-btn {
+            background-color: #374151;
+            color: #d1d5db;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background-color: #4b5563;
+        }
+        
+        .filter-btn.active {
+            background-color: #4f46e5;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -181,15 +203,36 @@
         <div class="main-content">
             <div class="section">
                 <div class="section-title">Markets <span id="market-count">(0)</span></div>
+                <div style="margin-bottom: 15px;">
+                    <input type="text" id="market-search" placeholder="Search markets..." 
+                           style="width: 100%; padding: 8px; background: #0f172a; border: 1px solid #334155; color: #f1f5f9; border-radius: 4px; font-family: inherit; font-size: 0.9rem;">
+                    <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="politics">Politics</button>
+                        <button class="filter-btn" data-filter="sports">Sports</button>
+                        <button class="filter-btn" data-filter="crypto">Crypto</button>
+                        <button class="filter-btn" data-filter="weather">Weather</button>
+                    </div>
+                </div>
                 <div id="markets-list" class="loading">
                     Loading markets...
                 </div>
             </div>
             
             <div class="section">
-                <div class="section-title">Market Detail</div>
+                <div class="section-title">Price Chart</div>
+                <div id="chart-container" style="height: 400px; position: relative;">
+                    <canvas id="price-chart"></canvas>
+                    <div id="chart-loading" class="loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        Select a market to view chart
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">Order Book</div>
                 <div id="market-detail">
-                    <div class="loading">Select a market to view details</div>
+                    <div class="loading">Select a market to view orderbook</div>
                 </div>
             </div>
         </div>
@@ -197,8 +240,14 @@
 
     <script>
         const API_BASE = 'http://localhost:8000';
+        const WS_URL = 'ws://localhost:8001/ws';
         let markets = [];
+        let filteredMarkets = [];
         let selectedMarket = null;
+        let websocket = null;
+        let priceChart = null;
+        let currentFilter = 'all';
+        let currentSearch = '';
         
         // Load API status
         async function loadStatus() {
@@ -218,34 +267,23 @@
         // Load markets
         async function loadMarkets() {
             try {
-                const response = await fetch(`${API_BASE}/markets?limit=20`);
+                const response = await fetch(`${API_BASE}/markets?limit=100`);
                 const data = await response.json();
                 markets = data.markets || [];
                 
-                const countEl = document.getElementById('market-count');
-                countEl.textContent = `(${markets.length})`;
-                
-                const listEl = document.getElementById('markets-list');
-                
                 if (markets.length === 0) {
+                    const listEl = document.getElementById('markets-list');
                     listEl.innerHTML = '<div class="error">No markets found</div>';
                     return;
                 }
                 
-                listEl.innerHTML = markets.map(market => `
-                    <div class="market-item" onclick="selectMarket('${market.ticker}')">
-                        <div class="market-ticker">${market.ticker}</div>
-                        <div class="market-title">${market.title}</div>
-                        <div class="market-prices">
-                            <span class="price-yes">YES: ${formatPrice(market.yes_bid || 0)} / ${formatPrice(market.yes_ask || 0)}</span>
-                            <span class="price-no">NO: ${formatPrice(market.no_bid || 0)} / ${formatPrice(market.no_ask || 0)}</span>
-                        </div>
-                    </div>
-                `).join('');
+                // Initialize filtered markets and display
+                filteredMarkets = [...markets];
+                filterMarkets();
                 
                 // Auto-select first market
-                if (!selectedMarket && markets.length > 0) {
-                    selectMarket(markets[0].ticker);
+                if (!selectedMarket && filteredMarkets.length > 0) {
+                    selectMarket(filteredMarkets[0].ticker);
                 }
                 
             } catch (err) {
@@ -253,6 +291,72 @@
                 listEl.innerHTML = '<div class="error">Failed to load markets</div>';
                 console.error('Error loading markets:', err);
             }
+        }
+        
+        // Filter and search markets
+        function filterMarkets() {
+            const searchTerm = currentSearch.toLowerCase();
+            
+            filteredMarkets = markets.filter(market => {
+                // Search filter
+                const matchesSearch = market.title.toLowerCase().includes(searchTerm) || 
+                                    market.ticker.toLowerCase().includes(searchTerm);
+                
+                // Category filter
+                let matchesCategory = true;
+                if (currentFilter !== 'all') {
+                    const ticker = market.ticker.toLowerCase();
+                    const title = market.title.toLowerCase();
+                    
+                    switch (currentFilter) {
+                        case 'politics':
+                            matchesCategory = ticker.includes('potus') || ticker.includes('election') || ticker.includes('president') ||
+                                            title.includes('election') || title.includes('president') || title.includes('political');
+                            break;
+                        case 'sports':
+                            matchesCategory = ticker.includes('nfl') || ticker.includes('mlb') || ticker.includes('nba') ||
+                                            ticker.includes('pga') || ticker.includes('ufc') || ticker.includes('match') ||
+                                            title.includes('sport') || title.includes('game') || title.includes('championship');
+                            break;
+                        case 'crypto':
+                            matchesCategory = ticker.includes('btc') || ticker.includes('eth') || ticker.includes('crypto') ||
+                                            title.includes('bitcoin') || title.includes('ethereum') || title.includes('crypto');
+                            break;
+                        case 'weather':
+                            matchesCategory = ticker.includes('weather') || ticker.includes('temp') || ticker.includes('high') ||
+                                            title.includes('temperature') || title.includes('weather') || title.includes('snow');
+                            break;
+                    }
+                }
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            displayFilteredMarkets();
+        }
+        
+        // Display filtered markets
+        function displayFilteredMarkets() {
+            const countEl = document.getElementById('market-count');
+            countEl.textContent = `(${filteredMarkets.length})`;
+            
+            const listEl = document.getElementById('markets-list');
+            
+            if (filteredMarkets.length === 0) {
+                listEl.innerHTML = '<div class="error">No markets match your criteria</div>';
+                return;
+            }
+            
+            listEl.innerHTML = filteredMarkets.map(market => `
+                <div class="market-item ${selectedMarket === market.ticker ? 'selected' : ''}" onclick="selectMarket('${market.ticker}')">
+                    <div class="market-ticker">${market.ticker}</div>
+                    <div class="market-title">${market.title}</div>
+                    <div class="market-prices">
+                        <span class="price-yes">YES: ${formatPrice(market.yes_bid || 0)} / ${formatPrice(market.yes_ask || 0)}</span>
+                        <span class="price-no">NO: ${formatPrice(market.no_bid || 0)} / ${formatPrice(market.no_ask || 0)}</span>
+                    </div>
+                </div>
+            `).join('');
         }
         
         // Select a market
@@ -271,8 +375,20 @@
                 selectedItem.classList.add('selected');
             }
             
-            // Load market detail
+            // Subscribe to real-time orderbook for this market
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                const subscription = {
+                    type: 'subscribe',
+                    channels: ['orderbook'],
+                    market_ticker: ticker
+                };
+                websocket.send(JSON.stringify(subscription));
+                console.log(`📋 Subscribed to orderbook for ${ticker}`);
+            }
+            
+            // Load market detail and chart
             await loadMarketDetail(ticker);
+            await loadPriceChart(ticker);
         }
         
         // Load market detail and orderbook
@@ -313,23 +429,163 @@
             }
         }
         
-        // Format orderbook side
-        function formatOrderbookSide(orders) {
-            if (!orders || orders.length === 0) {
-                return '<div style="text-align: center; color: #64748b; font-style: italic;">No orders</div>';
+        // Load price chart for selected market
+        async function loadPriceChart(ticker) {
+            const chartLoading = document.getElementById('chart-loading');
+            const canvas = document.getElementById('price-chart');
+            
+            try {
+                chartLoading.style.display = 'block';
+                chartLoading.textContent = 'Loading chart...';
+                
+                // Fetch candlestick data
+                const response = await fetch(`${API_BASE}/market/${ticker}/candlesticks?period_interval=60&start_days_ago=7`);
+                const data = await response.json();
+                
+                if (data.candlesticks && data.candlesticks.length > 0) {
+                    createPriceChart(data.candlesticks, ticker);
+                    chartLoading.style.display = 'none';
+                } else {
+                    chartLoading.textContent = 'No chart data available';
+                }
+                
+            } catch (err) {
+                console.error('Error loading price chart:', err);
+                chartLoading.textContent = 'Failed to load chart';
             }
+        }
+        
+        // Create price chart using Chart.js
+        function createPriceChart(candlesticks, ticker) {
+            const ctx = document.getElementById('price-chart').getContext('2d');
+            
+            // Destroy existing chart if exists
+            if (priceChart) {
+                priceChart.destroy();
+            }
+            
+            // Prepare data for chart - handle both mock and real Kalshi data formats
+            const labels = candlesticks.map(candle => {
+                const timestamp = candle.end_period_ts || candle.ts;
+                return new Date(timestamp * 1000).toLocaleDateString();
+            });
+            
+            // Extract price data - prioritize actual traded prices, fall back to mid-price of bid/ask
+            const prices = candlesticks.map(candle => {
+                if (candle.close !== undefined) {
+                    // Mock data format
+                    return candle.close;
+                } else if (candle.price && candle.price.close !== null) {
+                    // Real Kalshi data - actual trade price
+                    return candle.price.close;
+                } else if (candle.yes_bid && candle.yes_ask) {
+                    // Real Kalshi data - mid-price between bid and ask
+                    const bid = candle.yes_bid.close || candle.yes_bid.open;
+                    const ask = candle.yes_ask.close || candle.yes_ask.open;
+                    return Math.round((bid + ask) / 2);
+                }
+                return 0;
+            });
+            
+            const volumes = candlesticks.map(candle => candle.volume || 0);
+            
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Price (¢)',
+                        data: prices,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${ticker} - Price Chart (7 days)`,
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: {
+                                color: '#f1f5f9'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#334155'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#334155'
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value + '¢';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Format orderbook side
+        function formatOrderbookSide(orders, side) {
+            if (!orders || orders.length === 0) {
+                return '<div style="text-align: center; color: #64748b; font-style: italic;">No meaningful orders</div>';
+            }
+            
+            // Filter out extremely low-priced orders (likely market makers at minimum price)
+            const meaningfulOrders = orders.filter(order => order[0] >= 5);
+            
+            if (meaningfulOrders.length === 0) {
+                const bestOrder = orders.reduce((max, order) => order[0] > max[0] ? order : max, orders[0]);
+                return `
+                    <div style="text-align: center; color: #64748b; font-style: italic; margin-bottom: 10px;">Only low-priced orders</div>
+                    <div class="order-row" style="color: #64748b;">
+                        <span>Best: ${formatPrice(bestOrder[0])}</span>
+                        <span>${bestOrder[1].toLocaleString()}</span>
+                    </div>
+                `;
+            }
+            
+            // Sort orders by price (highest first for bids)
+            const sortedOrders = meaningfulOrders.sort((a, b) => b[0] - a[0]);
             
             return `
                 <div class="order-row" style="font-weight: bold; color: #94a3b8; border-bottom: 1px solid #334155; margin-bottom: 5px;">
                     <span>Price</span>
-                    <span>Qty</span>
+                    <span>Size</span>
                 </div>
-                ${orders.slice(0, 5).map(order => `
-                    <div class="order-row">
-                        <span>${formatPrice(order[0])}</span>
-                        <span>${order[1]}</span>
+                ${sortedOrders.slice(0, 5).map((order, index) => {
+                    const isTop = index === 0;
+                    const priceColor = isTop ? (side === 'yes' ? '#10b981' : '#ef4444') : '#f1f5f9';
+                    return `
+                        <div class="order-row" style="color: ${priceColor}; ${isTop ? 'font-weight: bold;' : ''}">
+                            <span>${formatPrice(order[0])}</span>
+                            <span>${order[1].toLocaleString()}</span>
+                        </div>
+                    `;
+                }).join('')}
+                ${sortedOrders.length > 5 ? `
+                    <div style="text-align: center; color: #64748b; font-style: italic; margin-top: 5px; font-size: 0.8rem;">
+                        +${sortedOrders.length - 5} more levels
                     </div>
-                `).join('')}
+                ` : ''}
             `;
         }
         
@@ -344,11 +600,292 @@
             await loadMarkets();
         }
         
-        // Initialize on page load
-        window.addEventListener('load', loadData);
+        // WebSocket connection
+        function connectWebSocket() {
+            try {
+                websocket = new WebSocket(WS_URL);
+                
+                websocket.onopen = function(event) {
+                    console.log('🔌 WebSocket connected');
+                    updateStatus('🔗 Real-time Connected');
+                    
+                    // Subscribe to updates
+                    const subscription = {
+                        type: 'subscribe',
+                        channels: ['ticker', 'orderbook', 'trades']
+                    };
+                    websocket.send(JSON.stringify(subscription));
+                };
+                
+                websocket.onmessage = function(event) {
+                    try {
+                        const message = JSON.parse(event.data);
+                        handleWebSocketMessage(message);
+                    } catch (e) {
+                        console.error('Error parsing WebSocket message:', e);
+                    }
+                };
+                
+                websocket.onclose = function(event) {
+                    console.log('🔌 WebSocket disconnected');
+                    updateStatus('📡 Reconnecting...');
+                    
+                    // Reconnect after 3 seconds
+                    setTimeout(connectWebSocket, 3000);
+                };
+                
+                websocket.onerror = function(error) {
+                    console.error('WebSocket error:', error);
+                    updateStatus('❌ WebSocket Error');
+                };
+                
+            } catch (error) {
+                console.error('Failed to connect WebSocket:', error);
+                updateStatus('❌ WebSocket Failed');
+            }
+        }
         
-        // Auto-refresh every 10 seconds
-        setInterval(loadData, 10000);
+        function handleWebSocketMessage(message) {
+            const type = message.type;
+            
+            if (type === 'connected') {
+                console.log('✅ WebSocket server ready');
+                const kalshiConnected = message.data.kalshi_connected;
+                const cachedMarkets = message.data.cached_markets;
+                updateStatus(`🔗 Real Kalshi Data (${cachedMarkets} markets)`);
+                
+            } else if (type === 'subscribed') {
+                console.log('📋 Subscribed to:', message.data.channels);
+                
+            } else if (type === 'ticker') {
+                handleTickerUpdate(message.data);
+                
+            } else if (type === 'orderbook_snapshot') {
+                handleOrderbookUpdate(message.data);
+                
+            } else if (type === 'orderbook_delta') {
+                handleOrderbookUpdate(message.data);
+                
+            } else if (type === 'trade') {
+                handleTradeUpdate(message.data);
+                
+            } else {
+                console.log('📥 Unknown message type:', type, message);
+            }
+        }
+        
+        function handleTickerUpdate(data) {
+            // Update market in our local array
+            const marketIndex = markets.findIndex(m => m.ticker === data.market_ticker);
+            if (marketIndex >= 0) {
+                markets[marketIndex].yes_bid = data.bid;
+                markets[marketIndex].yes_ask = data.ask;
+                markets[marketIndex].last_price = data.last_price;
+                markets[marketIndex].volume_24h = data.volume_24h;
+                
+                // Refresh the markets display
+                refreshMarketsDisplay();
+            }
+        }
+        
+        function handleOrderbookUpdate(data) {
+            // If this is for the selected market, update the orderbook display
+            if (selectedMarket === data.market_ticker) {
+                updateOrderbookDisplay(data);
+            }
+        }
+        
+        function handleTradeUpdate(data) {
+            console.log('💰 Trade:', data);
+            // Could add trade feed display here
+        }
+        
+        function updateStatus(statusText) {
+            const statusEl = document.getElementById('status');
+            if (statusEl) {
+                statusEl.innerHTML = `${statusText} <button class="refresh-btn" onclick="loadData()">Refresh</button>`;
+            }
+        }
+        
+        function refreshMarketsDisplay() {
+            // Re-render the markets list with updated data
+            const listEl = document.getElementById('markets-list');
+            if (!listEl || markets.length === 0) return;
+            
+            listEl.innerHTML = markets.map(market => `
+                <div class="market-item ${selectedMarket === market.ticker ? 'selected' : ''}" onclick="selectMarket('${market.ticker}')">
+                    <div class="market-ticker">${market.ticker}</div>
+                    <div class="market-title">${market.title}</div>
+                    <div class="market-prices">
+                        <span class="price-yes">YES: ${formatPrice(market.yes_bid || 0)} / ${formatPrice(market.yes_ask || 0)}</span>
+                        <span class="price-no">NO: ${formatPrice(market.no_bid || 0)} / ${formatPrice(market.no_ask || 0)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateOrderbookDisplay(data) {
+            const detailEl = document.getElementById('market-detail');
+            if (!detailEl) return;
+            
+            const market = markets.find(m => m.ticker === data.market_ticker);
+            const timestamp = data.ts ? new Date(data.ts * 1000).toLocaleTimeString() : 'Unknown';
+            
+            // Detect multi-outcome markets (when orderbooks are empty or very limited)
+            const isMultiOutcome = detectMultiOutcomeMarket(data, market);
+            
+            if (isMultiOutcome) {
+                detailEl.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">${data.market_ticker}</div>
+                        <div style="font-weight: bold; line-height: 1.3;">${market ? market.title : 'Market Details'}</div>
+                        <div style="font-size: 0.8rem; color: #f59e0b; margin-top: 5px;">📊 MULTI-OUTCOME MARKET</div>
+                        <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Updated: ${timestamp}</div>
+                    </div>
+                    
+                    <div style="background-color: #0f172a; border-radius: 6px; padding: 15px; text-align: center;">
+                        <div style="color: #f59e0b; font-weight: bold; margin-bottom: 8px;">🎯 Multiple Choice Market</div>
+                        <div style="color: #94a3b8; font-size: 0.9rem; line-height: 1.4;">
+                            This market has multiple possible outcomes (not just YES/NO).<br>
+                            Each outcome has its own probability and pricing.<br>
+                            Check the main Kalshi platform for detailed outcome pricing.
+                        </div>
+                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;">
+                            <div style="color: #10b981; font-size: 0.8rem;">💡 TIP: Use search to find binary (YES/NO) markets for clearer orderbook data</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Calculate market analytics for binary markets
+            const analytics = calculateMarketAnalytics(data, market);
+            
+            detailEl.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">${data.market_ticker}</div>
+                    <div style="font-weight: bold; line-height: 1.3;">${market ? market.title : 'Market Details'}</div>
+                    <div style="font-size: 0.8rem; color: #10b981; margin-top: 5px;">🔴 LIVE DATA</div>
+                    <div style="font-size: 0.7rem; color: #64748b; margin-top: 2px;">Updated: ${timestamp}</div>
+                </div>
+                
+                ${analytics.html}
+                
+                <div class="section-title">Order Book</div>
+                <div class="orderbook">
+                    <div class="orderbook-side">
+                        <div class="orderbook-header yes-header">YES</div>
+                        ${formatOrderbookSide(data.yes, 'yes')}
+                    </div>
+                    <div class="orderbook-side">
+                        <div class="orderbook-header no-header">NO</div>
+                        ${formatOrderbookSide(data.no, 'no')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Detect if this is a multi-outcome market
+        function detectMultiOutcomeMarket(orderbookData, market) {
+            const yesOrders = orderbookData.yes || [];
+            const noOrders = orderbookData.no || [];
+            
+            // Check for telltale signs of multi-outcome markets
+            const hasNoMeaningfulOrders = yesOrders.length === 0 && noOrders.length === 0;
+            const hasOnlyLowPriceOrders = [...yesOrders, ...noOrders].every(order => order[0] < 5);
+            
+            // Check ticker patterns that suggest multi-outcome
+            const ticker = market?.ticker || '';
+            const title = market?.title || '';
+            const isArtistMarket = ticker.includes('ARTIST') || title.toLowerCase().includes('artist');
+            const isSportsPlayerMarket = ticker.includes('MVP') || ticker.includes('WINNER') || title.toLowerCase().includes('winner');
+            const isElectionCandidate = title.toLowerCase().includes('candidate') && !title.toLowerCase().includes('will');
+            
+            return hasNoMeaningfulOrders || hasOnlyLowPriceOrders || isArtistMarket || isSportsPlayerMarket || isElectionCandidate;
+        }
+        
+        // Calculate market analytics
+        function calculateMarketAnalytics(orderbookData, market) {
+            const yesOrders = orderbookData.yes || [];
+            const noOrders = orderbookData.no || [];
+            
+            // Find best prices (highest YES bid, highest NO bid)
+            const bestYesBid = yesOrders.length > 0 ? Math.max(...yesOrders.map(order => order[0])) : 0;
+            const bestNoBid = noOrders.length > 0 ? Math.max(...noOrders.map(order => order[0])) : 0;
+            
+            // Calculate implied probability and spread
+            const impliedYesPrice = bestYesBid;
+            const impliedNoPrice = bestNoBid;
+            const totalImplied = impliedYesPrice + impliedNoPrice;
+            
+            // Market volume and interest
+            const yesVolume = yesOrders.reduce((sum, order) => sum + order[1], 0);
+            const noVolume = noOrders.reduce((sum, order) => sum + order[1], 0);
+            const totalVolume = yesVolume + noVolume;
+            
+            // Market maker analysis
+            const yesLiquidity = yesOrders.filter(order => order[0] >= 10).reduce((sum, order) => sum + order[1], 0);
+            const noLiquidity = noOrders.filter(order => order[0] >= 10).reduce((sum, order) => sum + order[1], 0);
+            
+            const html = `
+                <div style="margin-bottom: 15px; background-color: #0f172a; border-radius: 6px; padding: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.85rem;">
+                        <div>
+                            <div style="color: #10b981; font-weight: bold;">Market Price</div>
+                            <div style="color: #f1f5f9;">YES: ${formatPrice(impliedYesPrice)} (${((impliedYesPrice/100)*100).toFixed(1)}%)</div>
+                            <div style="color: #f1f5f9;">NO: ${formatPrice(impliedNoPrice)} (${((impliedNoPrice/100)*100).toFixed(1)}%)</div>
+                        </div>
+                        <div>
+                            <div style="color: #10b981; font-weight: bold;">Volume</div>
+                            <div style="color: #f1f5f9;">Total: ${totalVolume.toLocaleString()}</div>
+                            <div style="color: #f1f5f9;">YES: ${yesVolume.toLocaleString()} | NO: ${noVolume.toLocaleString()}</div>
+                        </div>
+                    </div>
+                    ${totalImplied > 0 ? `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #334155; font-size: 0.8rem; color: #94a3b8;">
+                        Spread: ${formatPrice(Math.abs(100 - totalImplied))} • Liquidity: ${(yesLiquidity + noLiquidity).toLocaleString()} shares
+                    </div>` : ''}
+                </div>
+            `;
+            
+            return {
+                bestYesBid,
+                bestNoBid,
+                totalVolume,
+                html
+            };
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            loadData();
+            connectWebSocket();
+            
+            // Set up search and filter event listeners
+            const searchInput = document.getElementById('market-search');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Search input
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                filterMarkets();
+            });
+            
+            // Filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update filter and refresh
+                    currentFilter = this.dataset.filter;
+                    filterMarkets();
+                });
+            });
+        });
+        
+        // Auto-refresh REST data every 30 seconds (WebSocket provides real-time updates)
+        setInterval(loadData, 30000);
     </script>
 </body>
 </html>

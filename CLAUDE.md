@@ -94,11 +94,27 @@ The original codebase had major architectural issues:
 - Auto-refresh every 10 seconds
 - Clean, responsive UI
 
-**📋 TODO (Next Steps):**
-- WebSocket integration for real-time updates
-- Live orderbook streaming
-- Optional Redis caching layer
-- Advanced analytics and charting
+**✅ COMPLETED:**
+- REST API integration with Kalshi
+- Real market data display (20+ active markets)
+- Market selection and orderbook viewing
+- Auto-refresh every 10 seconds
+- Clean, responsive UI
+- **🔥 BREAKTHROUGH: WebSocket authentication solved!**
+- **🔥 Real-time Kalshi WebSocket data streaming!**
+- **🔥 Complete real-time bridge** (942+ markets streaming live)
+- **🔥 Working prediction markets terminal with live data**
+
+**📋 NEXT STEPS (Enhancement Phase):**
+- **Add real-time orderbook subscriptions** for selected markets via WebSocket
+- **Implement candlestick/OHLC data** collection and display
+- **Build interactive charts and visualizations** using real-time WebSocket data
+- **Expand market display** beyond current 20 market limit (show 50-100+ markets)
+- **Add advanced market analytics** (volume trends, price history, volatility)
+- **Create market categorization** and filtering (Politics, Sports, Crypto, Weather)
+- **Add market search functionality** across all available markets
+- **Implement advanced charting** (price charts, volume charts, order flow)
+- Optional Redis caching layer for performance optimization
 
 ## Next Implementation Steps
 
@@ -131,21 +147,29 @@ The original codebase had major architectural issues:
 - **CORS is essential for browser development**
 - **FastAPI's automatic docs at `/docs` are invaluable**
 
-### Authentication
-- **Kalshi uses different timestamp formats: REST (milliseconds), WebSocket (seconds)**
-- **RSA-PSS signing with SHA256 is required**
+### Authentication ⚠️ CRITICAL DISCOVERY
+- **🚨 Kalshi REST API**: Uses MILLISECONDS timestamp (`time.time() * 1000`)
+- **🚨 Kalshi WebSocket**: Uses SECONDS timestamp (`time.time()`) - DOCUMENTATION IS WRONG!
+- **Official Kalshi docs incorrectly state WebSocket needs milliseconds - it actually needs seconds**
+- **RSA-PSS signing with SHA256 is required for both**
 - **Private key must be in PEM format**
+- **WebSocket works on Production environment, not demo**
 
 ## File Structure
 ```
 kalshi/
-├── CLAUDE.md                 # This file
-├── .env                      # Environment variables
-├── kalshi-key.pem           # Private key for Kalshi API
-├── simple_kalshi_client.py  # Atomic Kalshi REST client
-├── simple_api.py            # FastAPI server
+├── CLAUDE.md                      # This file  
+├── .env                           # Environment variables
+├── kalshi-key.pem                # Private key for Kalshi API
+├── simple_kalshi_client.py       # Atomic Kalshi REST client
+├── simple_websocket_client.py    # 🔥 WORKING Kalshi WebSocket client
+├── simple_api.py                 # FastAPI server with REST endpoints
+├── real_time_bridge.py           # 🔥 LIVE bridge: Kalshi WebSocket → UI
+├── simple_ws_server.py           # Mock WebSocket server (backup)
+├── debug_websocket_auth.py       # WebSocket auth debugger tool
+├── test_real_time.py             # Real-time data flow test
 └── ui/
-    └── index.html           # Pure HTML/CSS/JS terminal
+    └── index.html                # 🔥 LIVE terminal with real Kalshi data
 ```
 
 ## Development Commands
@@ -212,5 +236,34 @@ The system is working correctly when:
 - ✅ Auto-refresh updates every 10 seconds
 - ✅ No errors in browser console
 - ✅ Clean, responsive terminal interface
+- ✅ **WebSocket connects to Kalshi and streams real ticker data**
+- ✅ **Live market updates flow to UI in real-time**
+
+## 🔥 WebSocket Breakthrough Details
+
+After extensive debugging, we discovered that Kalshi's WebSocket documentation is **incorrect**:
+
+### What Kalshi Docs Say (WRONG):
+```
+KALSHI-ACCESS-TIMESTAMP: unix_timestamp_in_milliseconds
+```
+
+### What Actually Works:
+```python
+# REST API - uses milliseconds
+timestamp = str(int(time.time() * 1000))
+
+# WebSocket - uses seconds (NOT milliseconds!)
+timestamp = str(int(time.time()))
+```
+
+### Working WebSocket Connection:
+```python
+from simple_websocket_client import SimpleKalshiWebSocketClient
+
+client = SimpleKalshiWebSocketClient(api_key, private_key_path)
+await client.connect()  # ✅ Works!
+await client.subscribe_to_ticker()  # ✅ Real-time data!
+```
 
 This atomic approach has proven successful - maintain this simplicity as complexity is added back incrementally.

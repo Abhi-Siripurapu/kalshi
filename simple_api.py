@@ -263,46 +263,78 @@ async def get_orderbook(
 async def get_candlesticks(
     ticker: str,
     start_days_ago: int = Query(7, description="Days ago to start from"),
-    period_interval: int = Query(60, description="Interval in minutes")
+    period_interval: int = Query(60, description="Interval in minutes (1, 60, or 1440)")
 ):
     """Get candlestick data for market"""
-    # For now, always return mock candlestick data
-    # Real implementation would fetch from Kalshi or build from trade history
-    
-    end_ts = int(time.time())
-    start_ts = end_ts - (start_days_ago * 24 * 60 * 60)
-    interval_seconds = period_interval * 60
-    
-    candlesticks = []
-    current_ts = start_ts
-    
-    while current_ts < end_ts:
-        # Generate realistic mock data based on ticker and time
-        seed = hash(ticker + str(current_ts))
-        base_price = 50 + (seed % 40)
+    try:
+        # Calculate timestamps
+        end_ts = int(time.time())
+        start_ts = end_ts - (start_days_ago * 24 * 60 * 60)
         
-        open_price = base_price
-        close_price = base_price + ((seed % 10) - 5)
-        high_price = max(open_price, close_price) + (abs(seed) % 5)
-        low_price = min(open_price, close_price) - (abs(seed) % 5)
-        volume = 100 + (abs(seed) % 500)
+        if use_mock_data or not kalshi_client:
+            # Generate mock candlestick data
+            interval_seconds = period_interval * 60
+            candlesticks = []
+            current_ts = start_ts
+            
+            while current_ts < end_ts:
+                seed = hash(ticker + str(current_ts))
+                base_price = 50 + (seed % 40)
+                
+                open_price = base_price
+                close_price = base_price + ((seed % 10) - 5)
+                high_price = max(open_price, close_price) + (abs(seed) % 5)
+                low_price = min(open_price, close_price) - (abs(seed) % 5)
+                volume = 100 + (abs(seed) % 500)
+                
+                candlesticks.append({
+                    "ts": current_ts,
+                    "open": max(1, open_price),
+                    "high": max(1, high_price), 
+                    "low": max(1, low_price),
+                    "close": max(1, close_price),
+                    "volume": volume
+                })
+                current_ts += interval_seconds
+            
+            return {
+                "candlesticks": candlesticks,
+                "ticker": ticker,
+                "period_interval": period_interval,
+                "mock_mode": True
+            }
         
-        candlesticks.append({
-            "ts": current_ts,
-            "open": max(1, open_price),
-            "high": max(1, high_price), 
-            "low": max(1, low_price),
-            "close": max(1, close_price),
-            "volume": volume
-        })
-        current_ts += interval_seconds
-    
-    return {
-        "ticker": ticker,
-        "candlesticks": candlesticks,
-        "period_interval": period_interval,
-        "mock_mode": True
-    }
+        # Use real Kalshi data
+        candlestick_data = await kalshi_client.get_candlesticks(
+            ticker=ticker, 
+            period_interval=period_interval, 
+            start_ts=start_ts, 
+            end_ts=end_ts
+        )
+        
+        if candlestick_data:
+            return {
+                **candlestick_data,
+                "mock_mode": False
+            }
+        else:
+            # Fallback to mock data if Kalshi API fails
+            raise HTTPException(status_code=503, detail="Unable to fetch candlestick data")
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error in get_candlesticks: {e}")
+        # Return mock data as fallback
+        end_ts = int(time.time())
+        start_ts = end_ts - (start_days_ago * 24 * 60 * 60)
+        return {
+            "candlesticks": [],
+            "ticker": ticker,
+            "period_interval": period_interval,
+            "mock_mode": True,
+            "error": str(e)
+        }
 
 if __name__ == "__main__":
     # Load environment
