@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Price Overlays Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #0f172a; color: #f1f5f9; }
+        #chart-container { width: 800px; height: 400px; margin: 20px 0; position: relative; }
+        .price-overlay {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        .price-overlay.bid { border-left: 4px solid #10b981; }
+        .price-overlay.ask { border-left: 4px solid #ef4444; }
+        .debug { background: #1e293b; padding: 10px; margin: 10px 0; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <h2>Real-Time Price Overlays Test</h2>
+    
+    <button onclick="testPriceOverlays()">Load Chart with Price Overlays</button>
+    
+    <div id="chart-container">
+        <canvas id="price-chart"></canvas>
+        <div id="bid-overlay" class="price-overlay bid" style="display: none;">
+            BID: $0.00
+        </div>
+        <div id="ask-overlay" class="price-overlay ask" style="display: none;">
+            ASK: $0.00
+        </div>
+        <div id="spread-info" class="price-overlay" style="top: 50px; display: none; border-left: 4px solid #6366f1;">
+            SPREAD: $0.00
+        </div>
+    </div>
+    
+    <div id="debug" class="debug">Click button to test...</div>
+    
+    <script>
+        let priceChart = null;
+        const API_BASE = 'http://localhost:8000';
+        
+        async function testPriceOverlays() {
+            const debugEl = document.getElementById('debug');
+            debugEl.innerHTML = 'Loading data...';
+            
+            try {
+                // Get market data
+                const marketsResponse = await fetch(`${API_BASE}/markets?limit=1`);
+                const marketsData = await marketsResponse.json();
+                const ticker = marketsData.markets[0].ticker;
+                const market = marketsData.markets[0];
+                
+                // Get candlestick data
+                const candleResponse = await fetch(`${API_BASE}/market/${ticker}/candlesticks?period_interval=60&start_days_ago=7`);
+                const candleData = await candleResponse.json();
+                
+                debugEl.innerHTML = `Market: ${ticker}<br>Current Bid: ${market.yes_bid}¢, Ask: ${market.yes_ask}¢`;
+                
+                if (candleData.candlesticks && candleData.candlesticks.length > 0) {
+                    createChartWithOverlays(candleData.candlesticks, ticker, market);
+                    updatePriceOverlays(market);
+                    debugEl.innerHTML += '<br>✅ Chart with overlays created!';
+                } else {
+                    debugEl.innerHTML += '<br>❌ No candlestick data';
+                }
+                
+            } catch (err) {
+                debugEl.innerHTML += `<br>❌ Error: ${err.message}`;
+            }
+        }
+        
+        function createChartWithOverlays(candlesticks, ticker, market) {
+            const ctx = document.getElementById('price-chart').getContext('2d');
+            
+            if (priceChart) {
+                priceChart.destroy();
+            }
+            
+            // Process data (simplified for test)
+            const labels = candlesticks.map((candle, index) => {
+                const timestamp = candle.end_period_ts || candle.ts;
+                if (timestamp) {
+                    const date = new Date(timestamp * 1000);
+                    if (!isNaN(date.getTime()) && date.getFullYear() >= 2020 && date.getFullYear() <= 2030) {
+                        return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                    }
+                }
+                return `T-${candlesticks.length - index - 1}h`;
+            });
+            
+            const prices = candlesticks.map(candle => {
+                if (candle.price && candle.price.close !== null) {
+                    return candle.price.close;
+                } else if (candle.yes_bid && candle.yes_ask) {
+                    const bid = candle.yes_bid.close || candle.yes_bid.open;
+                    const ask = candle.yes_ask.close || candle.yes_ask.open;
+                    return Math.round((bid + ask) / 2);
+                }
+                return 0;
+            });
+            
+            const volumes = candlesticks.map(candle => candle.volume || 0);
+            
+            // Add current bid/ask as horizontal lines
+            const currentBid = market.yes_bid || 0;
+            const currentAsk = market.yes_ask || 0;
+            
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Price (¢)',
+                        data: prices,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Volume',
+                        data: volumes,
+                        type: 'bar',
+                        backgroundColor: 'rgba(99, 102, 241, 0.3)',
+                        borderWidth: 1,
+                        yAxisID: 'y1'
+                    }, {
+                        label: 'Current Bid',
+                        data: Array(labels.length).fill(currentBid),
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Current Ask',
+                        data: Array(labels.length).fill(currentAsk),
+                        borderColor: '#ef4444',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        yAxisID: 'y'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${ticker} - Real-Time Price Overlay`,
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: {
+                                color: '#f1f5f9'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            grid: { color: '#334155' },
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value + '¢';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Price (¢)',
+                                color: '#94a3b8'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { color: '#94a3b8' },
+                            title: {
+                                display: true,
+                                text: 'Volume',
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updatePriceOverlays(market) {
+            const bidOverlay = document.getElementById('bid-overlay');
+            const askOverlay = document.getElementById('ask-overlay');
+            const spreadOverlay = document.getElementById('spread-info');
+            
+            const bid = market.yes_bid || 0;
+            const ask = market.yes_ask || 0;
+            const spread = ask - bid;
+            
+            bidOverlay.textContent = `BID: ${bid}¢`;
+            askOverlay.textContent = `ASK: ${ask}¢`;
+            spreadOverlay.textContent = `SPREAD: ${spread}¢ (${((spread/bid)*100).toFixed(1)}%)`;
+            
+            bidOverlay.style.display = 'block';
+            askOverlay.style.display = 'block';
+            spreadOverlay.style.display = 'block';
+            
+            // Position overlays
+            bidOverlay.style.top = '10px';
+            bidOverlay.style.right = '10px';
+            
+            askOverlay.style.top = '10px';
+            askOverlay.style.right = '120px';
+            
+            spreadOverlay.style.top = '50px';
+            spreadOverlay.style.right = '10px';
+        }
+    </script>
+</body>
+</html>

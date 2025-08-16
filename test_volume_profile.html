@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Volume Profile Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #0f172a; color: #f1f5f9; }
+        .container { display: flex; gap: 20px; }
+        .chart-section { flex: 1; }
+        #price-chart { width: 600px; height: 400px; }
+        #volume-profile { width: 300px; height: 400px; }
+        .debug { background: #1e293b; padding: 10px; margin: 10px 0; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <h2>Volume Profile Analysis Test</h2>
+    
+    <button onclick="testVolumeProfile()">Calculate Volume Profile</button>
+    
+    <div class="container">
+        <div class="chart-section">
+            <h3>Price Chart</h3>
+            <canvas id="price-chart"></canvas>
+        </div>
+        <div class="chart-section">
+            <h3>Volume Profile</h3>
+            <canvas id="volume-profile"></canvas>
+        </div>
+    </div>
+    
+    <div id="debug" class="debug">Click button to test volume profile calculation...</div>
+    
+    <script>
+        let priceChart = null;
+        let profileChart = null;
+        const API_BASE = 'http://localhost:8000';
+        
+        function calculateVolumeProfile(candlesticks) {
+            // Create price buckets (round to nearest cent)
+            const priceBuckets = {};
+            let minPrice = Infinity;
+            let maxPrice = -Infinity;
+            
+            // Collect all price and volume data
+            candlesticks.forEach(candle => {
+                let price, volume;
+                
+                if (candle.price && candle.price.close !== null) {
+                    price = candle.price.close;
+                } else if (candle.yes_bid && candle.yes_ask) {
+                    const bid = candle.yes_bid.close || candle.yes_bid.open;
+                    const ask = candle.yes_ask.close || candle.yes_ask.open;
+                    price = Math.round((bid + ask) / 2);
+                } else {
+                    price = candle.close || 50;
+                }
+                
+                volume = candle.volume || 0;
+                
+                // Round price to nearest cent for bucketing
+                const bucketPrice = Math.round(price);
+                
+                if (!priceBuckets[bucketPrice]) {
+                    priceBuckets[bucketPrice] = 0;
+                }
+                priceBuckets[bucketPrice] += volume;
+                
+                minPrice = Math.min(minPrice, bucketPrice);
+                maxPrice = Math.max(maxPrice, bucketPrice);
+            });
+            
+            // Convert to sorted array
+            const profileData = [];
+            for (let price = minPrice; price <= maxPrice; price++) {
+                profileData.push({
+                    price: price,
+                    volume: priceBuckets[price] || 0
+                });
+            }
+            
+            // Sort by volume (descending) to find high volume nodes
+            const sortedByVolume = [...profileData].sort((a, b) => b.volume - a.volume);
+            
+            return {
+                profile: profileData,
+                highVolumeNodes: sortedByVolume.slice(0, 3), // Top 3 volume levels
+                priceRange: { min: minPrice, max: maxPrice }
+            };
+        }
+        
+        async function testVolumeProfile() {
+            const debugEl = document.getElementById('debug');
+            debugEl.innerHTML = 'Loading data for volume profile...';
+            
+            try {
+                const marketsResponse = await fetch(`${API_BASE}/markets?limit=1`);
+                const marketsData = await marketsResponse.json();
+                const ticker = marketsData.markets[0].ticker;
+                
+                const candleResponse = await fetch(`${API_BASE}/market/${ticker}/candlesticks?period_interval=60&start_days_ago=7`);
+                const candleData = await candleResponse.json();
+                
+                debugEl.innerHTML = `Market: ${ticker}`;
+                
+                if (candleData.candlesticks && candleData.candlesticks.length > 0) {
+                    const candlesticks = candleData.candlesticks;
+                    const volumeProfile = calculateVolumeProfile(candlesticks);
+                    
+                    debugEl.innerHTML += `<br>Volume profile calculated`;
+                    debugEl.innerHTML += `<br>Price range: ${volumeProfile.priceRange.min}¢ - ${volumeProfile.priceRange.max}¢`;
+                    debugEl.innerHTML += `<br>High volume nodes: ${volumeProfile.highVolumeNodes.map(n => `${n.price}¢ (${n.volume})`).join(', ')}`;
+                    
+                    createPriceChart(candlesticks, ticker);
+                    createVolumeProfileChart(volumeProfile);
+                    debugEl.innerHTML += '<br>✅ Charts created!';
+                } else {
+                    debugEl.innerHTML += '<br>❌ No candlestick data';
+                }
+                
+            } catch (err) {
+                debugEl.innerHTML += `<br>❌ Error: ${err.message}`;
+            }
+        }
+        
+        function createPriceChart(candlesticks, ticker) {
+            const ctx = document.getElementById('price-chart').getContext('2d');
+            
+            if (priceChart) {
+                priceChart.destroy();
+            }
+            
+            const labels = candlesticks.map((candle, index) => {
+                const timestamp = candle.end_period_ts || candle.ts;
+                if (timestamp) {
+                    const date = new Date(timestamp * 1000);
+                    if (!isNaN(date.getTime()) && date.getFullYear() >= 2020 && date.getFullYear() <= 2030) {
+                        return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                    }
+                }
+                return `T-${candlesticks.length - index - 1}h`;
+            });
+            
+            const prices = candlesticks.map(candle => {
+                if (candle.price && candle.price.close !== null) {
+                    return candle.price.close;
+                } else if (candle.yes_bid && candle.yes_ask) {
+                    const bid = candle.yes_bid.close || candle.yes_bid.open;
+                    const ask = candle.yes_ask.close || candle.yes_ask.open;
+                    return Math.round((bid + ask) / 2);
+                }
+                return 0;
+            });
+            
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Price (¢)',
+                        data: prices,
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${ticker} - Price Movement`,
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: { color: '#f1f5f9' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            grid: { color: '#334155' },
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value + '¢';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createVolumeProfileChart(volumeProfile) {
+            const ctx = document.getElementById('volume-profile').getContext('2d');
+            
+            if (profileChart) {
+                profileChart.destroy();
+            }
+            
+            const profileData = volumeProfile.profile.filter(p => p.volume > 0);
+            const labels = profileData.map(p => p.price + '¢');
+            const volumes = profileData.map(p => p.volume);
+            
+            // Color high volume nodes differently
+            const backgroundColors = profileData.map(p => {
+                const isHighVolume = volumeProfile.highVolumeNodes.some(n => n.price === p.price);
+                return isHighVolume ? 'rgba(245, 158, 11, 0.8)' : 'rgba(99, 102, 241, 0.6)';
+            });
+            
+            profileChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Volume at Price',
+                        data: volumes,
+                        backgroundColor: backgroundColors,
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal bars
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Volume Profile',
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: { color: '#f1f5f9' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' },
+                            title: {
+                                display: true,
+                                text: 'Volume',
+                                color: '#94a3b8'
+                            }
+                        },
+                        y: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' },
+                            title: {
+                                display: true,
+                                text: 'Price Level',
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

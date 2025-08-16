@@ -45,7 +45,13 @@
         
         .main-content {
             display: grid;
-            grid-template-columns: 400px 1fr 400px;
+            grid-template-columns: 350px 1fr 400px;
+            gap: 20px;
+        }
+        
+        .analytics-section {
+            display: grid;
+            grid-template-rows: auto auto 1fr;
             gap: 20px;
         }
         
@@ -188,6 +194,45 @@
             background-color: #4f46e5;
             color: white;
         }
+        
+        .alert {
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        
+        .alert.spike {
+            background: rgba(34, 197, 94, 0.2);
+            border-left: 4px solid #22c55e;
+            color: #22c55e;
+        }
+        
+        .alert.drop {
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 4px solid #ef4444;
+            color: #ef4444;
+        }
+        
+        .alert.momentum {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 4px solid #f59e0b;
+            color: #f59e0b;
+        }
+        
+        .heatmap-cell {
+            display: inline-block;
+            width: 30px;
+            height: 20px;
+            margin: 1px;
+            border-radius: 2px;
+            text-align: center;
+            font-size: 0.7rem;
+            line-height: 20px;
+            color: white;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -197,6 +242,7 @@
             <div class="status" id="status">
                 Loading... 
                 <button class="refresh-btn" onclick="loadData()">Refresh</button>
+                <button class="refresh-btn" onclick="testMarketSelection()" style="margin-left: 10px;">Test Analytics</button>
             </div>
         </div>
         
@@ -219,20 +265,56 @@
                 </div>
             </div>
             
-            <div class="section">
-                <div class="section-title">Price Chart</div>
-                <div id="chart-container" style="height: 400px; position: relative;">
-                    <canvas id="price-chart"></canvas>
-                    <div id="chart-loading" class="loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                        Select a market to view chart
+            <div class="analytics-section">
+                <div class="section">
+                    <div class="section-title">📊 Price & Volume Analytics</div>
+                    <div id="chart-container" style="height: 350px; position: relative;">
+                        <canvas id="price-chart"></canvas>
+                        <div id="chart-loading" class="loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            Select a market to view chart
+                        </div>
+                        <!-- Real-time price overlays -->
+                        <div id="price-overlays" style="position: absolute; top: 10px; right: 10px; display: none;">
+                            <div id="bid-info" style="background: rgba(16, 185, 129, 0.9); color: white; padding: 4px 8px; border-radius: 4px; margin-bottom: 4px; font-size: 0.8rem; font-weight: bold;">
+                                BID: --
+                            </div>
+                            <div id="ask-info" style="background: rgba(239, 68, 68, 0.9); color: white; padding: 4px 8px; border-radius: 4px; margin-bottom: 4px; font-size: 0.8rem; font-weight: bold;">
+                                ASK: --
+                            </div>
+                            <div id="spread-info" style="background: rgba(99, 102, 241, 0.9); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">
+                                SPREAD: --
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🚨 Movement Alerts</div>
+                    <div id="price-alerts" style="max-height: 200px; overflow-y: auto;">
+                        <div class="loading">Select a market to view alerts</div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🔥 Volume Profile</div>
+                    <div id="volume-profile-container" style="height: 250px; position: relative;">
+                        <canvas id="volume-profile-chart"></canvas>
+                        <div id="profile-loading" class="loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            Select a market to view volume profile
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="section">
-                <div class="section-title">Order Book</div>
+                <div class="section-title">📋 Order Book & Liquidity</div>
                 <div id="market-detail">
                     <div class="loading">Select a market to view orderbook</div>
+                </div>
+                
+                <div class="section-title" style="margin-top: 20px;">🌡️ Liquidity Heatmap</div>
+                <div id="liquidity-heatmap" style="margin-top: 10px;">
+                    <div class="loading">Select a market to view liquidity heatmap</div>
                 </div>
             </div>
         </div>
@@ -246,6 +328,7 @@
         let selectedMarket = null;
         let websocket = null;
         let priceChart = null;
+        let volumeProfileChart = null;
         let currentFilter = 'all';
         let currentSearch = '';
         
@@ -283,6 +366,7 @@
                 
                 // Auto-select first market
                 if (!selectedMarket && filteredMarkets.length > 0) {
+                    console.log('🎯 Auto-selecting first market:', filteredMarkets[0].ticker);
                     selectMarket(filteredMarkets[0].ticker);
                 }
                 
@@ -361,6 +445,7 @@
         
         // Select a market
         async function selectMarket(ticker) {
+            console.log(`🎯 Selecting market: ${ticker}`);
             selectedMarket = ticker;
             
             // Update visual selection
@@ -386,9 +471,16 @@
                 console.log(`📋 Subscribed to orderbook for ${ticker}`);
             }
             
-            // Load market detail and chart
-            await loadMarketDetail(ticker);
-            await loadPriceChart(ticker);
+            try {
+                // Load market detail and chart
+                console.log(`📊 Loading market detail for ${ticker}...`);
+                await loadMarketDetail(ticker);
+                console.log(`📈 Loading price chart for ${ticker}...`);
+                await loadPriceChart(ticker);
+                console.log(`✅ Market ${ticker} loaded successfully`);
+            } catch (error) {
+                console.error(`❌ Error loading market ${ticker}:`, error);
+            }
         }
         
         // Load market detail and orderbook
@@ -431,32 +523,82 @@
         
         // Load price chart for selected market
         async function loadPriceChart(ticker) {
+            console.log(`📊 loadPriceChart called for ${ticker}`);
             const chartLoading = document.getElementById('chart-loading');
             const canvas = document.getElementById('price-chart');
+            
+            if (!chartLoading) {
+                console.error('❌ chart-loading element not found');
+                return;
+            }
             
             try {
                 chartLoading.style.display = 'block';
                 chartLoading.textContent = 'Loading chart...';
                 
                 // Fetch candlestick data
+                console.log(`📊 Fetching candlestick data for ${ticker}...`);
                 const response = await fetch(`${API_BASE}/market/${ticker}/candlesticks?period_interval=60&start_days_ago=7`);
                 const data = await response.json();
                 
+                console.log('📊 Candlestick data received:', data);
+                
                 if (data.candlesticks && data.candlesticks.length > 0) {
-                    createPriceChart(data.candlesticks, ticker);
+                    console.log(`📊 Creating chart with ${data.candlesticks.length} candlesticks`);
+                    
+                    // Get current market data for overlays
+                    const market = markets.find(m => m.ticker === ticker);
+                    console.log('📊 Market data for overlays:', market);
+                    
+                    try {
+                        console.log('📊 Creating price chart...');
+                        createPriceChart(data.candlesticks, ticker, market);
+                        console.log('✅ Price chart created');
+                    } catch (err) {
+                        console.error('❌ Error creating price chart:', err);
+                    }
+                    
+                    try {
+                        console.log('📊 Updating price overlays...');
+                        updatePriceOverlays(market);
+                        console.log('✅ Price overlays updated');
+                    } catch (err) {
+                        console.error('❌ Error updating price overlays:', err);
+                    }
+                    
+                    // Load additional analytics with error handling
+                    try {
+                        console.log('📊 Loading price alerts...');
+                        loadPriceAlerts(data.candlesticks, ticker);
+                        console.log('✅ Price alerts loaded');
+                    } catch (err) {
+                        console.error('❌ Error loading price alerts:', err);
+                    }
+                    
+                    try {
+                        console.log('📊 Loading volume profile...');
+                        loadVolumeProfile(data.candlesticks, ticker);
+                        console.log('✅ Volume profile loaded');
+                    } catch (err) {
+                        console.error('❌ Error loading volume profile:', err);
+                    }
+                    
                     chartLoading.style.display = 'none';
+                    console.log('📊 Chart loading completed');
                 } else {
+                    console.log('📊 No candlestick data available');
                     chartLoading.textContent = 'No chart data available';
                 }
                 
             } catch (err) {
-                console.error('Error loading price chart:', err);
+                console.error('❌ Error loading price chart:', err);
                 chartLoading.textContent = 'Failed to load chart';
             }
         }
         
         // Create price chart using Chart.js
-        function createPriceChart(candlesticks, ticker) {
+        function createPriceChart(candlesticks, ticker, market) {
+            console.log('📊 createPriceChart called with:', { candlesticks, ticker, market });
             const ctx = document.getElementById('price-chart').getContext('2d');
             
             // Destroy existing chart if exists
@@ -465,9 +607,30 @@
             }
             
             // Prepare data for chart - handle both mock and real Kalshi data formats
-            const labels = candlesticks.map(candle => {
+            const labels = candlesticks.map((candle, index) => {
                 const timestamp = candle.end_period_ts || candle.ts;
-                return new Date(timestamp * 1000).toLocaleDateString();
+                
+                if (timestamp) {
+                    // Handle both seconds and milliseconds timestamps
+                    const dateMs = timestamp > 1000000000000 ? timestamp : timestamp * 1000;
+                    const date = new Date(dateMs);
+                    
+                    // Check if date is valid (allow reasonable range including future dates for Kalshi data)
+                    if (!isNaN(date.getTime()) && date.getFullYear() >= 2020 && date.getFullYear() <= 2030) {
+                        // Show both date and time for better granularity
+                        const timeStr = date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                        const dateStr = date.toLocaleDateString([], {month: 'short', day: 'numeric'});
+                        return `${dateStr} ${timeStr}`;
+                    }
+                }
+                
+                // Improved fallback with actual time spacing
+                const now = new Date();
+                const hoursAgo = (candlesticks.length - index - 1);
+                const fallbackTime = new Date(now.getTime() - (hoursAgo * 60 * 60 * 1000));
+                const timeStr = fallbackTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                const dateStr = fallbackTime.toLocaleDateString([], {month: 'short', day: 'numeric'});
+                return `${dateStr} ${timeStr}`;
             });
             
             // Extract price data - prioritize actual traded prices, fall back to mid-price of bid/ask
@@ -489,27 +652,91 @@
             
             const volumes = candlesticks.map(candle => candle.volume || 0);
             
+            // Calculate VWAP (Volume Weighted Average Price)
+            const vwapData = calculateVWAP(candlesticks);
+            
+            console.log('📊 Chart data prepared:', { labels, prices, volumes, vwap: vwapData });
+            
+            // Calculate actual time range for title
+            const firstLabel = labels[0] || 'Unknown';
+            const lastLabel = labels[labels.length - 1] || 'Unknown';
+            const chartTitle = `${ticker} - Price & Volume (${candlesticks.length} periods)`;
+            
+            // Prepare chart datasets
+            const datasets = [{
+                label: 'Price (¢)',
+                data: prices,
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.1,
+                yAxisID: 'y'
+            }, {
+                label: 'VWAP (¢)',
+                data: vwapData,
+                borderColor: '#f59e0b',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.1,
+                yAxisID: 'y'
+            }, {
+                label: 'Volume',
+                data: volumes,
+                type: 'bar',
+                backgroundColor: 'rgba(99, 102, 241, 0.3)',
+                borderColor: 'rgba(99, 102, 241, 0.8)',
+                borderWidth: 1,
+                yAxisID: 'y1'
+            }];
+            
+            // Add bid/ask reference lines if market data available
+            if (market && (market.yes_bid || market.yes_ask)) {
+                if (market.yes_bid > 0) {
+                    datasets.push({
+                        label: 'Current Bid',
+                        data: Array(labels.length).fill(market.yes_bid),
+                        borderColor: 'rgba(16, 185, 129, 0.8)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false,
+                        yAxisID: 'y'
+                    });
+                }
+                
+                if (market.yes_ask > 0) {
+                    datasets.push({
+                        label: 'Current Ask',
+                        data: Array(labels.length).fill(market.yes_ask),
+                        borderColor: 'rgba(239, 68, 68, 0.8)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false,
+                        yAxisID: 'y'
+                    });
+                }
+            }
+            
             priceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'Price (¢)',
-                        data: prices,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                     plugins: {
                         title: {
                             display: true,
-                            text: `${ticker} - Price Chart (7 days)`,
+                            text: chartTitle,
                             color: '#f1f5f9'
                         },
                         legend: {
@@ -524,10 +751,15 @@
                                 color: '#334155'
                             },
                             ticks: {
-                                color: '#94a3b8'
+                                color: '#94a3b8',
+                                maxRotation: 45,
+                                minRotation: 45
                             }
                         },
                         y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
                             grid: {
                                 color: '#334155'
                             },
@@ -536,11 +768,433 @@
                                 callback: function(value) {
                                     return value + '¢';
                                 }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Price (¢)',
+                                color: '#94a3b8'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Volume',
+                                color: '#94a3b8'
                             }
                         }
                     }
                 }
             });
+        }
+        
+        // Calculate VWAP (Volume Weighted Average Price)
+        function calculateVWAP(candlesticks) {
+            let cumulativeVolumePrice = 0;
+            let cumulativeVolume = 0;
+            const vwapData = [];
+            
+            for (let i = 0; i < candlesticks.length; i++) {
+                const candle = candlesticks[i];
+                
+                // Get typical price (average of high, low, close)
+                let typicalPrice;
+                if (candle.price && candle.price.high !== null) {
+                    // Real Kalshi data
+                    const high = candle.price.high || candle.price.close;
+                    const low = candle.price.low || candle.price.close;
+                    const close = candle.price.close;
+                    typicalPrice = (high + low + close) / 3;
+                } else if (candle.yes_bid && candle.yes_ask) {
+                    // Fallback to mid-price
+                    const bid = candle.yes_bid.close || candle.yes_bid.open;
+                    const ask = candle.yes_ask.close || candle.yes_ask.open;
+                    typicalPrice = (bid + ask) / 2;
+                } else {
+                    typicalPrice = candle.close || 50; // Mock data fallback
+                }
+                
+                const volume = candle.volume || 0;
+                
+                // Accumulate volume * price and volume
+                cumulativeVolumePrice += typicalPrice * volume;
+                cumulativeVolume += volume;
+                
+                // Calculate VWAP
+                const vwap = cumulativeVolume > 0 ? cumulativeVolumePrice / cumulativeVolume : typicalPrice;
+                vwapData.push(vwap);
+            }
+            
+            return vwapData;
+        }
+        
+        // Detect price movements and generate alerts
+        function detectPriceMovements(candlesticks) {
+            const movements = [];
+            const alerts = [];
+            
+            for (let i = 1; i < candlesticks.length; i++) {
+                const current = candlesticks[i];
+                const previous = candlesticks[i - 1];
+                
+                // Extract prices
+                let currentPrice, previousPrice;
+                
+                if (current.price && current.price.close !== null) {
+                    currentPrice = current.price.close;
+                } else if (current.yes_bid && current.yes_ask) {
+                    const bid = current.yes_bid.close || current.yes_bid.open;
+                    const ask = current.yes_ask.close || current.yes_ask.open;
+                    currentPrice = (bid + ask) / 2;
+                } else {
+                    currentPrice = current.close || 50;
+                }
+                
+                if (previous.price && previous.price.close !== null) {
+                    previousPrice = previous.price.close;
+                } else if (previous.yes_bid && previous.yes_ask) {
+                    const bid = previous.yes_bid.close || previous.yes_bid.open;
+                    const ask = previous.yes_ask.close || previous.yes_ask.open;
+                    previousPrice = (bid + ask) / 2;
+                } else {
+                    previousPrice = previous.close || 50;
+                }
+                
+                // Calculate percentage change
+                const priceChange = currentPrice - previousPrice;
+                const percentChange = previousPrice > 0 ? (priceChange / previousPrice) * 100 : 0;
+                
+                const movement = {
+                    index: i,
+                    timestamp: current.end_period_ts || current.ts,
+                    previousPrice: previousPrice,
+                    currentPrice: currentPrice,
+                    priceChange: priceChange,
+                    percentChange: percentChange,
+                    volume: current.volume || 0,
+                    type: percentChange > 2 ? 'spike' : percentChange < -2 ? 'drop' : 'normal'
+                };
+                
+                movements.push(movement);
+                
+                // Generate alerts for significant movements
+                if (Math.abs(percentChange) >= 2) {
+                    const timestamp = movement.timestamp ? new Date(movement.timestamp * 1000).toLocaleTimeString() : `Period ${i}`;
+                    alerts.push({
+                        type: movement.type,
+                        message: `${movement.type === 'spike' ? '📈' : '📉'} ${Math.abs(percentChange).toFixed(1)}% ${movement.type === 'spike' ? 'surge' : 'drop'} at ${timestamp}`,
+                        details: `${previousPrice.toFixed(1)}¢ → ${currentPrice.toFixed(1)}¢ (Volume: ${movement.volume.toLocaleString()})`
+                    });
+                }
+            }
+            
+            // Detect momentum (3+ consecutive moves in same direction)
+            let consecutiveUps = 0;
+            let consecutiveDowns = 0;
+            
+            for (let i = 0; i < movements.length; i++) {
+                const movement = movements[i];
+                
+                if (movement.priceChange > 0) {
+                    consecutiveUps++;
+                    consecutiveDowns = 0;
+                    
+                    if (consecutiveUps >= 3) {
+                        const timestamp = movement.timestamp ? new Date(movement.timestamp * 1000).toLocaleTimeString() : `Period ${movement.index}`;
+                        alerts.push({
+                            type: 'momentum',
+                            message: `🚀 Bullish momentum detected at ${timestamp}`,
+                            details: `${consecutiveUps} consecutive periods of price increases`
+                        });
+                        consecutiveUps = 0;
+                    }
+                } else if (movement.priceChange < 0) {
+                    consecutiveDowns++;
+                    consecutiveUps = 0;
+                    
+                    if (consecutiveDowns >= 3) {
+                        const timestamp = movement.timestamp ? new Date(movement.timestamp * 1000).toLocaleTimeString() : `Period ${movement.index}`;
+                        alerts.push({
+                            type: 'momentum',
+                            message: `📉 Bearish momentum detected at ${timestamp}`,
+                            details: `${consecutiveDowns} consecutive periods of price decreases`
+                        });
+                        consecutiveDowns = 0;
+                    }
+                }
+            }
+            
+            return { movements, alerts };
+        }
+        
+        // Calculate volume profile
+        function calculateVolumeProfile(candlesticks) {
+            const priceBuckets = {};
+            let minPrice = Infinity;
+            let maxPrice = -Infinity;
+            
+            candlesticks.forEach(candle => {
+                let price, volume;
+                
+                if (candle.price && candle.price.close !== null) {
+                    price = candle.price.close;
+                } else if (candle.yes_bid && candle.yes_ask) {
+                    const bid = candle.yes_bid.close || candle.yes_bid.open;
+                    const ask = candle.yes_ask.close || candle.yes_ask.open;
+                    price = Math.round((bid + ask) / 2);
+                } else {
+                    price = candle.close || 50;
+                }
+                
+                volume = candle.volume || 0;
+                const bucketPrice = Math.round(price);
+                
+                if (!priceBuckets[bucketPrice]) {
+                    priceBuckets[bucketPrice] = 0;
+                }
+                priceBuckets[bucketPrice] += volume;
+                
+                minPrice = Math.min(minPrice, bucketPrice);
+                maxPrice = Math.max(maxPrice, bucketPrice);
+            });
+            
+            const profileData = [];
+            for (let price = minPrice; price <= maxPrice; price++) {
+                profileData.push({
+                    price: price,
+                    volume: priceBuckets[price] || 0
+                });
+            }
+            
+            const sortedByVolume = [...profileData].sort((a, b) => b.volume - a.volume);
+            
+            return {
+                profile: profileData,
+                highVolumeNodes: sortedByVolume.slice(0, 3),
+                priceRange: { min: minPrice, max: maxPrice }
+            };
+        }
+        
+        // Load price alerts
+        function loadPriceAlerts(candlesticks, ticker) {
+            const alertsContainer = document.getElementById('price-alerts');
+            const analysis = detectPriceMovements(candlesticks);
+            
+            if (analysis.alerts.length > 0) {
+                alertsContainer.innerHTML = analysis.alerts.map(alert => `
+                    <div class="alert ${alert.type}">
+                        <div>${alert.message}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 4px;">${alert.details}</div>
+                    </div>
+                `).join('');
+            } else {
+                alertsContainer.innerHTML = '<div style="text-align: center; color: #64748b; font-style: italic;">No significant movements detected</div>';
+            }
+        }
+        
+        // Load volume profile chart
+        function loadVolumeProfile(candlesticks, ticker) {
+            const ctx = document.getElementById('volume-profile-chart').getContext('2d');
+            const profileLoading = document.getElementById('profile-loading');
+            
+            if (volumeProfileChart) {
+                volumeProfileChart.destroy();
+            }
+            
+            const volumeProfile = calculateVolumeProfile(candlesticks);
+            const profileData = volumeProfile.profile.filter(p => p.volume > 0);
+            
+            if (profileData.length === 0) {
+                profileLoading.textContent = 'No volume data available';
+                return;
+            }
+            
+            const labels = profileData.map(p => p.price + '¢');
+            const volumes = profileData.map(p => p.volume);
+            
+            // Color high volume nodes
+            const backgroundColors = profileData.map(p => {
+                const isHighVolume = volumeProfile.highVolumeNodes.some(n => n.price === p.price);
+                return isHighVolume ? 'rgba(245, 158, 11, 0.8)' : 'rgba(99, 102, 241, 0.6)';
+            });
+            
+            volumeProfileChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Volume at Price',
+                        data: volumes,
+                        backgroundColor: backgroundColors,
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Volume Profile - ${ticker}`,
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' },
+                            title: {
+                                display: true,
+                                text: 'Volume',
+                                color: '#94a3b8'
+                            }
+                        },
+                        y: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' },
+                            title: {
+                                display: true,
+                                text: 'Price Level',
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            profileLoading.style.display = 'none';
+        }
+        
+        // Create liquidity heatmap for orderbook
+        function updateLiquidityHeatmap(orderbookData) {
+            const heatmapContainer = document.getElementById('liquidity-heatmap');
+            
+            const yesOrders = orderbookData.yes || [];
+            const noOrders = orderbookData.no || [];
+            
+            if (yesOrders.length === 0 && noOrders.length === 0) {
+                heatmapContainer.innerHTML = '<div style="text-align: center; color: #64748b; font-style: italic;">No liquidity data available</div>';
+                return;
+            }
+            
+            // Combine and analyze all orders
+            const allOrders = [
+                ...yesOrders.map(order => ({ price: order[0], size: order[1], side: 'yes' })),
+                ...noOrders.map(order => ({ price: order[0], size: order[1], side: 'no' }))
+            ];
+            
+            // Calculate liquidity metrics
+            const totalVolume = allOrders.reduce((sum, order) => sum + order.size, 0);
+            const maxOrderSize = Math.max(...allOrders.map(order => order.size));
+            
+            // Create price buckets (5-cent ranges)
+            const priceBuckets = {};
+            allOrders.forEach(order => {
+                const bucket = Math.floor(order.price / 5) * 5; // 5-cent buckets
+                if (!priceBuckets[bucket]) {
+                    priceBuckets[bucket] = { yes: 0, no: 0, total: 0 };
+                }
+                priceBuckets[bucket][order.side] += order.size;
+                priceBuckets[bucket].total += order.size;
+            });
+            
+            // Sort buckets by price
+            const sortedBuckets = Object.keys(priceBuckets)
+                .map(price => parseInt(price))
+                .sort((a, b) => b - a); // Highest price first
+            
+            // Generate heatmap HTML
+            let heatmapHTML = '<div style="margin-bottom: 10px; font-size: 0.8rem; color: #94a3b8;">Liquidity Intensity by Price Range</div>';
+            
+            if (sortedBuckets.length > 0) {
+                heatmapHTML += '<div style="display: flex; flex-wrap: wrap; gap: 2px;">';
+                
+                sortedBuckets.forEach(bucketPrice => {
+                    const bucket = priceBuckets[bucketPrice];
+                    const intensity = bucket.total / maxOrderSize;
+                    
+                    // Color based on intensity and side dominance
+                    let backgroundColor;
+                    if (bucket.yes > bucket.no) {
+                        // YES side dominant
+                        backgroundColor = `rgba(16, 185, 129, ${0.3 + intensity * 0.7})`;
+                    } else if (bucket.no > bucket.yes) {
+                        // NO side dominant
+                        backgroundColor = `rgba(239, 68, 68, ${0.3 + intensity * 0.7})`;
+                    } else {
+                        // Balanced
+                        backgroundColor = `rgba(99, 102, 241, ${0.3 + intensity * 0.7})`;
+                    }
+                    
+                    const cellTitle = `${bucketPrice}-${bucketPrice + 4}¢: ${bucket.total.toLocaleString()} shares (YES: ${bucket.yes}, NO: ${bucket.no})`;
+                    
+                    heatmapHTML += `
+                        <div class="heatmap-cell" 
+                             style="background-color: ${backgroundColor};" 
+                             title="${cellTitle}">
+                            ${bucketPrice}¢
+                        </div>
+                    `;
+                });
+                
+                heatmapHTML += '</div>';
+                
+                // Add legend
+                heatmapHTML += `
+                    <div style="margin-top: 10px; font-size: 0.7rem; color: #64748b;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                            <div style="width: 15px; height: 15px; background: rgba(16, 185, 129, 0.8); border-radius: 2px;"></div>
+                            <span>YES dominant</span>
+                            <div style="width: 15px; height: 15px; background: rgba(239, 68, 68, 0.8); border-radius: 2px;"></div>
+                            <span>NO dominant</span>
+                            <div style="width: 15px; height: 15px; background: rgba(99, 102, 241, 0.8); border-radius: 2px;"></div>
+                            <span>Balanced</span>
+                        </div>
+                        <div>Brightness = liquidity intensity • Total liquidity: ${totalVolume.toLocaleString()} shares</div>
+                    </div>
+                `;
+            } else {
+                heatmapHTML += '<div style="text-align: center; color: #64748b; font-style: italic;">No meaningful liquidity detected</div>';
+            }
+            
+            heatmapContainer.innerHTML = heatmapHTML;
+        }
+        
+        // Update price overlays with current bid/ask
+        function updatePriceOverlays(market) {
+            const overlaysContainer = document.getElementById('price-overlays');
+            const bidInfo = document.getElementById('bid-info');
+            const askInfo = document.getElementById('ask-info');
+            const spreadInfo = document.getElementById('spread-info');
+            
+            if (!market || (!market.yes_bid && !market.yes_ask)) {
+                overlaysContainer.style.display = 'none';
+                return;
+            }
+            
+            const bid = market.yes_bid || 0;
+            const ask = market.yes_ask || 0;
+            const spread = ask - bid;
+            const spreadPercent = bid > 0 ? ((spread / bid) * 100).toFixed(1) : 0;
+            
+            bidInfo.textContent = `BID: ${bid}¢`;
+            askInfo.textContent = `ASK: ${ask}¢`;
+            spreadInfo.textContent = `SPREAD: ${spread}¢ (${spreadPercent}%)`;
+            
+            overlaysContainer.style.display = 'block';
         }
         
         // Format orderbook side
@@ -598,6 +1252,22 @@
         async function loadData() {
             await loadStatus();
             await loadMarkets();
+        }
+        
+        // Test function for debugging market selection
+        async function testMarketSelection() {
+            console.log('🧪 Manual test triggered');
+            console.log('📊 Markets array length:', markets.length);
+            console.log('📊 Filtered markets length:', filteredMarkets.length);
+            console.log('📊 Selected market:', selectedMarket);
+            
+            if (markets.length > 0) {
+                const testTicker = markets[0].ticker;
+                console.log(`🧪 Testing with ticker: ${testTicker}`);
+                await selectMarket(testTicker);
+            } else {
+                console.log('❌ No markets available for testing');
+            }
         }
         
         // WebSocket connection
@@ -730,6 +1400,9 @@
             
             const market = markets.find(m => m.ticker === data.market_ticker);
             const timestamp = data.ts ? new Date(data.ts * 1000).toLocaleTimeString() : 'Unknown';
+            
+            // Update liquidity heatmap
+            updateLiquidityHeatmap(data);
             
             // Detect multi-outcome markets (when orderbooks are empty or very limited)
             const isMultiOutcome = detectMultiOutcomeMarket(data, market);
