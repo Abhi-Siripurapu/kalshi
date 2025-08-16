@@ -159,36 +159,50 @@ The original codebase had major architectural issues:
 ```
 kalshi/
 ├── CLAUDE.md                      # This file  
+├── README.md                      # User documentation
 ├── .env                           # Environment variables
 ├── kalshi-key.pem                # Private key for Kalshi API
-├── simple_kalshi_client.py       # Atomic Kalshi REST client
-├── simple_websocket_client.py    # 🔥 WORKING Kalshi WebSocket client
-├── simple_api.py                 # FastAPI server with REST endpoints
-├── real_time_bridge.py           # 🔥 LIVE bridge: Kalshi WebSocket → UI
-├── simple_ws_server.py           # Mock WebSocket server (backup)
-├── debug_websocket_auth.py       # WebSocket auth debugger tool
-├── test_real_time.py             # Real-time data flow test
-└── ui/
-    └── index.html                # 🔥 LIVE terminal with real Kalshi data
+├── start.sh                       # Start all services
+├── stop.sh                        # Stop all services
+├── requirements.txt               # Python dependencies
+├── backend/                       # Server components
+│   ├── simple_api.py              # FastAPI server with REST endpoints
+│   ├── simple_kalshi_client.py    # 🔥 WORKING Kalshi REST client
+│   ├── simple_websocket_client.py # 🔥 WORKING Kalshi WebSocket client
+│   └── real_time_bridge.py        # 🔥 LIVE bridge: Kalshi WebSocket → UI
+├── frontend/                      # UI components
+│   └── ui/
+│       └── index.html             # 🔥 LIVE terminal with real Kalshi data
+└── scripts/                       # Utility scripts
+    ├── simple_adapter.py          # Legacy adapter
+    ├── simple_ws_server.py        # Mock WebSocket server (backup)
+    └── debug_websocket_auth.py    # WebSocket auth debugger tool
 ```
 
 ## Development Commands
 
 ### Most Important Commands
 ```bash
-# Kill everything and restart clean
-pkill -f "python.*simple_api.py"
-pkill -f "python.*http.server"
+# Start everything (recommended)
+./start.sh
+
+# Stop everything  
+./stop.sh
+
+# Manual startup (for development)
 source .venv/bin/activate
-python simple_api.py &
-cd ui && python -m http.server 3000 &
+cd backend && python simple_api.py &
+cd backend && python real_time_bridge.py &
+cd frontend/ui && python -m http.server 3000 &
 
 # Check what's running
 ss -tulpn | grep :3000
 ss -tulpn | grep :8000
+ss -tulpn | grep :8001
 
 # Test API
 curl http://localhost:8000/markets?limit=3
+curl http://localhost:8000/
 ```
 
 ## Future Development Notes
