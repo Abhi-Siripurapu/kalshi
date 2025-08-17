@@ -47,7 +47,7 @@ class KalshiDataBridge:
         
         # Get credentials
         api_key = os.getenv("KALSHI_API_KEY")
-        private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "./kalshi-key.pem")
+        private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "../kalshi-key.pem")
         
         if not api_key:
             print("❌ Error: KALSHI_API_KEY environment variable required")
@@ -359,9 +359,9 @@ async def shutdown_event():
     await bridge.stop()
 
 if __name__ == "__main__":
-    # Load environment
+    # Load environment from parent directory
     from dotenv import load_dotenv
-    load_dotenv()
+    load_dotenv("../.env")
     
     print("🌉 Starting Real-time Kalshi Bridge on port 8001...")
     uvicorn.run(app, host="0.0.0.0", port=8001, log_level="info")

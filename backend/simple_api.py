@@ -101,7 +101,7 @@ async def startup_event():
     
     # Try to initialize Kalshi client
     api_key = os.getenv("KALSHI_API_KEY")
-    private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "./kalshi-key.pem")
+    private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "../kalshi-key.pem")
     
     if api_key and os.path.exists(private_key_path):
         try:
@@ -337,9 +337,9 @@ async def get_candlesticks(
         }
 
 if __name__ == "__main__":
-    # Load environment
+    # Load environment from parent directory
     from dotenv import load_dotenv
-    load_dotenv()
+    load_dotenv("../.env")
     
     print("🚀 Starting Simple Kalshi Terminal API...")
     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")

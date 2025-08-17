@@ -204,7 +204,7 @@ class SimpleKalshiWebSocketClient:
 async def test_websocket_client():
     """Test the WebSocket client with real Kalshi data"""
     api_key = os.getenv("KALSHI_API_KEY")
-    private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "./kalshi-key.pem")
+    private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "../kalshi-key.pem")
     
     if not api_key:
         print("❌ Error: KALSHI_API_KEY environment variable required")

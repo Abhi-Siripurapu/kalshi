@@ -178,7 +178,7 @@ class SimpleKalshiClient:
 async def test_client():
     """Test the simple client"""
     api_key = os.getenv("KALSHI_API_KEY")
-    private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "./kalshi-key.pem")
+    private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "../kalshi-key.pem")
     
     if not api_key:
         print("Error: KALSHI_API_KEY environment variable required")
