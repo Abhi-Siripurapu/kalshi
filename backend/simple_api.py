@@ -232,7 +232,38 @@ async def get_market(ticker: str):
             else:
                 raise HTTPException(status_code=404, detail="Market not found")
         
-        # Use real Kalshi data
+        # Check if this is a request for a grouped market (event_ticker)
+        cache = get_cache()
+        if cache:
+            # First try to find by exact ticker
+            market_data = None
+            if kalshi_client:
+                try:
+                    market_data = await kalshi_client.get_market(ticker)
+                except:
+                    pass  # Fall back to cache search
+            
+            if not market_data:
+                # Search cache for this ticker or event_ticker
+                all_markets = cache.get_markets(limit=15000)
+                market_data = next((m for m in all_markets if m["ticker"] == ticker), None)
+                
+                # If not found by ticker, check if it's an event_ticker (grouped market)
+                if not market_data:
+                    # Find all markets with this event_ticker
+                    event_markets = [m for m in all_markets if m.get("event_ticker") == ticker]
+                    if event_markets:
+                        # This is a multi-outcome market request
+                        # Return the first market with all outcomes attached
+                        market_data = event_markets[0].copy()
+                        market_data["isMultiOutcome"] = True
+                        market_data["outcomes"] = event_markets
+                        market_data["ticker"] = ticker  # Use the event_ticker as the main ticker
+            
+            if market_data:
+                return {"market": market_data, "mock_mode": False}
+        
+        # Fallback to direct API call
         if kalshi_client:
             market_data = await kalshi_client.get_market(ticker)
             if market_data:

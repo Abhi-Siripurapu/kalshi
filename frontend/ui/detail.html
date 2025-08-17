@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Detail - Kalshi Terminal</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f1f5f9;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid #334155;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn {
+            background: #374151;
+            border: none;
+            color: #f1f5f9;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        .market-header h1 {
+            color: #10b981;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .market-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            flex-wrap: wrap;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .card h2 {
+            color: #10b981;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 0.5rem;
+        }
+
+        .orderbook {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .orderbook-side h3 {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .yes-header {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+
+        .no-header {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .order-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 0.3rem 0.5rem;
+            background: rgba(51, 65, 85, 0.3);
+            margin-bottom: 2px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .price { text-align: left; }
+        .size { text-align: right; color: #94a3b8; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 6px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.3rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #ef4444;
+        }
+
+        .outcomes-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .outcomes-table th,
+        .outcomes-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        .outcomes-table th {
+            background: #1e293b;
+            color: #10b981;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+
+        .outcomes-table tr:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .outcome-name {
+            font-weight: bold;
+            color: #f1f5f9;
+        }
+
+        .outcome-ticker {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+        }
+
+        .outcome-price {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .outcome-price.positive { color: #10b981; }
+        .outcome-price.negative { color: #ef4444; }
+        .outcome-price.neutral { color: #94a3b8; }
+
+        .outcome-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .outcome-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+
+            .outcomes-table {
+                font-size: 0.9rem;
+            }
+            
+            .outcomes-table th,
+            .outcomes-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="back-btn" onclick="goBack()">&larr; Back to Markets</a>
+        <div class="market-header">
+            <h1 id="market-title">Loading market...</h1>
+            <div class="market-meta">
+                <span>📊 <span id="market-ticker">...</span></span>
+                <span>💰 <span id="market-price">...</span></span>
+                <span>📈 <span id="market-volume">...</span></span>
+                <span>🏷️ <span id="market-category">...</span></span>
+                <span>⚡ <span id="market-status">...</span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+            <!-- Market Stats -->
+            <div class="card">
+                <h2>📊 Market Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="yes-bid">-</div>
+                        <div class="stat-label">YES Bid</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="yes-ask">-</div>
+                        <div class="stat-label">YES Ask</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="last-price">-</div>
+                        <div class="stat-label">Last Price</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="volume-24h">-</div>
+                        <div class="stat-label">24h Volume</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="liquidity">-</div>
+                        <div class="stat-label">Liquidity</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="open-interest">-</div>
+                        <div class="stat-label">Open Interest</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Book -->
+            <div class="card">
+                <h2>📋 Order Book</h2>
+                <div id="orderbook-content" class="loading">Loading orderbook...</div>
+            </div>
+
+            <!-- Market Analytics or Multi-Outcome Table (Full Width) -->
+            <div class="card full-width">
+                <h2 id="analytics-title">📈 Market Analytics</h2>
+                <div id="analytics-content" class="loading">Loading analytics...</div>
+            </div>
+
+            <!-- Individual Outcome Analytics (Hidden by default) -->
+            <div class="card full-width" id="outcome-analytics-card" style="display: none;">
+                <h2 id="outcome-analytics-title">📊 Outcome Analytics</h2>
+                <div id="outcome-analytics-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get ticker from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const ticker = urlParams.get('ticker');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (ticker) {
+                loadMarketDetail(ticker);
+            } else {
+                document.getElementById('market-title').textContent = 'No market specified';
+            }
+        });
+
+        async function loadMarketDetail(ticker) {
+            try {
+                console.log(`Loading market detail for: ${ticker}`);
+                
+                // Load market data and orderbook in parallel
+                const [marketResponse, orderbookResponse] = await Promise.all([
+                    fetch(`http://localhost:8000/market/${ticker}`),
+                    fetch(`http://localhost:8000/market/${ticker}/orderbook`)
+                ]);
+
+                const marketData = await marketResponse.json();
+                const orderbookData = await orderbookResponse.json();
+
+                console.log('🔍 Raw market data:', marketData);
+                console.log('🔍 Raw orderbook data:', orderbookData);
+
+                if (marketData.market) {
+                    console.log('✅ Market found, calling displayMarket');
+                    displayMarket(marketData.market);
+                    
+                    // Check if this is a multi-outcome market
+                    if (marketData.market.isMultiOutcome && marketData.market.outcomes) {
+                        console.log('🔀 Multi-outcome market detected, showing outcomes table');
+                        loadMultiOutcomeAnalytics(marketData.market);
+                    } else {
+                        // Load regular analytics for single-outcome markets
+                        loadAnalytics(ticker);
+                    }
+                } else {
+                    console.error('❌ No market in response:', marketData);
+                    throw new Error('Market not found');
+                }
+
+                if (orderbookData.orderbook) {
+                    displayOrderbook(orderbookData.orderbook);
+                } else {
+                    displayEmptyOrderbook();
+                }
+
+            } catch (error) {
+                console.error('Error loading market:', error);
+                document.getElementById('market-title').textContent = 'Error loading market';
+                document.getElementById('orderbook-content').innerHTML = '<div class="error">Error loading orderbook</div>';
+            }
+        }
+
+        function displayMarket(market) {
+            console.log('📊 displayMarket called with:', market);
+            document.getElementById('market-title').textContent = market.title;
+            document.getElementById('market-ticker').textContent = market.ticker;
+            
+            // Show best available price (prefer yes_bid, fallback to yes_ask, then last_price)
+            const bestPrice = market.yes_bid || market.yes_ask || market.last_price;
+            document.getElementById('market-price').textContent = formatPrice(bestPrice);
+            
+            // Show liquidity if volume is 0, otherwise show volume
+            const displayVolume = market.volume_24h || market.volume || 0;
+            const liquidity = market.liquidity || 0;
+            document.getElementById('market-volume').textContent = displayVolume > 0 ? formatVolume(displayVolume) : 
+                (liquidity > 0 ? `${formatVolume(liquidity)} liquidity` : '-');
+            document.getElementById('market-category').textContent = categorizeMarket(market);
+            document.getElementById('market-status').textContent = market.status || 'active';
+
+            // Update stats with proper null handling and meaningful data
+            document.getElementById('yes-bid').textContent = formatPrice(market.yes_bid);
+            document.getElementById('yes-ask').textContent = formatPrice(market.yes_ask);
+            document.getElementById('last-price').textContent = formatPrice(market.last_price);
+            document.getElementById('volume-24h').textContent = displayVolume > 0 ? formatVolume(displayVolume) : '-';
+            document.getElementById('liquidity').textContent = liquidity > 0 ? formatVolume(liquidity) : '-';
+            document.getElementById('open-interest').textContent = market.open_interest > 0 ? formatVolume(market.open_interest) : '-';
+        }
+
+        function displayOrderbook(orderbook) {
+            const yesOrders = orderbook.yes || [];
+            const noOrders = orderbook.no || [];
+
+            let html = '<div class="orderbook">';
+            
+            // YES side
+            html += '<div class="orderbook-side">';
+            html += '<h3 class="yes-header">YES</h3>';
+            if (yesOrders.length > 0) {
+                yesOrders.forEach(order => {
+                    html += `<div class="order-row">
+                        <div class="price">${order[0]}¢</div>
+                        <div class="size">${order[1].toLocaleString()}</div>
+                    </div>`;
+                });
+            } else {
+                html += '<div style="text-align: center; color: #64748b; padding: 1rem;">No orders</div>';
+            }
+            html += '</div>';
+
+            // NO side
+            html += '<div class="orderbook-side">';
+            html += '<h3 class="no-header">NO</h3>';
+            if (noOrders.length > 0) {
+                noOrders.forEach(order => {
+                    html += `<div class="order-row">
+                        <div class="price">${order[0]}¢</div>
+                        <div class="size">${order[1].toLocaleString()}</div>
+                    </div>`;
+                });
+            } else {
+                html += '<div style="text-align: center; color: #64748b; padding: 1rem;">No orders</div>';
+            }
+            html += '</div>';
+            
+            html += '</div>';
+            document.getElementById('orderbook-content').innerHTML = html;
+        }
+
+        function displayEmptyOrderbook() {
+            document.getElementById('orderbook-content').innerHTML = 
+                '<div style="text-align: center; color: #64748b; padding: 2rem;">No orderbook data available</div>';
+        }
+
+        function loadMultiOutcomeAnalytics(market) {
+            try {
+                // Update the title to indicate this is a multi-outcome market
+                document.getElementById('analytics-title').textContent = '🔀 Market Outcomes';
+                
+                let html = `
+                    <p style="color: #94a3b8; margin-bottom: 1rem;">
+                        This market has ${market.outcomes.length} possible outcomes. Click on any outcome to view its detailed orderbook.
+                    </p>
+                    <table class="outcomes-table">
+                        <thead>
+                            <tr>
+                                <th>Outcome</th>
+                                <th style="text-align: center;">Yes Bid</th>
+                                <th style="text-align: center;">Yes Ask</th>
+                                <th style="text-align: center;">Last Price</th>
+                                <th style="text-align: center;">Volume</th>
+                                <th style="text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                // Sort outcomes by price (highest yes_bid first, then by yes_ask)
+                const sortedOutcomes = market.outcomes.sort((a, b) => {
+                    if (a.yes_bid !== b.yes_bid) return (b.yes_bid || 0) - (a.yes_bid || 0);
+                    if (a.yes_ask !== b.yes_ask) return (a.yes_ask || 100) - (b.yes_ask || 100);
+                    return a.yes_sub_title.localeCompare(b.yes_sub_title);
+                });
+                
+                sortedOutcomes.forEach((outcome, index) => {
+                    const bidClass = getPriceClass(outcome.yes_bid);
+                    const askClass = getPriceClass(outcome.yes_ask);
+                    const priceClass = getPriceClass(outcome.last_price);
+                    const volume = outcome.volume_24h || outcome.volume || 0;
+                    
+                    // Add a crown emoji for the leading outcome (highest yes_bid)
+                    const isLeading = index === 0 && outcome.yes_bid > 0;
+                    const leaderIcon = isLeading ? '👑 ' : '';
+                    
+                    html += `
+                        <tr>
+                            <td>
+                                <div class="outcome-name">${leaderIcon}${outcome.yes_sub_title}</div>
+                                <div class="outcome-ticker">${outcome.ticker}</div>
+                            </td>
+                            <td class="outcome-price ${bidClass}">${formatPrice(outcome.yes_bid)}</td>
+                            <td class="outcome-price ${askClass}">${formatPrice(outcome.yes_ask)}</td>
+                            <td class="outcome-price ${priceClass}">${formatPrice(outcome.last_price)}</td>
+                            <td class="outcome-price neutral">${formatVolume(volume)}</td>
+                            <td style="text-align: center;">
+                                <button class="outcome-link" onclick="loadOutcomeDetails('${outcome.ticker}', '${outcome.yes_sub_title}')" style="background: none; border: none; color: #60a5fa; cursor: pointer; text-decoration: underline;">
+                                    View Analytics →
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+                
+                // Add summary stats
+                const totalVolume = market.outcomes.reduce((sum, o) => sum + (o.volume_24h || 0), 0);
+                const activeOutcomes = market.outcomes.filter(o => o.yes_bid > 0 || o.yes_ask > 0).length;
+                
+                html += `
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(51, 65, 85, 0.3); border-radius: 6px;">
+                        <h4 style="color: #10b981; margin-bottom: 0.5rem;">📊 Market Summary</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+                            <div><strong>Total Outcomes:</strong> ${market.outcomes.length}</div>
+                            <div><strong>Active Outcomes:</strong> ${activeOutcomes}</div>
+                            <div><strong>Total Volume:</strong> ${formatVolume(totalVolume)}</div>
+                            <div><strong>Market Type:</strong> Multi-Outcome</div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('analytics-content').innerHTML = html;
+                
+            } catch (error) {
+                document.getElementById('analytics-content').innerHTML = 
+                    '<div class="error">Error loading multi-outcome data</div>';
+            }
+        }
+
+        let priceChart, spreadChart, volumeChart;
+
+        async function loadAnalytics(ticker) {
+            try {
+                console.log(`📊 Loading real analytics for ${ticker}`);
+                
+                // Show loading state
+                document.getElementById('analytics-content').innerHTML = `
+                    <div style="text-align: center; color: #f59e0b; padding: 2rem;">
+                        Loading real market analytics...
+                    </div>
+                `;
+
+                // Fetch candlestick data from backend
+                const response = await fetch(`http://localhost:8000/market/${ticker}/candlesticks?start_days_ago=7&period_interval=60`);
+                const data = await response.json();
+
+                if (data.candlesticks && data.candlesticks.length > 0) {
+                    console.log(`✅ Loaded ${data.candlesticks.length} candlestick data points`);
+                    displayRealAnalytics(data.candlesticks, ticker);
+                } else {
+                    throw new Error('No candlestick data available');
+                }
+
+            } catch (error) {
+                console.error('Analytics loading error:', error);
+                document.getElementById('analytics-content').innerHTML = `
+                    <div class="error">
+                        <h3>⚠️ Analytics Unavailable</h3>
+                        <p>Unable to load market analytics: ${error.message}</p>
+                        <p>This market may not have sufficient trading history.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayRealAnalytics(candlesticks, ticker) {
+            const latest = candlesticks[candlesticks.length - 1];
+            const previous = candlesticks[candlesticks.length - 2];
+            
+            const currentBid = latest.yes_bid.close;
+            const currentAsk = latest.yes_ask.close;
+            const lastPrice = latest.price.close;
+            const volume = latest.volume;
+            const openInterest = latest.open_interest;
+            
+            // Calculate metrics
+            const spread = currentAsk - currentBid;
+            const priceChange = previous ? (lastPrice || 0) - (previous.price.close || 0) : 0;
+            const spreadBps = currentBid > 0 ? (spread / currentBid * 100).toFixed(2) : '0.00';
+
+            const html = `
+                <!-- Market Metrics -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.6rem; font-weight: bold; color: #10b981;">${currentBid}¢</div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">Current Bid</div>
+                    </div>
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.6rem; font-weight: bold; color: #ef4444;">${currentAsk}¢</div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">Current Ask</div>
+                    </div>
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.6rem; font-weight: bold; color: #3b82f6;">${lastPrice || '-'}¢</div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">Last Trade</div>
+                    </div>
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.6rem; font-weight: bold; color: #f59e0b;">${spread}¢</div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">Spread (${spreadBps}%)</div>
+                    </div>
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.6rem; font-weight: bold; color: ${priceChange >= 0 ? '#10b981' : '#ef4444'};">${priceChange >= 0 ? '+' : ''}${priceChange}¢</div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">Price Change</div>
+                    </div>
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 1.6rem; font-weight: bold; color: #8b5cf6;">${volume}</div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">Volume</div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                    <!-- Price Action Chart -->
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
+                        <h3 style="color: #10b981; margin-bottom: 1rem;">📈 Price Action (7 Days)</h3>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="main-price-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Spread and Volume Charts -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
+                            <h3 style="color: #f59e0b; margin-bottom: 1rem;">📊 Bid-Ask Spread</h3>
+                            <div style="position: relative; height: 250px;">
+                                <canvas id="main-spread-chart"></canvas>
+                            </div>
+                        </div>
+                        <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
+                            <h3 style="color: #8b5cf6; margin-bottom: 1rem;">📊 Volume & Open Interest</h3>
+                            <div style="position: relative; height: 250px;">
+                                <canvas id="main-volume-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('analytics-content').innerHTML = html;
+
+            // Create charts after DOM is updated
+            setTimeout(() => {
+                createMainPriceChart(candlesticks);
+                createMainSpreadChart(candlesticks);
+                createMainVolumeChart(candlesticks);
+            }, 100);
+        }
+
+        function createMainPriceChart(candlesticks) {
+            const ctx = document.getElementById('main-price-chart').getContext('2d');
+            
+            if (priceChart) {
+                priceChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+            });
+
+            const bidData = candlesticks.map(candle => candle.yes_bid.close);
+            const askData = candlesticks.map(candle => candle.yes_ask.close);
+            const priceData = candlesticks.map(candle => candle.price.close);
+
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'YES Bid',
+                            data: bidData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'YES Ask',
+                            data: askData,
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'Trades',
+                            data: priceData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#f1f5f9' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', maxTicksLimit: 8 },
+                            grid: { color: '#334155' }
+                        },
+                        y: {
+                            ticks: { 
+                                color: '#94a3b8',
+                                callback: function(value) { return value + '¢'; }
+                            },
+                            grid: { color: '#334155' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createMainSpreadChart(candlesticks) {
+            const ctx = document.getElementById('main-spread-chart').getContext('2d');
+            
+            if (spreadChart) {
+                spreadChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', hour: '2-digit'
+                });
+            });
+
+            const spreadData = candlesticks.map(candle => candle.yes_ask.close - candle.yes_bid.close);
+
+            spreadChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Spread (¢)',
+                        data: spreadData,
+                        backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#f1f5f9' } }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', maxTicksLimit: 6 },
+                            grid: { color: '#334155' }
+                        },
+                        y: {
+                            ticks: { 
+                                color: '#94a3b8',
+                                callback: function(value) { return value + '¢'; }
+                            },
+                            grid: { color: '#334155' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createMainVolumeChart(candlesticks) {
+            const ctx = document.getElementById('main-volume-chart').getContext('2d');
+            
+            if (volumeChart) {
+                volumeChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', hour: '2-digit'
+                });
+            });
+
+            const volumeData = candlesticks.map(candle => candle.volume);
+            const openInterestData = candlesticks.map(candle => candle.open_interest);
+
+            volumeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Volume',
+                            data: volumeData,
+                            backgroundColor: 'rgba(139, 92, 246, 0.7)',
+                            borderColor: '#8b5cf6',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Open Interest',
+                            data: openInterestData,
+                            type: 'line',
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            yAxisID: 'y1',
+                            pointRadius: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#f1f5f9' } }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', maxTicksLimit: 6 },
+                            grid: { color: '#334155' }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: '#334155' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            ticks: { color: '#94a3b8' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function categorizeMarket(market) {
+            const title = market.title.toLowerCase();
+            const ticker = market.ticker.toLowerCase();
+            
+            if (ticker.includes('potus') || title.includes('president') || title.includes('election')) return 'Politics';
+            if (ticker.includes('nfl') || ticker.includes('mlb') || ticker.includes('ufc')) return 'Sports';
+            if (ticker.includes('btc') || title.includes('bitcoin')) return 'Crypto';
+            if (title.includes('weather') || title.includes('temperature')) return 'Weather';
+            return 'Other';
+        }
+
+        function formatPrice(price) {
+            if (price === null || price === undefined) return '-';
+            return price + '¢';
+        }
+
+        function formatVolume(volume) {
+            if (!volume || volume === 0) return '-';
+            if (volume >= 1000000) return (volume / 1000000).toFixed(1) + 'M';
+            if (volume >= 1000) return (volume / 1000).toFixed(1) + 'K';
+            return volume.toLocaleString();
+        }
+
+        function getPriceClass(price) {
+            if (price > 50) return 'positive';
+            if (price > 0 && price < 50) return 'negative';
+            return 'neutral';
+        }
+
+        async function loadOutcomeDetails(outcomeTicker, outcomeName) {
+            try {
+                console.log(`🔍 Loading analytics for outcome: ${outcomeName} (${outcomeTicker})`);
+                
+                // Update the title to show which outcome is selected
+                document.getElementById('outcome-analytics-title').textContent = `📊 ${outcomeName} Analytics`;
+                
+                // Show the outcome analytics card
+                document.getElementById('outcome-analytics-card').style.display = 'block';
+                
+                // Scroll to the analytics section
+                document.getElementById('outcome-analytics-card').scrollIntoView({ behavior: 'smooth' });
+                
+                // Load market data and orderbook for the specific outcome
+                const [marketResponse, orderbookResponse] = await Promise.all([
+                    fetch(`http://localhost:8000/market/${outcomeTicker}`),
+                    fetch(`http://localhost:8000/market/${outcomeTicker}/orderbook`)
+                ]);
+
+                const marketData = await marketResponse.json();
+                const orderbookData = await orderbookResponse.json();
+
+                if (marketData.market) {
+                    displayOutcomeAnalytics(marketData.market, orderbookData.orderbook || { yes: [], no: [] });
+                } else {
+                    throw new Error('Outcome market not found');
+                }
+
+            } catch (error) {
+                console.error('Error loading outcome details:', error);
+                document.getElementById('outcome-analytics-content').innerHTML = 
+                    '<div class="error">Error loading outcome analytics</div>';
+            }
+        }
+
+        function displayOutcomeAnalytics(market, orderbook) {
+            const yesOrders = orderbook.yes || [];
+            const noOrders = orderbook.no || [];
+
+            let html = `
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="color: #10b981; margin-bottom: 1rem;">📈 ${market.yes_sub_title}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="text-align: center; padding: 1rem; background: rgba(51, 65, 85, 0.3); border-radius: 6px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #10b981;">${formatPrice(market.yes_bid)}</div>
+                            <div style="font-size: 0.8rem; color: #94a3b8;">YES Bid</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(51, 65, 85, 0.3); border-radius: 6px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #10b981;">${formatPrice(market.yes_ask)}</div>
+                            <div style="font-size: 0.8rem; color: #94a3b8;">YES Ask</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(51, 65, 85, 0.3); border-radius: 6px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #10b981;">${formatPrice(market.last_price)}</div>
+                            <div style="font-size: 0.8rem; color: #94a3b8;">Last Price</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(51, 65, 85, 0.3); border-radius: 6px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #10b981;">${formatVolume(market.volume_24h || market.volume || 0)}</div>
+                            <div style="font-size: 0.8rem; color: #94a3b8;">24h Volume</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <!-- YES Orderbook -->
+                    <div>
+                        <h4 style="color: #10b981; margin-bottom: 0.5rem; text-align: center; padding: 0.5rem; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; border-radius: 4px;">YES Orders</h4>
+                        <div style="max-height: 200px; overflow-y: auto;">
+            `;
+            
+            if (yesOrders.length > 0) {
+                yesOrders.forEach(order => {
+                    html += `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 0.3rem 0.5rem; background: rgba(51, 65, 85, 0.3); margin-bottom: 2px; border-radius: 3px; font-size: 0.85rem;">
+                            <div>${order[0]}¢</div>
+                            <div style="text-align: right; color: #94a3b8;">${order[1].toLocaleString()}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div style="text-align: center; color: #64748b; padding: 1rem;">No orders</div>';
+            }
+
+            html += `
+                        </div>
+                    </div>
+
+                    <!-- NO Orderbook -->
+                    <div>
+                        <h4 style="color: #ef4444; margin-bottom: 0.5rem; text-align: center; padding: 0.5rem; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 4px;">NO Orders</h4>
+                        <div style="max-height: 200px; overflow-y: auto;">
+            `;
+
+            if (noOrders.length > 0) {
+                noOrders.forEach(order => {
+                    html += `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 0.3rem 0.5rem; background: rgba(51, 65, 85, 0.3); margin-bottom: 2px; border-radius: 3px; font-size: 0.85rem;">
+                            <div>${order[0]}¢</div>
+                            <div style="text-align: right; color: #94a3b8;">${order[1].toLocaleString()}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div style="text-align: center; color: #64748b; padding: 1rem;">No orders</div>';
+            }
+
+            html += `
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real Charts for Individual Outcomes -->
+                <div id="outcome-charts-container" style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                    <!-- Price Action Chart -->
+                    <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
+                        <h3 style="color: #10b981; margin-bottom: 1rem;">📈 ${market.yes_sub_title} - Price Action (7 Days)</h3>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="outcome-price-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Spread and Volume Charts -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
+                            <h3 style="color: #f59e0b; margin-bottom: 1rem;">📊 Bid-Ask Spread</h3>
+                            <div style="position: relative; height: 250px;">
+                                <canvas id="outcome-spread-chart"></canvas>
+                            </div>
+                        </div>
+                        <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
+                            <h3 style="color: #8b5cf6; margin-bottom: 1rem;">📊 Volume & Open Interest</h3>
+                            <div style="position: relative; height: 250px;">
+                                <canvas id="outcome-volume-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem; text-align: center;">
+                    <button onclick="hideOutcomeAnalytics()" style="background: #374151; border: 1px solid #4b5563; color: #f1f5f9; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                        ← Back to All Outcomes
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('outcome-analytics-content').innerHTML = html;
+            
+            // Load real charts for this specific outcome
+            setTimeout(() => {
+                loadOutcomeCharts(market.ticker, market.yes_sub_title);
+            }, 100);
+        }
+
+        let outcomePriceChart, outcomeSpreadChart, outcomeVolumeChart;
+
+        async function loadOutcomeCharts(outcomeTicker, outcomeName) {
+            try {
+                console.log(`📊 Loading real charts for outcome: ${outcomeName} (${outcomeTicker})`);
+                
+                // Fetch candlestick data for the specific outcome
+                const response = await fetch(`http://localhost:8000/market/${outcomeTicker}/candlesticks?start_days_ago=7&period_interval=60`);
+                const data = await response.json();
+
+                if (data.candlesticks && data.candlesticks.length > 0) {
+                    console.log(`✅ Loaded ${data.candlesticks.length} candlestick data points for outcome`);
+                    
+                    // Create charts for this specific outcome
+                    createOutcomePriceChart(data.candlesticks, outcomeName);
+                    createOutcomeSpreadChart(data.candlesticks, outcomeName);
+                    createOutcomeVolumeChart(data.candlesticks, outcomeName);
+                } else {
+                    // Show message that charts aren't available for this outcome
+                    document.getElementById('outcome-charts-container').innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: #94a3b8; background: rgba(51, 65, 85, 0.3); border-radius: 6px;">
+                            <h3 style="color: #f59e0b; margin-bottom: 1rem;">📊 Charts Unavailable</h3>
+                            <p>No historical trading data available for "${outcomeName}"</p>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">This outcome may not have sufficient trading activity for chart generation.</p>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('Error loading outcome charts:', error);
+                document.getElementById('outcome-charts-container').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #ef4444; background: rgba(239, 68, 68, 0.1); border-radius: 6px;">
+                        <h3 style="margin-bottom: 1rem;">⚠️ Chart Loading Error</h3>
+                        <p>Unable to load charts for "${outcomeName}": ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function createOutcomePriceChart(candlesticks, outcomeName) {
+            const ctx = document.getElementById('outcome-price-chart').getContext('2d');
+            
+            if (outcomePriceChart) {
+                outcomePriceChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+            });
+
+            const bidData = candlesticks.map(candle => candle.yes_bid.close);
+            const askData = candlesticks.map(candle => candle.yes_ask.close);
+            const priceData = candlesticks.map(candle => candle.price.close);
+
+            outcomePriceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'YES Bid',
+                            data: bidData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'YES Ask',
+                            data: askData,
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'Trades',
+                            data: priceData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${outcomeName} - Price Movement`,
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: { color: '#f1f5f9' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', maxTicksLimit: 8 },
+                            grid: { color: '#334155' }
+                        },
+                        y: {
+                            ticks: { 
+                                color: '#94a3b8',
+                                callback: function(value) { return value + '¢'; }
+                            },
+                            grid: { color: '#334155' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createOutcomeSpreadChart(candlesticks, outcomeName) {
+            const ctx = document.getElementById('outcome-spread-chart').getContext('2d');
+            
+            if (outcomeSpreadChart) {
+                outcomeSpreadChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', hour: '2-digit'
+                });
+            });
+
+            const spreadData = candlesticks.map(candle => candle.yes_ask.close - candle.yes_bid.close);
+
+            outcomeSpreadChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Spread (¢)',
+                        data: spreadData,
+                        backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${outcomeName} - Bid-Ask Spread`,
+                            color: '#f1f5f9'
+                        },
+                        legend: { labels: { color: '#f1f5f9' } }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', maxTicksLimit: 6 },
+                            grid: { color: '#334155' }
+                        },
+                        y: {
+                            ticks: { 
+                                color: '#94a3b8',
+                                callback: function(value) { return value + '¢'; }
+                            },
+                            grid: { color: '#334155' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createOutcomeVolumeChart(candlesticks, outcomeName) {
+            const ctx = document.getElementById('outcome-volume-chart').getContext('2d');
+            
+            if (outcomeVolumeChart) {
+                outcomeVolumeChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
+                    month: 'short', day: 'numeric', hour: '2-digit'
+                });
+            });
+
+            const volumeData = candlesticks.map(candle => candle.volume);
+            const openInterestData = candlesticks.map(candle => candle.open_interest);
+
+            outcomeVolumeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Volume',
+                            data: volumeData,
+                            backgroundColor: 'rgba(139, 92, 246, 0.7)',
+                            borderColor: '#8b5cf6',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Open Interest',
+                            data: openInterestData,
+                            type: 'line',
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            yAxisID: 'y1',
+                            pointRadius: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${outcomeName} - Volume & Open Interest`,
+                            color: '#f1f5f9'
+                        },
+                        legend: { labels: { color: '#f1f5f9' } }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', maxTicksLimit: 6 },
+                            grid: { color: '#334155' }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: '#334155' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            ticks: { color: '#94a3b8' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function hideOutcomeAnalytics() {
+            document.getElementById('outcome-analytics-card').style.display = 'none';
+            document.getElementById('analytics-content').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function goBack() {
+            window.location.href = 'markets.html';
+        }
+    </script>
+</body>
+</html>

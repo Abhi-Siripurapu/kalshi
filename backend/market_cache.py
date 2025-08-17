@@ -147,22 +147,47 @@ class SimpleMarketCache:
             markets = [m for m in markets if search in m.get('title', '').lower() 
                       or search in m.get('ticker', '').lower()]
         
-        # Apply category filter
+        # Apply category filter using improved logic
         if category != "all":
-            if category == "politics":
-                markets = [m for m in markets if any(word in m.get('title', '').lower() 
-                          for word in ['election', 'president', 'trump', 'biden', 'vote', 'senate', 'congress', 'potus'])]
-            elif category == "sports":
-                markets = [m for m in markets if any(word in m.get('title', '').lower() 
-                          for word in ['nfl', 'mlb', 'nba', 'game', 'championship', 'ufc', 'pga', 'match', 'tournament'])]
-            elif category == "crypto":
-                markets = [m for m in markets if any(word in m.get('title', '').lower() 
-                          for word in ['bitcoin', 'btc', 'crypto', 'ethereum', 'eth'])]
-            elif category == "weather":
-                markets = [m for m in markets if any(word in m.get('title', '').lower() 
-                          for word in ['temperature', 'weather', 'snow', 'rain', 'hurricane'])]
+            markets = [m for m in markets if self._categorize_market(m) == category]
         
         return markets[:limit]
+    
+    def _categorize_market(self, market: Dict) -> str:
+        """Categorize a single market with priority-based logic"""
+        title = market.get('title', '').lower()
+        ticker = market.get('ticker', '').lower()
+        
+        # Politics (highest priority - most specific patterns)
+        politics_patterns = [
+            'potus', 'president', 'election', 'senate', 'congress', 'vote',
+            'approval rating', 'trump', 'biden', 'harris', 'desantis',
+            'pres-', 'elect', 'approval', 'supreme court'
+        ]
+        if any(pattern in ticker for pattern in ['potus', 'pres', 'elect', 'senat']) or \
+           any(pattern in title for pattern in politics_patterns):
+            return 'politics'
+        
+        # Crypto (specific ticker patterns)
+        crypto_patterns = ['btc', 'eth', 'crypto', 'bitcoin', 'ethereum']
+        if any(pattern in ticker for pattern in crypto_patterns) or \
+           any(pattern in title for pattern in crypto_patterns):
+            return 'crypto'
+        
+        # Sports (specific ticker prefixes and common terms)
+        sports_tickers = ['nfl', 'mlb', 'nba', 'ufc', 'pga', 'f1', 'uefa']
+        sports_titles = ['championship', 'tournament', 'game', 'match', 'win', 'mvp', 'draft']
+        if any(ticker.startswith(sport) for sport in sports_tickers) or \
+           any(pattern in ticker for pattern in sports_tickers) or \
+           any(pattern in title for pattern in sports_titles):
+            return 'sports'
+        
+        # Weather (specific patterns)
+        weather_patterns = ['temperature', 'weather', 'snow', 'rain', 'hurricane', 'storm', 'temp']
+        if any(pattern in title for pattern in weather_patterns):
+            return 'weather'
+        
+        return 'other'
     
     def get_cache_info(self) -> Dict:
         """Get cache status info"""

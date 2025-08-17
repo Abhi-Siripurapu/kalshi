@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ Kalshi Markets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f1f5f9;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid #334155;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            color: #10b981;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            flex-wrap: wrap;
+        }
+
+        .controls {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            color: #f1f5f9;
+            font-family: inherit;
+            width: 300px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .category-filter {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .category-btn {
+            background: #374151;
+            border: 1px solid #4b5563;
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .category-btn.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #ffffff;
+        }
+
+        .category-btn:hover {
+            background: #4b5563;
+        }
+
+        .table-container {
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+            margin: 0 2rem;
+        }
+
+        .markets-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .markets-table th {
+            background: #1e293b;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .markets-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #334155;
+            vertical-align: top;
+        }
+
+        .markets-table tr {
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .markets-table tr:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .ticker {
+            font-weight: bold;
+            color: #60a5fa;
+            font-size: 0.9rem;
+        }
+
+        .title {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 400px;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background: #374151;
+            color: #d1d5db;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+        }
+
+        .category-tag.politics { background: #dc2626; color: white; }
+        .category-tag.sports { background: #ea580c; color: white; }
+        .category-tag.crypto { background: #f59e0b; color: white; }
+        .category-tag.weather { background: #0891b2; color: white; }
+
+        .price {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .price.positive { color: #10b981; }
+        .price.negative { color: #ef4444; }
+        .price.neutral { color: #94a3b8; }
+
+        .volume {
+            text-align: right;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #334155;
+            border-radius: 50%;
+            border-top-color: #10b981;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .status-open { background: #10b981; }
+        .status-closed { background: #ef4444; }
+        .status-settled { background: #94a3b8; }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .category-filter {
+                flex-wrap: wrap;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .table-container {
+                margin: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏛️ Kalshi Markets</h1>
+        <div class="stats">
+            <span>📊 Total: <span id="total-count">Loading...</span></span>
+            <span>💾 Cached: <span id="cache-status">...</span></span>
+            <span>🔄 Last Update: <span id="last-update">...</span></span>
+            <span>⚡ Load Time: <span id="load-time">...</span></span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" class="search-box" id="search" placeholder="🔍 Search markets by title or ticker...">
+        
+        <div class="category-filter">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="politics">🏛️ Politics</button>
+            <button class="category-btn" data-category="sports">🏈 Sports</button>
+            <button class="category-btn" data-category="crypto">₿ Crypto</button>
+            <button class="category-btn" data-category="weather">🌡️ Weather</button>
+        </div>
+        
+        <span style="margin-left: auto; color: #94a3b8; font-size: 0.8rem;">
+            Showing: <span id="visible-count">0</span> markets
+        </span>
+    </div>
+
+    <div class="table-container" id="table-container">
+        <table class="markets-table">
+            <thead>
+                <tr>
+                    <th style="width: 120px;">Ticker</th>
+                    <th style="width: 400px;">Market</th>
+                    <th style="width: 80px;">Category</th>
+                    <th style="width: 80px;">Price</th>
+                    <th style="width: 100px;">Volume</th>
+                    <th style="width: 60px;">Status</th>
+                </tr>
+            </thead>
+            <tbody id="markets-tbody">
+                <tr>
+                    <td colspan="6" class="loading">
+                        <div class="loading-spinner"></div>
+                        Loading markets...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Global state
+        let allMarkets = [];
+        let displayedMarkets = [];
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // DOM elements
+        const tbody = document.getElementById('markets-tbody');
+        const searchInput = document.getElementById('search');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const tableContainer = document.getElementById('table-container');
+
+        // Virtual scrolling settings
+        const BATCH_SIZE = 50;
+        let currentBatch = 0;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMarkets();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Search
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value.toLowerCase();
+                filterAndDisplay();
+            });
+
+            // Category filtering
+            categoryButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    categoryButtons.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentCategory = e.target.dataset.category;
+                    filterAndDisplay();
+                });
+            });
+
+            // Infinite scroll
+            tableContainer.addEventListener('scroll', handleScroll);
+
+            // Row click handler
+            tbody.addEventListener('click', (e) => {
+                const row = e.target.closest('tr');
+                if (row && row.dataset.ticker) {
+                    const ticker = row.dataset.ticker;
+                    const isMultiOutcome = row.dataset.multiOutcome === 'true';
+                    
+                    // For multi-outcome markets, use the event ticker (which is the ticker for grouped markets)
+                    // For single-outcome markets, use the regular ticker
+                    window.location.href = `detail.html?ticker=${ticker}`;
+                }
+            });
+        }
+
+        async function loadMarkets() {
+            try {
+                const startTime = Date.now();
+                console.log('🔄 Loading all markets...');
+                
+                // Load all markets in one request  
+                const response = await fetch('http://localhost:8000/markets?limit=15000');
+                const data = await response.json();
+                
+                allMarkets = data.markets || [];
+                const loadTime = Date.now() - startTime;
+                
+                console.log(`✅ Loaded ${allMarkets.length} markets in ${loadTime}ms`);
+                
+                // Update stats
+                updateStats(data, loadTime);
+                
+                // Initial display
+                filterAndDisplay();
+                
+            } catch (error) {
+                console.error('❌ Error loading markets:', error);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #ef4444; padding: 2rem;">
+                            ❌ Error loading markets: ${error.message}
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function updateStats(data, loadTime) {
+            document.getElementById('total-count').textContent = allMarkets.length.toLocaleString();
+            document.getElementById('cache-status').textContent = data.cached ? '✅ Yes' : '❌ No';
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+            document.getElementById('load-time').textContent = `${loadTime}ms`;
+        }
+
+        function groupMultiOutcomeMarkets(markets) {
+            const grouped = new Map();
+            
+            markets.forEach(market => {
+                const eventTicker = market.event_ticker;
+                
+                if (!grouped.has(eventTicker)) {
+                    // For multi-outcome markets, use the main market data but show it as one item
+                    grouped.set(eventTicker, {
+                        ...market,
+                        ticker: eventTicker, // Use event_ticker as the display ticker
+                        isMultiOutcome: true,
+                        outcomes: [market],
+                        // For display purposes, use the base title without subtitle variations
+                        title: market.title.split('?')[0] + '?'  // Keep main question, remove subtitle variations
+                    });
+                } else {
+                    const groupedMarket = grouped.get(eventTicker);
+                    // Add this outcome to the existing group
+                    groupedMarket.outcomes.push(market);
+                    
+                    // Update aggregate stats (take max of important values)
+                    groupedMarket.volume_24h = Math.max(groupedMarket.volume_24h || 0, market.volume_24h || 0);
+                    groupedMarket.volume = Math.max(groupedMarket.volume || 0, market.volume || 0);
+                    groupedMarket.liquidity = Math.max(groupedMarket.liquidity || 0, market.liquidity || 0);
+                    
+                    // For prices, take the best available (highest yes_bid or lowest yes_ask)
+                    if (market.yes_bid > 0 && market.yes_bid > (groupedMarket.yes_bid || 0)) {
+                        groupedMarket.yes_bid = market.yes_bid;
+                        groupedMarket.last_price = market.yes_bid;
+                    }
+                }
+            });
+            
+            console.log(`📊 Grouped ${markets.length} individual markets into ${grouped.size} events`);
+            return Array.from(grouped.values());
+        }
+
+        function filterAndDisplay() {
+            // Reset batch counter
+            currentBatch = 0;
+            
+            // First, group multi-outcome markets by event_ticker
+            const grouped = groupMultiOutcomeMarkets(allMarkets);
+            
+            // Then filter the grouped markets
+            displayedMarkets = grouped.filter(market => {
+                // Category filter
+                if (currentCategory !== 'all') {
+                    const category = categorizeMarket(market);
+                    if (category !== currentCategory) return false;
+                }
+                
+                // Search filter
+                if (currentSearch) {
+                    const title = market.title.toLowerCase();
+                    const ticker = market.ticker.toLowerCase();
+                    if (!title.includes(currentSearch) && !ticker.includes(currentSearch)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            // Update visible count
+            document.getElementById('visible-count').textContent = displayedMarkets.length.toLocaleString();
+            
+            // Clear table and load first batch
+            tbody.innerHTML = '';
+            loadNextBatch();
+        }
+
+        function loadNextBatch() {
+            const start = currentBatch * BATCH_SIZE;
+            const end = Math.min(start + BATCH_SIZE, displayedMarkets.length);
+            
+            if (start >= displayedMarkets.length) return;
+            
+            const batch = displayedMarkets.slice(start, end);
+            
+            batch.forEach(market => {
+                const row = createMarketRow(market);
+                tbody.appendChild(row);
+            });
+            
+            currentBatch++;
+            
+            console.log(`📊 Loaded batch ${currentBatch}: ${start}-${end} of ${displayedMarkets.length}`);
+        }
+
+        function createMarketRow(market) {
+            const tr = document.createElement('tr');
+            tr.dataset.ticker = market.ticker;
+            
+            // Add data attributes for multi-outcome market handling
+            if (market.isMultiOutcome && market.outcomes && market.outcomes.length > 1) {
+                tr.dataset.multiOutcome = 'true';
+                
+                // Create a better tooltip that shows leading outcomes
+                const sortedOutcomes = market.outcomes
+                    .sort((a, b) => (b.yes_bid || 0) - (a.yes_bid || 0))
+                    .slice(0, 5); // Show top 5
+                
+                const leadingText = sortedOutcomes
+                    .map(o => `${o.yes_sub_title} (${o.yes_bid || 0}¢)`)
+                    .join(', ');
+                
+                const moreText = market.outcomes.length > 5 ? ` and ${market.outcomes.length - 5} more...` : '';
+                tr.title = `🔀 Multi-outcome market (${market.outcomes.length} options)\nLeading: ${leadingText}${moreText}\n\nClick to view all outcomes`;
+            }
+            
+            const category = categorizeMarket(market);
+            const price = market.yes_bid || market.last_price || 0;
+            const volume = market.volume_24h || market.dollar_volume || 0;
+            
+            // Add multi-outcome indicator
+            const multiOutcomeIndicator = market.isMultiOutcome && market.outcomes && market.outcomes.length > 1 
+                ? `<span style="color: #10b981; font-size: 0.8rem;">🔀 ${market.outcomes.length}</span> ` 
+                : '';
+            
+            tr.innerHTML = `
+                <td>
+                    <div class="ticker">${market.ticker}</div>
+                </td>
+                <td>
+                    <div class="title">${multiOutcomeIndicator}${market.title}</div>
+                </td>
+                <td>
+                    <span class="category-tag ${category}">${getCategoryDisplay(category)}</span>
+                </td>
+                <td class="price ${getPriceClass(price)}">
+                    ${price > 0 ? price + '¢' : '-'}
+                </td>
+                <td class="volume">
+                    ${volume > 0 ? formatVolume(volume) : '-'}
+                </td>
+                <td>
+                    <span class="status-indicator status-${market.status || 'open'}"></span>
+                    ${market.status || 'open'}
+                </td>
+            `;
+            
+            return tr;
+        }
+
+        function categorizeMarket(market) {
+            const title = market.title.toLowerCase();
+            const ticker = market.ticker.toLowerCase();
+            
+            // Politics (most specific first)
+            if (ticker.includes('potus') || ticker.includes('pres') || ticker.includes('elect') || 
+                title.includes('president') || title.includes('election') || title.includes('trump') || 
+                title.includes('biden') || title.includes('senate') || title.includes('congress') ||
+                title.includes('approval rating')) {
+                return 'politics';
+            }
+            
+            // Sports
+            if (ticker.includes('nfl') || ticker.includes('mlb') || ticker.includes('nba') || 
+                ticker.includes('ufc') || ticker.includes('pga') || ticker.includes('game') ||
+                title.includes('championship') || title.includes('tournament') || title.includes('match') ||
+                title.includes('win ')) {
+                return 'sports';
+            }
+            
+            // Crypto
+            if (ticker.includes('btc') || ticker.includes('eth') || ticker.includes('crypto') ||
+                title.includes('bitcoin') || title.includes('ethereum') || title.includes('crypto')) {
+                return 'crypto';
+            }
+            
+            // Weather
+            if (title.includes('temperature') || title.includes('weather') || title.includes('snow') || 
+                title.includes('rain') || title.includes('hurricane') || title.includes('storm')) {
+                return 'weather';
+            }
+            
+            return 'other';
+        }
+
+        function getCategoryDisplay(category) {
+            const displays = {
+                politics: 'POL',
+                sports: 'SPT', 
+                crypto: 'CRY',
+                weather: 'WTH',
+                other: 'OTH'
+            };
+            return displays[category] || 'OTH';
+        }
+
+        function getPriceClass(price) {
+            if (price > 50) return 'positive';
+            if (price > 0 && price < 50) return 'negative';
+            return 'neutral';
+        }
+
+        function formatVolume(volume) {
+            if (volume >= 1000000) return (volume / 1000000).toFixed(1) + 'M';
+            if (volume >= 1000) return (volume / 1000).toFixed(1) + 'K';
+            return volume.toLocaleString();
+        }
+
+        function handleScroll() {
+            const container = tableContainer;
+            const threshold = 200; // Load more when 200px from bottom
+            
+            if (container.scrollTop + container.clientHeight >= container.scrollHeight - threshold) {
+                loadNextBatch();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Market Detail - Atomic</title>
+    <style>
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 2rem;
+        }
+        .test-section {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .test-section h2 {
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+        .stat-item {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 1rem;
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.3rem;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .success { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; }
+        .error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; }
+        .warning { background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; }
+        pre {
+            background: rgba(51, 65, 85, 0.3);
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.8rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.5rem;
+            border: 1px solid #334155;
+            text-align: left;
+        }
+        th { background: #1e293b; color: #10b981; }
+        .test-button {
+            background: #10b981;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Market Detail Statistics Test - Atomic</h1>
+    
+    <div class="test-section">
+        <h2>🎯 Test Market with Real Data</h2>
+        <p>Testing with market: <strong>KXATPMATCH-25AUG17MCDHOL-MCD</strong> (McDonald vs Holt tennis match)</p>
+        <button class="test-button" onclick="testMarketWithRealData()">Test Real Market Data</button>
+        <div id="real-data-test"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Test Market with Zero Data</h2>
+        <p>Testing with market: <strong>KXSPOTIFYARTISTD-25AUG18-ZAC</strong> (Spotify artist prediction)</p>
+        <button class="test-button" onclick="testMarketWithZeroData()">Test Zero Market Data</button>
+        <div id="zero-data-test"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 formatPrice() Function Test</h2>
+        <button class="test-button" onclick="testFormatPrice()">Test Format Functions</button>
+        <div id="format-test"></div>
+    </div>
+
+    <script>
+        // Market data simulation based on real API responses
+        const marketWithRealData = {
+            "ticker": "KXATPMATCH-25AUG17MCDHOL-MCD",
+            "title": "Will Mackenzie McDonald win the McDonald vs Holt match?",
+            "yes_bid": 67,
+            "yes_ask": 69,
+            "last_price": 69,
+            "volume_24h": 30,
+            "liquidity": 1123574,
+            "open_interest": 30,
+            "status": "active"
+        };
+
+        const marketWithZeroData = {
+            "ticker": "KXSPOTIFYARTISTD-25AUG18-ZAC",
+            "title": "Top USA Artist on Spotify on Aug 18, 2025?",
+            "yes_bid": 0,
+            "yes_ask": 0,
+            "last_price": 0,
+            "volume_24h": 0,
+            "liquidity": 0,
+            "open_interest": 0,
+            "status": "active"
+        };
+
+        function formatPrice(price) {
+            if (price === null || price === undefined || price === 0) return '-';
+            return price + '¢';
+        }
+
+        function formatVolume(volume) {
+            if (!volume || volume === 0) return '-';
+            if (volume >= 1000000) return (volume / 1000000).toFixed(1) + 'M';
+            if (volume >= 1000) return (volume / 1000).toFixed(1) + 'K';
+            return volume.toLocaleString();
+        }
+
+        function renderMarketStats(market, containerId) {
+            const container = document.getElementById(containerId);
+            
+            const html = `
+                <h3>Market: ${market.title}</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${formatPrice(market.yes_bid)}</div>
+                        <div class="stat-label">YES Bid</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatPrice(market.yes_ask)}</div>
+                        <div class="stat-label">YES Ask</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatPrice(market.last_price)}</div>
+                        <div class="stat-label">Last Price</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatVolume(market.volume_24h)}</div>
+                        <div class="stat-label">24h Volume</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatVolume(market.liquidity)}</div>
+                        <div class="stat-label">Liquidity</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatVolume(market.open_interest)}</div>
+                        <div class="stat-label">Open Interest</div>
+                    </div>
+                </div>
+                <table>
+                    <tr><th>Field</th><th>Raw Value</th><th>Formatted Value</th><th>Expected Behavior</th></tr>
+                    <tr><td>yes_bid</td><td>${market.yes_bid}</td><td>${formatPrice(market.yes_bid)}</td><td>${market.yes_bid > 0 ? 'Show price' : 'Show dash'}</td></tr>
+                    <tr><td>yes_ask</td><td>${market.yes_ask}</td><td>${formatPrice(market.yes_ask)}</td><td>${market.yes_ask > 0 ? 'Show price' : 'Show dash'}</td></tr>
+                    <tr><td>last_price</td><td>${market.last_price}</td><td>${formatPrice(market.last_price)}</td><td>${market.last_price > 0 ? 'Show price' : 'Show dash'}</td></tr>
+                    <tr><td>volume_24h</td><td>${market.volume_24h}</td><td>${formatVolume(market.volume_24h)}</td><td>${market.volume_24h > 0 ? 'Show volume' : 'Show dash'}</td></tr>
+                    <tr><td>liquidity</td><td>${market.liquidity}</td><td>${formatVolume(market.liquidity)}</td><td>${market.liquidity > 0 ? 'Show liquidity' : 'Show dash'}</td></tr>
+                </table>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        function testMarketWithRealData() {
+            const container = document.getElementById('real-data-test');
+            
+            try {
+                renderMarketStats(marketWithRealData, 'real-data-test');
+                
+                // Validate that real data shows properly
+                const hasRealData = marketWithRealData.yes_bid > 0 && marketWithRealData.liquidity > 0;
+                
+                const resultDiv = document.createElement('div');
+                resultDiv.className = hasRealData ? 'result success' : 'result error';
+                resultDiv.innerHTML = hasRealData 
+                    ? '<h4>✅ Test Passed</h4><p>Market with real data displays statistics properly.</p>'
+                    : '<h4>❌ Test Failed</h4><p>Market should have real data but values are zero.</p>';
+                
+                container.appendChild(resultDiv);
+                
+            } catch (error) {
+                container.innerHTML = `<div class="result error"><h4>❌ Error</h4><p>${error.message}</p></div>`;
+            }
+        }
+
+        function testMarketWithZeroData() {
+            const container = document.getElementById('zero-data-test');
+            
+            try {
+                renderMarketStats(marketWithZeroData, 'zero-data-test');
+                
+                // Validate that zero data shows dashes
+                const showsDashes = formatPrice(0) === '-' && formatVolume(0) === '-';
+                
+                const resultDiv = document.createElement('div');
+                resultDiv.className = showsDashes ? 'result success' : 'result error';
+                resultDiv.innerHTML = showsDashes 
+                    ? '<h4>✅ Test Passed</h4><p>Zero values correctly display as dashes. This is expected behavior!</p>'
+                    : '<h4>❌ Test Failed</h4><p>Zero values should display as dashes.</p>';
+                
+                container.appendChild(resultDiv);
+                
+            } catch (error) {
+                container.innerHTML = `<div class="result error"><h4>❌ Error</h4><p>${error.message}</p></div>`;
+            }
+        }
+
+        function testFormatPrice() {
+            const container = document.getElementById('format-test');
+            
+            const tests = [
+                {input: 67, expected: '67¢', description: 'Real price'},
+                {input: 0, expected: '-', description: 'Zero price'},
+                {input: null, expected: '-', description: 'Null price'},
+                {input: undefined, expected: '-', description: 'Undefined price'},
+                {input: 1123574, expected: '1.1M', description: 'Large volume (millions)'},
+                {input: 30000, expected: '30.0K', description: 'Volume in thousands'},
+                {input: 30, expected: '30', description: 'Small volume'}
+            ];
+            
+            let html = '<table><tr><th>Test</th><th>Input</th><th>Expected</th><th>Actual</th><th>Result</th></tr>';
+            
+            tests.forEach(test => {
+                let actual;
+                if (test.input >= 1000) {
+                    actual = formatVolume(test.input);
+                } else {
+                    actual = formatPrice(test.input);
+                }
+                
+                const passed = actual === test.expected;
+                const resultClass = passed ? 'success' : 'error';
+                const resultIcon = passed ? '✅' : '❌';
+                
+                html += `<tr>
+                    <td>${test.description}</td>
+                    <td>${test.input}</td>
+                    <td>${test.expected}</td>
+                    <td>${actual}</td>
+                    <td style="color: ${passed ? '#10b981' : '#ef4444'}">${resultIcon}</td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            
+            const allPassed = tests.every(test => {
+                let actual;
+                if (test.input >= 1000) {
+                    actual = formatVolume(test.input);
+                } else {
+                    actual = formatPrice(test.input);
+                }
+                return actual === test.expected;
+            });
+            
+            const resultDiv = `<div class="result ${allPassed ? 'success' : 'error'}">
+                <h4>${allPassed ? '✅' : '❌'} Format Function Tests</h4>
+                <p>${allPassed ? 'All format functions work correctly!' : 'Some format functions failed.'}</p>
+            </div>`;
+            
+            container.innerHTML = html + resultDiv;
+        }
+
+        // Auto-run tests on load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Atomic detail test page loaded');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Analytics - Atomic</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 2rem;
+            margin: 0;
+        }
+        .test-section {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .test-section h2 {
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: rgba(51, 65, 85, 0.3);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+        .metric-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 0.3rem;
+        }
+        .test-button {
+            background: #10b981;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .success { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; }
+        .error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; }
+        pre {
+            background: rgba(51, 65, 85, 0.3);
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Analytics Test - Chart.js Integration</h1>
+    
+    <div class="test-section">
+        <h2>📊 Test Market: McDonald vs Holt Tennis Match</h2>
+        <p><strong>Ticker:</strong> KXATPMATCH-25AUG17MCDHOL-MCD</p>
+        <button class="test-button" onclick="testAnalytics()">Load Real Analytics Data</button>
+        <div id="test-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📈 Real-Time Market Metrics</h2>
+        <div class="metrics-grid" id="metrics-grid">
+            <!-- Metrics will be populated here -->
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Price Action Chart</h2>
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📈 Bid/Ask Spread Chart</h2>
+        <div class="chart-container">
+            <canvas id="spreadChart"></canvas>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Volume Analysis</h2>
+        <div class="chart-container">
+            <canvas id="volumeChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        let priceChart, spreadChart, volumeChart;
+        const ticker = 'KXATPMATCH-25AUG17MCDHOL-MCD';
+
+        async function testAnalytics() {
+            const statusDiv = document.getElementById('test-status');
+            statusDiv.innerHTML = '<div style="color: #f59e0b;">Loading analytics data...</div>';
+
+            try {
+                // Fetch candlestick data from backend
+                const response = await fetch(`http://localhost:8000/market/${ticker}/candlesticks?start_days_ago=7&period_interval=60`);
+                const data = await response.json();
+
+                if (data.candlesticks && data.candlesticks.length > 0) {
+                    statusDiv.innerHTML = '<div class="result success">✅ Successfully loaded ' + data.candlesticks.length + ' data points</div>';
+                    
+                    // Display market metrics
+                    displayMetrics(data.candlesticks);
+                    
+                    // Create charts
+                    createPriceChart(data.candlesticks);
+                    createSpreadChart(data.candlesticks);
+                    createVolumeChart(data.candlesticks);
+                } else {
+                    throw new Error('No candlestick data received');
+                }
+
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="result error">❌ Error: ${error.message}</div>`;
+                console.error('Analytics loading error:', error);
+            }
+        }
+
+        function displayMetrics(candlesticks) {
+            const latest = candlesticks[candlesticks.length - 1];
+            const previous = candlesticks[candlesticks.length - 2];
+            
+            const currentBid = latest.yes_bid.close;
+            const currentAsk = latest.yes_ask.close;
+            const lastPrice = latest.price.close;
+            const volume = latest.volume;
+            const openInterest = latest.open_interest;
+            
+            // Calculate spread and change
+            const spread = currentAsk - currentBid;
+            const priceChange = previous ? (lastPrice || 0) - (previous.price.close || 0) : 0;
+            const spreadBps = currentBid > 0 ? (spread / currentBid * 100).toFixed(2) : '0.00';
+
+            const metricsHtml = `
+                <div class="metric-card">
+                    <div class="metric-value">${currentBid}¢</div>
+                    <div class="metric-label">Current Bid</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${currentAsk}¢</div>
+                    <div class="metric-label">Current Ask</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${lastPrice || '-'}¢</div>
+                    <div class="metric-label">Last Trade</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${spread}¢</div>
+                    <div class="metric-label">Spread</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${spreadBps}%</div>
+                    <div class="metric-label">Spread (% of bid)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: ${priceChange >= 0 ? '#10b981' : '#ef4444'}">${priceChange >= 0 ? '+' : ''}${priceChange}¢</div>
+                    <div class="metric-label">Price Change</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${volume}</div>
+                    <div class="metric-label">Volume</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${openInterest}</div>
+                    <div class="metric-label">Open Interest</div>
+                </div>
+            `;
+            
+            document.getElementById('metrics-grid').innerHTML = metricsHtml;
+        }
+
+        function createPriceChart(candlesticks) {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (priceChart) {
+                priceChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString();
+            });
+
+            const bidData = candlesticks.map(candle => candle.yes_bid.close);
+            const askData = candlesticks.map(candle => candle.yes_ask.close);
+            const priceData = candlesticks.map(candle => candle.price.close);
+
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'YES Bid',
+                            data: bidData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'YES Ask',
+                            data: askData,
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Last Trade',
+                            data: priceData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Price Action Over Time',
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: {
+                                color: '#f1f5f9'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                maxTicksLimit: 8
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value + '¢';
+                                }
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createSpreadChart(candlesticks) {
+            const ctx = document.getElementById('spreadChart').getContext('2d');
+            
+            if (spreadChart) {
+                spreadChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString();
+            });
+
+            const spreadData = candlesticks.map(candle => 
+                candle.yes_ask.close - candle.yes_bid.close
+            );
+
+            spreadChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Bid-Ask Spread',
+                        data: spreadData,
+                        backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Bid-Ask Spread Analysis',
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: {
+                                color: '#f1f5f9'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                maxTicksLimit: 8
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value + '¢';
+                                }
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createVolumeChart(candlesticks) {
+            const ctx = document.getElementById('volumeChart').getContext('2d');
+            
+            if (volumeChart) {
+                volumeChart.destroy();
+            }
+
+            const labels = candlesticks.map(candle => {
+                return new Date(candle.end_period_ts * 1000).toLocaleString();
+            });
+
+            const volumeData = candlesticks.map(candle => candle.volume);
+            const openInterestData = candlesticks.map(candle => candle.open_interest);
+
+            volumeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Volume',
+                            data: volumeData,
+                            backgroundColor: 'rgba(139, 92, 246, 0.7)',
+                            borderColor: '#8b5cf6',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Open Interest',
+                            data: openInterestData,
+                            type: 'line',
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            fill: false,
+                            tension: 0.1,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Volume & Open Interest',
+                            color: '#f1f5f9'
+                        },
+                        legend: {
+                            labels: {
+                                color: '#f1f5f9'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                maxTicksLimit: 8
+                            },
+                            grid: {
+                                color: '#334155'
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: {
+                                color: '#94a3b8'
+                            },
+                            grid: {
+                                color: '#334155'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Volume',
+                                color: '#94a3b8'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            ticks: {
+                                color: '#94a3b8'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                            title: {
+                                display: true,
+                                text: 'Open Interest',
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Auto-run test on load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Analytics test page loaded');
+        });
+    </script>
+</body>
+</html>

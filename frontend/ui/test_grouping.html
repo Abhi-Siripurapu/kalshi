@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Market Grouping Logic</title>
+    <style>
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 2rem;
+        }
+        .test-section {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .test-section h2 {
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+        pre {
+            background: rgba(51, 65, 85, 0.3);
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.8rem;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .success { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; }
+        .error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.5rem;
+            border: 1px solid #334155;
+            text-align: left;
+        }
+        th { background: #1e293b; color: #10b981; }
+        .highlight { background: rgba(16, 185, 129, 0.1); }
+    </style>
+</head>
+<body>
+    <h1>🧪 Market Grouping Logic Test</h1>
+    
+    <div class="test-section">
+        <h2>📊 Sample Data from API</h2>
+        <div id="sample-data"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Grouping Function Test</h2>
+        <div id="grouping-test"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Before vs After Comparison</h2>
+        <div id="comparison"></div>
+    </div>
+
+    <script>
+        // Test data based on the actual API response
+        const sampleMarkets = [
+            {
+                "ticker": "KXSPOTIFYARTISTD-25AUG18-ZAC",
+                "event_ticker": "KXSPOTIFYARTISTD-25AUG18",
+                "title": "Top USA Artist on Spotify on Aug 18, 2025?",
+                "subtitle": "::",
+                "yes_sub_title": "Zach Bryan",
+                "yes_bid": 0,
+                "yes_ask": 0,
+                "last_price": 0,
+                "volume_24h": 0,
+                "liquidity": 0
+            },
+            {
+                "ticker": "KXSPOTIFYARTISTD-25AUG18-UIC",
+                "event_ticker": "KXSPOTIFYARTISTD-25AUG18",
+                "title": "Top USA Artist on Spotify on Aug 18, 2025?",
+                "subtitle": "::",
+                "yes_sub_title": "$uicideboy$",
+                "yes_bid": 0,
+                "yes_ask": 0,
+                "last_price": 0,
+                "volume_24h": 0,
+                "liquidity": 0
+            },
+            {
+                "ticker": "KXNETFLIXRANKSHOW-25AUG18-TROTBL",
+                "event_ticker": "KXNETFLIXRANKSHOW-25AUG18",
+                "title": "Top Netflix show on Aug 18, 2025?",
+                "subtitle": "The Reality of the Biggest Loser",
+                "yes_sub_title": "The Reality of the Biggest Loser",
+                "yes_bid": 0,
+                "yes_ask": 0,
+                "last_price": 0,
+                "volume_24h": 0,
+                "liquidity": 0
+            }
+        ];
+
+        function groupMultiOutcomeMarkets(markets) {
+            const grouped = new Map();
+            
+            markets.forEach(market => {
+                const eventTicker = market.event_ticker;
+                
+                if (!grouped.has(eventTicker)) {
+                    // For multi-outcome markets, use the main market data but show it as one item
+                    grouped.set(eventTicker, {
+                        ...market,
+                        ticker: eventTicker, // Use event_ticker as the display ticker
+                        isMultiOutcome: true,
+                        outcomes: [market],
+                        // For display purposes, use the base title without subtitle variations
+                        title: market.title.split('?')[0] + '?'  // Keep main question, remove subtitle variations
+                    });
+                } else {
+                    const groupedMarket = grouped.get(eventTicker);
+                    // Add this outcome to the existing group
+                    groupedMarket.outcomes.push(market);
+                    
+                    // Update aggregate stats (take max of important values)
+                    groupedMarket.volume_24h = Math.max(groupedMarket.volume_24h || 0, market.volume_24h || 0);
+                    groupedMarket.volume = Math.max(groupedMarket.volume || 0, market.volume || 0);
+                    groupedMarket.liquidity = Math.max(groupedMarket.liquidity || 0, market.liquidity || 0);
+                    
+                    // For prices, take the best available (highest yes_bid or lowest yes_ask)
+                    if (market.yes_bid > 0 && market.yes_bid > (groupedMarket.yes_bid || 0)) {
+                        groupedMarket.yes_bid = market.yes_bid;
+                        groupedMarket.last_price = market.yes_bid;
+                    }
+                }
+            });
+            
+            return Array.from(grouped.values());
+        }
+
+        function displaySampleData() {
+            document.getElementById('sample-data').innerHTML = `
+                <pre>${JSON.stringify(sampleMarkets, null, 2)}</pre>
+                <p><strong>Original count:</strong> ${sampleMarkets.length} markets</p>
+                <p><strong>Issue:</strong> 2 markets have same event_ticker "KXSPOTIFYARTISTD-25AUG18" but different outcomes</p>
+            `;
+        }
+
+        function testGrouping() {
+            try {
+                const grouped = groupMultiOutcomeMarkets(sampleMarkets);
+                
+                document.getElementById('grouping-test').innerHTML = `
+                    <div class="result success">
+                        <h3>✅ Grouping Success</h3>
+                        <p><strong>Grouped count:</strong> ${grouped.length} events (reduced from ${sampleMarkets.length} individual markets)</p>
+                        <pre>${JSON.stringify(grouped, null, 2)}</pre>
+                    </div>
+                `;
+                
+                return grouped;
+            } catch (error) {
+                document.getElementById('grouping-test').innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Grouping Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    </div>
+                `;
+                return null;
+            }
+        }
+
+        function displayComparison(grouped) {
+            if (!grouped) return;
+            
+            let html = '<table>';
+            html += '<tr><th>Type</th><th>Ticker</th><th>Title</th><th>Outcomes</th></tr>';
+            
+            // Show original markets
+            sampleMarkets.forEach(market => {
+                html += `<tr>
+                    <td>Original</td>
+                    <td>${market.ticker}</td>
+                    <td>${market.title}</td>
+                    <td>${market.yes_sub_title}</td>
+                </tr>`;
+            });
+            
+            // Show grouped markets
+            grouped.forEach(market => {
+                const outcomeCount = market.outcomes ? market.outcomes.length : 1;
+                const outcomeList = market.outcomes ? market.outcomes.map(o => o.yes_sub_title).join(', ') : 'N/A';
+                html += `<tr class="highlight">
+                    <td>Grouped</td>
+                    <td>${market.ticker}</td>
+                    <td>${market.title}</td>
+                    <td>${outcomeCount} outcomes: ${outcomeList}</td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            
+            document.getElementById('comparison').innerHTML = html;
+        }
+
+        // Run tests
+        document.addEventListener('DOMContentLoaded', () => {
+            displaySampleData();
+            const grouped = testGrouping();
+            displayComparison(grouped);
+        });
+    </script>
+</body>
+</html>
