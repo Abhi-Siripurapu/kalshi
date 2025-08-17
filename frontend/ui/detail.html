@@ -535,15 +535,40 @@
                     </div>
                 `;
 
-                // Fetch candlestick data from backend
-                const response = await fetch(`http://localhost:8000/market/${ticker}/candlesticks?start_days_ago=7&period_interval=60`);
-                const data = await response.json();
+                // Try multiple timeframes until we find data
+                const timeframeOptions = [
+                    { days: 30, interval: 240, label: "30 Days" },    // 30 days, 4-hour intervals
+                    { days: 14, interval: 240, label: "14 Days" },    // 2 weeks, 4-hour intervals  
+                    { days: 7, interval: 60, label: "7 Days" },       // 1 week, hourly
+                    { days: 3, interval: 60, label: "3 Days" },       // 3 days, hourly
+                    { days: 1, interval: 15, label: "24 Hours" }      // 1 day, 15-minute intervals
+                ];
 
-                if (data.candlesticks && data.candlesticks.length > 0) {
-                    console.log(`✅ Loaded ${data.candlesticks.length} candlestick data points`);
-                    displayRealAnalytics(data.candlesticks, ticker);
+                let candlestickData = null;
+                let usedTimeframe = null;
+
+                for (const timeframe of timeframeOptions) {
+                    console.log(`🔍 Trying ${timeframe.label} timeframe...`);
+                    try {
+                        const response = await fetch(`http://localhost:8000/market/${ticker}/candlesticks?start_days_ago=${timeframe.days}&period_interval=${timeframe.interval}`);
+                        const data = await response.json();
+
+                        if (data.candlesticks && data.candlesticks.length > 3) { // Need at least 3 data points for meaningful chart
+                            candlestickData = data.candlesticks;
+                            usedTimeframe = timeframe.label;
+                            console.log(`✅ Found ${data.candlesticks.length} data points for ${timeframe.label}`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`❌ ${timeframe.label} failed:`, err.message);
+                        continue;
+                    }
+                }
+
+                if (candlestickData && usedTimeframe) {
+                    displayRealAnalytics(candlestickData, ticker, usedTimeframe);
                 } else {
-                    throw new Error('No candlestick data available');
+                    throw new Error('No trading data available across all timeframes');
                 }
 
             } catch (error) {
@@ -552,13 +577,13 @@
                     <div class="error">
                         <h3>⚠️ Analytics Unavailable</h3>
                         <p>Unable to load market analytics: ${error.message}</p>
-                        <p>This market may not have sufficient trading history.</p>
+                        <p>This market may be too new or have insufficient trading activity for chart generation.</p>
                     </div>
                 `;
             }
         }
 
-        function displayRealAnalytics(candlesticks, ticker) {
+        function displayRealAnalytics(candlesticks, ticker, timeframeLabel = "30 Days") {
             const latest = candlesticks[candlesticks.length - 1];
             const previous = candlesticks[candlesticks.length - 2];
             
@@ -606,7 +631,7 @@
                 <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
                     <!-- Price Action Chart -->
                     <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
-                        <h3 style="color: #10b981; margin-bottom: 1rem;">📈 Price Action (7 Days)</h3>
+                        <h3 style="color: #10b981; margin-bottom: 1rem;">📈 Price Action (${timeframeLabel})</h3>
                         <div style="position: relative; height: 300px;">
                             <canvas id="main-price-chart"></canvas>
                         </div>
@@ -649,7 +674,7 @@
 
             const labels = candlesticks.map(candle => {
                 return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
-                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    month: 'short', day: 'numeric', hour: '2-digit'
                 });
             });
 
@@ -983,7 +1008,7 @@
                 <div id="outcome-charts-container" style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
                     <!-- Price Action Chart -->
                     <div style="background: rgba(51, 65, 85, 0.3); padding: 1.5rem; border-radius: 6px;">
-                        <h3 style="color: #10b981; margin-bottom: 1rem;">📈 ${market.yes_sub_title} - Price Action (7 Days)</h3>
+                        <h3 style="color: #10b981; margin-bottom: 1rem;">📈 ${market.yes_sub_title} - Price Action</h3>
                         <div style="position: relative; height: 300px;">
                             <canvas id="outcome-price-chart"></canvas>
                         </div>
@@ -1027,24 +1052,48 @@
             try {
                 console.log(`📊 Loading real charts for outcome: ${outcomeName} (${outcomeTicker})`);
                 
-                // Fetch candlestick data for the specific outcome
-                const response = await fetch(`http://localhost:8000/market/${outcomeTicker}/candlesticks?start_days_ago=7&period_interval=60`);
-                const data = await response.json();
+                // Try multiple timeframes until we find data
+                const timeframeOptions = [
+                    { days: 30, interval: 240, label: "30 Days" },    // 30 days, 4-hour intervals
+                    { days: 14, interval: 240, label: "14 Days" },    // 2 weeks, 4-hour intervals  
+                    { days: 7, interval: 60, label: "7 Days" },       // 1 week, hourly
+                    { days: 3, interval: 60, label: "3 Days" },       // 3 days, hourly
+                    { days: 1, interval: 15, label: "24 Hours" }      // 1 day, 15-minute intervals
+                ];
 
-                if (data.candlesticks && data.candlesticks.length > 0) {
-                    console.log(`✅ Loaded ${data.candlesticks.length} candlestick data points for outcome`);
-                    
+                let candlestickData = null;
+                let usedTimeframe = null;
+
+                for (const timeframe of timeframeOptions) {
+                    console.log(`🔍 Trying ${timeframe.label} for outcome ${outcomeName}...`);
+                    try {
+                        const response = await fetch(`http://localhost:8000/market/${outcomeTicker}/candlesticks?start_days_ago=${timeframe.days}&period_interval=${timeframe.interval}`);
+                        const data = await response.json();
+
+                        if (data.candlesticks && data.candlesticks.length > 3) { // Need at least 3 data points
+                            candlestickData = data.candlesticks;
+                            usedTimeframe = timeframe.label;
+                            console.log(`✅ Found ${data.candlesticks.length} data points for ${outcomeName} (${timeframe.label})`);
+                            break;
+                        }
+                    } catch (err) {
+                        console.log(`❌ ${timeframe.label} failed for ${outcomeName}:`, err.message);
+                        continue;
+                    }
+                }
+
+                if (candlestickData && usedTimeframe) {
                     // Create charts for this specific outcome
-                    createOutcomePriceChart(data.candlesticks, outcomeName);
-                    createOutcomeSpreadChart(data.candlesticks, outcomeName);
-                    createOutcomeVolumeChart(data.candlesticks, outcomeName);
+                    createOutcomePriceChart(candlestickData, outcomeName, usedTimeframe);
+                    createOutcomeSpreadChart(candlestickData, outcomeName, usedTimeframe);
+                    createOutcomeVolumeChart(candlestickData, outcomeName, usedTimeframe);
                 } else {
                     // Show message that charts aren't available for this outcome
                     document.getElementById('outcome-charts-container').innerHTML = `
                         <div style="text-align: center; padding: 2rem; color: #94a3b8; background: rgba(51, 65, 85, 0.3); border-radius: 6px;">
                             <h3 style="color: #f59e0b; margin-bottom: 1rem;">📊 Charts Unavailable</h3>
                             <p>No historical trading data available for "${outcomeName}"</p>
-                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">This outcome may not have sufficient trading activity for chart generation.</p>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">This outcome may be too new or have insufficient trading activity for chart generation.</p>
                         </div>
                     `;
                 }
@@ -1060,7 +1109,7 @@
             }
         }
 
-        function createOutcomePriceChart(candlesticks, outcomeName) {
+        function createOutcomePriceChart(candlesticks, outcomeName, timeframeLabel = "30 Days") {
             const ctx = document.getElementById('outcome-price-chart').getContext('2d');
             
             if (outcomePriceChart) {
@@ -1069,7 +1118,7 @@
 
             const labels = candlesticks.map(candle => {
                 return new Date(candle.end_period_ts * 1000).toLocaleString('en-US', {
-                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    month: 'short', day: 'numeric', hour: '2-digit'
                 });
             });
 
@@ -1119,7 +1168,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: `${outcomeName} - Price Movement`,
+                            text: `${outcomeName} - Price Movement (${timeframeLabel})`,
                             color: '#f1f5f9'
                         },
                         legend: {
@@ -1143,7 +1192,7 @@
             });
         }
 
-        function createOutcomeSpreadChart(candlesticks, outcomeName) {
+        function createOutcomeSpreadChart(candlesticks, outcomeName, timeframeLabel = "30 Days") {
             const ctx = document.getElementById('outcome-spread-chart').getContext('2d');
             
             if (outcomeSpreadChart) {
@@ -1176,7 +1225,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: `${outcomeName} - Bid-Ask Spread`,
+                            text: `${outcomeName} - Bid-Ask Spread (${timeframeLabel})`,
                             color: '#f1f5f9'
                         },
                         legend: { labels: { color: '#f1f5f9' } }
@@ -1198,7 +1247,7 @@
             });
         }
 
-        function createOutcomeVolumeChart(candlesticks, outcomeName) {
+        function createOutcomeVolumeChart(candlesticks, outcomeName, timeframeLabel = "30 Days") {
             const ctx = document.getElementById('outcome-volume-chart').getContext('2d');
             
             if (outcomeVolumeChart) {
@@ -1246,7 +1295,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: `${outcomeName} - Volume & Open Interest`,
+                            text: `${outcomeName} - Volume & Open Interest (${timeframeLabel})`,
                             color: '#f1f5f9'
                         },
                         legend: { labels: { color: '#f1f5f9' } }

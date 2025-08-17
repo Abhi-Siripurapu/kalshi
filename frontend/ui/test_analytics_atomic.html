@@ -127,8 +127,8 @@
             statusDiv.innerHTML = '<div style="color: #f59e0b;">Loading analytics data...</div>';
 
             try {
-                // Fetch candlestick data from backend
-                const response = await fetch(`http://localhost:8000/market/${ticker}/candlesticks?start_days_ago=7&period_interval=60`);
+                // Fetch candlestick data from backend (30 days of 4-hour intervals)
+                const response = await fetch(`http://localhost:8000/market/${ticker}/candlesticks?start_days_ago=30&period_interval=240`);
                 const data = await response.json();
 
                 if (data.candlesticks && data.candlesticks.length > 0) {
