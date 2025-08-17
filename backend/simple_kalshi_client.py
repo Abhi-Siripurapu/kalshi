@@ -75,14 +75,18 @@ class SimpleKalshiClient:
         if self.session:
             await self.session.close()
     
-    async def get_markets(self, limit: int = 100, status: str = "open") -> Dict:
-        """Get markets from Kalshi API"""
+    async def get_markets(self, limit: int = 100, status: str = "open", cursor: str = None) -> Dict:
+        """Get markets from Kalshi API with cursor support"""
         if not self.session:
             raise RuntimeError("Client not initialized. Use async with.")
         
         path = "/trade-api/v2/markets"
         url = f"{self.base_url}{path}"
         params = {"limit": limit, "status": status}
+        
+        # Add cursor if provided
+        if cursor:
+            params["cursor"] = cursor
         
         headers = self.auth.create_headers("GET", path)
         

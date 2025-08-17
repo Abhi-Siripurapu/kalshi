@@ -13,8 +13,9 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-# Import our simple client
+# Import our simple client and cache
 from simple_kalshi_client import SimpleKalshiClient
+from market_cache import SimpleMarketCache, get_cache, set_cache
 
 app = FastAPI(title="Simple Kalshi Terminal API", version="1.0.0")
 
@@ -113,6 +114,13 @@ async def startup_event():
             if test_data.get("markets"):
                 print("✅ Kalshi API connected successfully")
                 use_mock_data = False
+                
+                # Initialize market cache
+                print("🚀 Starting market cache...")
+                cache = SimpleMarketCache(api_key, private_key_path)
+                await cache.start()
+                set_cache(cache)
+                print(f"✅ Market cache initialized with {cache.get_cache_info()['total_markets']} markets")
             else:
                 raise Exception("No markets returned")
                 
@@ -131,6 +139,13 @@ async def startup_event():
 async def shutdown_event():
     """Clean up resources"""
     global kalshi_client
+    
+    # Cleanup cache
+    cache = get_cache()
+    if cache:
+        await cache.stop()
+    
+    # Cleanup client
     if kalshi_client:
         await kalshi_client.__aexit__(None, None, None)
 
@@ -156,11 +171,26 @@ async def health_check():
 
 @app.get("/markets")
 async def get_markets(
-    limit: int = Query(100, description="Number of markets to return"),
-    status: str = Query("open", description="Market status filter")
+    limit: int = Query(1000, description="Number of markets to return"),
+    status: str = Query("open", description="Market status filter"),
+    search: str = Query("", description="Search markets by title or ticker"),
+    category: str = Query("all", description="Filter by category (all, politics, sports, crypto, weather)")
 ):
     """Get available markets"""
     try:
+        # Try to use cache first
+        cache = get_cache()
+        if cache and not use_mock_data:
+            markets = cache.get_markets(limit=limit, search=search, category=category)
+            cache_info = cache.get_cache_info()
+            return {
+                "markets": markets,
+                "cursor": None,
+                "mock_mode": False,
+                "cached": True,
+                "cache_info": cache_info
+            }
+        
         if use_mock_data:
             # Return mock data
             return {
@@ -169,12 +199,13 @@ async def get_markets(
                 "mock_mode": True
             }
         
-        # Use real Kalshi data
+        # Fallback to direct API call (legacy)
         if kalshi_client:
-            data = await kalshi_client.get_markets(limit=limit, status=status)
+            data = await kalshi_client.get_markets(limit=min(limit, 1000), status=status)
             return {
                 **data,
-                "mock_mode": False
+                "mock_mode": False,
+                "cached": False
             }
         else:
             raise HTTPException(status_code=503, detail="Kalshi client not available")
