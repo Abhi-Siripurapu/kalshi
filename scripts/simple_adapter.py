@@ -133,8 +133,12 @@ class SimpleKalshiAdapter:
 
 async def main():
     """Run the simple adapter"""
-    api_key = os.getenv("KALSHI_API_KEY", "6d7e4138-afce-47a3-ace2-495d6d801410")
+    api_key = os.getenv("KALSHI_API_KEY")
     private_key_path = os.getenv("KALSHI_PRIVATE_KEY_PATH", "./kalshi-key.pem")
+    
+    if not api_key:
+        logger.error("❌ Error: KALSHI_API_KEY environment variable required")
+        return
     
     adapter = SimpleKalshiAdapter(api_key, private_key_path)
     

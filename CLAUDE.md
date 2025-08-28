@@ -261,8 +261,8 @@ curl http://localhost:8000/
 pkill -f "python.*simple_api.py"
 pkill -f "python.*http.server"
 
-# Start backend API (from project root) - WITH EXPLICIT CREDENTIALS
-cd backend && export KALSHI_PRIVATE_KEY_PATH=../kalshi-key.pem && export KALSHI_API_KEY=6d7e4138-afce-47a3-ace2-495d6d801410 && export KALSHI_ENVIRONMENT=prod && source ../.venv/bin/activate && python simple_api.py &
+# Start backend API (from project root) - WITH CREDENTIALS FROM .env
+cd backend && source ../.venv/bin/activate && python simple_api.py &
 
 # Start frontend UI (from project root)
 cd frontend/ui && python -m http.server 3000 &
