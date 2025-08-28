@@ -2,7 +2,7 @@
 
 A modern, real-time prediction markets terminal for [Kalshi](https://kalshi.com). 
 
-## ✨ Features
+## Features
 
 ###  Real-Time Market Data
 - **Live WebSocket streaming** from Kalshi API (12,000+ markets)
