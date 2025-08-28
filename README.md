@@ -69,7 +69,7 @@ A modern, real-time prediction markets terminal for [Kalshi](https://kalshi.com)
    - **API Documentation**: http://localhost:8000/docs
    - **WebSocket Bridge**: http://localhost:8001
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### Browsing Markets
 1. Open http://localhost:3000/markets.html
@@ -109,7 +109,7 @@ The terminal includes several utility scripts for easy management:
 ./logs.sh follow   # Follow all logs in real-time
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 
 
@@ -153,7 +153,7 @@ The terminal includes several utility scripts for easy management:
 | REST API | 8000 | Market data API |
 | WebSocket Bridge | 8001 | Real-time streaming |
 
-## 🛠️ Development
+## Development
 
 ### Running in Development Mode
 
@@ -249,7 +249,7 @@ ps aux | grep python
 | `orderbook_delta` | Order book changes |
 
 
-## ⚖️ License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
