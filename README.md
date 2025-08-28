@@ -1,37 +1,31 @@
 # 🏛️ Kalshi Terminal
 
-A modern, real-time prediction markets terminal for [Kalshi](https://kalshi.com). Built with simplicity and performance in mind, this terminal provides live market data, advanced analytics, and comprehensive market insights for prediction market traders.
-
-![Terminal Preview](https://img.shields.io/badge/Status-Live-brightgreen) ![Python](https://img.shields.io/badge/Python-3.8+-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-Latest-teal) ![License](https://img.shields.io/badge/License-MIT-yellow)
+A modern, real-time prediction markets terminal for [Kalshi](https://kalshi.com). 
 
 ## ✨ Features
 
-### 📊 Real-Time Market Data
+###  Real-Time Market Data
 - **Live WebSocket streaming** from Kalshi API (12,000+ markets)
 - **Real-time price updates** with sub-second latency
 - **Order book depth** with bid/ask visualization
 - **Market status tracking** (open, closed, settled)
 
-### 📈 Advanced Analytics
+###  Advanced Analytics
 - **Interactive price charts** with Chart.js integration
 - **Candlestick data** across multiple timeframes
 - **Bid-ask spread analysis** and liquidity metrics
 - **Volume and open interest tracking**
 - **Historical price movement** with technical indicators
 
-### 🔍 Market Discovery
+### Market Discovery
 - **Smart search** across 12,000+ markets
 - **Category filtering** (Politics, Sports, Crypto, Weather, etc.)
 - **Multi-outcome market grouping** with outcome probability display
 - **Market comparison tools** and correlation analysis
 
-### 🎯 User Experience
-- **Clean, terminal-style interface** optimized for traders
-- **Infinite scroll** for browsing large market lists
-- **Responsive design** works on desktop and mobile
-- **Dark theme** optimized for extended use
 
-## 🚀 Quick Start
+
+## Quick Start
 
 ### Prerequisites
 
@@ -117,7 +111,7 @@ The terminal includes several utility scripts for easy management:
 
 ## 🏗️ Architecture
 
-The terminal follows a clean, modular architecture:
+
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
@@ -140,37 +134,8 @@ The terminal follows a clean, modular architecture:
 - **WebSocket Bridge** (`backend/real_time_bridge.py`): Real-time data streaming
 - **Market Cache** (`backend/market_cache.py`): In-memory market data caching
 
-## 📁 Project Structure
 
-```
-kalshi-terminal/
-├── README.md                    # This file
-├── LICENSE                      # MIT license
-├── requirements.txt             # Python dependencies  
-├── .env.example                 # Environment template
-├── .gitignore                   # Git ignore rules
-├── start.sh                     # Start all services
-├── stop.sh                      # Stop all services
-├── status.sh                    # Check service status
-├── logs.sh                      # View service logs
-├── backend/                     # Server components
-│   ├── simple_api.py           # Main REST API
-│   ├── simple_kalshi_client.py # Kalshi API client
-│   ├── simple_websocket_client.py # WebSocket client
-│   ├── real_time_bridge.py     # Real-time data bridge
-│   └── market_cache.py         # Market data caching
-├── frontend/ui/                # Web interface
-│   ├── markets.html            # Main market browser
-│   ├── detail.html             # Market detail view
-│   └── index.html              # Landing page
-├── scripts/                    # Utility scripts
-│   ├── simple_adapter.py       # Kalshi adapter
-│   ├── debug_websocket_auth.py # Auth debugging
-│   └── simple_ws_server.py     # Mock WebSocket server
-└── CLAUDE.md                   # Development documentation
-```
-
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -219,14 +184,9 @@ curl http://localhost:8000/market/SOME-TICKER
 curl http://localhost:8000/health
 ```
 
-### Adding Features
 
-1. See `CLAUDE.md` for detailed development notes
-2. API endpoints are in `backend/simple_api.py`
-3. Frontend code is in `frontend/ui/`
-4. WebSocket handling is in `backend/real_time_bridge.py`
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -266,7 +226,7 @@ ps aux | grep python
 ./stop.sh && ./start.sh
 ```
 
-## 📄 API Reference
+## API Reference
 
 ### REST Endpoints
 
@@ -288,25 +248,6 @@ ps aux | grep python
 | `orderbook_snapshot` | Full order book state |
 | `orderbook_delta` | Order book changes |
 
-## 🤝 Contributing
-
-Contributions are welcome! Please read our contributing guidelines and submit pull requests for any improvements.
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📋 Roadmap
-
-- [ ] Portfolio tracking and P&L analysis
-- [ ] Advanced charting with technical indicators
-- [ ] Market alerts and notifications
-- [ ] Mobile app version
-- [ ] Paper trading simulator
-- [ ] Market correlation analysis
-- [ ] News feed integration
 
 ## ⚖️ License
 
@@ -318,12 +259,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [FastAPI](https://fastapi.tiangolo.com/) for the excellent web framework
 - [Chart.js](https://www.chartjs.org/) for beautiful charts
 
-## ⚠️ Disclaimer
 
-This terminal is for educational and informational purposes only. Always do your own research before making any trading decisions. The authors are not responsible for any financial losses.
-
----
-
-**Happy Trading!** 📊🚀
-
-For support or questions, please open an issue on GitHub.
+**Happy Trading!** 
